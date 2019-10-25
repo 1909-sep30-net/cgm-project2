@@ -15,6 +15,7 @@ namespace cgm_project2
 {
     public class Startup
     {
+        //test push
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
