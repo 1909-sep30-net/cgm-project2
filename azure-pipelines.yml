@@ -14,10 +14,10 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
+- script: dotnet build ./cgm-project2/cgm-project2.sln --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
-    projects: './cgm-project2/cgm-project2.sln'
+    projects: 'cgm-project2'
