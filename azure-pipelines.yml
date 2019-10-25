@@ -20,4 +20,4 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
-    projects: 'cgm-project2/cgm-project2.sln'
+    projects: './cgm-project2/cgm-project2.sln'
