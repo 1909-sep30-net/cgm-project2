@@ -18,14 +18,6 @@ namespace TestConsoleApp
             optionsBuilder.UseNpgsql(Configuration.GetConnectionString("db")); //############### The Configuration.GetConnectionString("db") is mocked in the console app by making a class like 'Hidden' called Configuration
             using var dbContext = new DatLib.Entities.ecgbhozpContext(optionsBuilder.Options);
 
-            //Make a Repo
-            var testRepo = new DatLib.Repo.TestRepo(dbContext);
-
-            //Use the Repo to get data
-            var test = testRepo.GetTest().FirstOrDefault();
-
-            //Write the data to the console
-            Console.WriteLine($"The test id is {test.TestId}");
         }
     }
 }
