@@ -8,7 +8,7 @@ namespace Logic.Library.Models
     {
         public int    TitleId       { get; set; }
         public string TitleString   { get; set; }
-        public string CreatorId     { get; set; }
+        public int   CreatorId     { get; set; }
 
 
         public Title()
@@ -16,7 +16,7 @@ namespace Logic.Library.Models
 
         }
 
-        public Title(int tid, string t, string c = null)
+        public Title(int tid, string t, int c)
         {
             TitleId = tid;
             TitleString = t;
