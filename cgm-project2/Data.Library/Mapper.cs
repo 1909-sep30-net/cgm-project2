@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using LogLib = Logic.Library;
 
 namespace Data.Library
 {
     public static class Mapper
     {
+
         /// <summary>
         /// Map Db Entities to Logs
         /// </summary>
