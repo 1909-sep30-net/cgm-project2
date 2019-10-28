@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Logic.Library.Models
 {
-    class Categories
+    public class Category
     {
         public int      CategoryId          { get; set; }
         public int      TitleId             { get; set; }
@@ -12,14 +12,14 @@ namespace Logic.Library.Models
         public string   CategoryString      { get; set; }
         public string   CategoryDescription { get; set; }
     
-        public Categories()
+        public Category()
         {
 
         }
 
 
         //this is for converting from the DB entity to class.
-        public Categories(int cid, int t, int r, string cs, string cd)
+        public Category(int cid, int t, int r, string cs, string cd)
         {
             CategoryId = cid;
             TitleId = t;

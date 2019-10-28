@@ -4,19 +4,19 @@ using System.Text;
 
 namespace Logic.Library.Models
 {
-    class Titles
+    public class Title
     {
         public int    TitleId       { get; set; }
         public string TitleString   { get; set; }
         public string CreatorID     { get; set; }
 
 
-        public Titles()
+        public Title()
         {
 
         }
 
-        public Titles(int tid, string t, string c = null)
+        public Title(int tid, string t, string c = null)
         {
             TitleId = tid;
             TitleString = t;

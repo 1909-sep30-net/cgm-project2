@@ -16,5 +16,37 @@ namespace Data.Library
         {
             return new LogLib.TestClass { TestId = testItem.Testid };
         }
+
+        //entity to Class
+        public static LogLib.Models.User MapUser(Entities.User user)
+        {
+            return new LogLib.Models.User
+            {user.UserId,
+             user.FirstName,
+             user.LastName,
+             user.Street,
+             user.City,
+             user.State,
+             user.Zip
+            };
+        }
+
+        //class to entity
+        public static Entities.User MapUser(LogLib.Models.User user)
+        {
+            return new Entities.User
+            {user.UserId,
+             user.FirstName,
+             user.LastName,
+             user.Street,
+             user.City,
+             user.State,
+             user.Zip
+            };
+        }
+
+
+
+
     }
 }

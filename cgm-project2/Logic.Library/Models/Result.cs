@@ -4,19 +4,19 @@ using System.Text;
 
 namespace Logic.Library.Models
 {
-    class Results
+    public class Result
     {
         public int ResultId { get; set; }
         public int Score    { get; set; }
         public int TakerId  { get; set; }
         public int TitleId  { get; set; }
 
-        public Results()
+        public Result()
         {
 
         }
 
-        public Results(int rid, int s, int ti, int title)
+        public Result(int rid, int s, int ti, int title)
         {
             ResultId = rid;
             Score = s;

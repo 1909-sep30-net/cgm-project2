@@ -4,18 +4,18 @@ using System.Text;
 
 namespace Logic.Library.Models
 {
-    class Questions
+    public class Question
     {
         public int      QuestionId      { get; set; }
         public int      TitleId         { get; set; }
         public string   QuestionString  { get; set; }
 
-        public Questions()
+        public Question()
         {
 
         }
 
-        public Questions(int qid, int t, string s)
+        public Question(int qid, int t, string s)
         {
             QuestionId = qid;
             TitleId = t;

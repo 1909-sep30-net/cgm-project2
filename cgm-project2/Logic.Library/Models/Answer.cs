@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Logic.Library.Models
 {
-    class Answers
+    public class Answer
     {
         public int      AnswerId    { get; set; }
         public string   AnswerString { get; set; }
@@ -12,12 +12,12 @@ namespace Logic.Library.Models
         public int      CategoryId  { get; set; }
         public int      QuestionId  { get; set; }
 
-        public Answers()
+        public Answer()
         {
 
         }
 
-        public Answers(int a, string ans, int w, int c, int q)
+        public Answer(int a, string ans, int w, int c, int q)
         {
             AnswerId = a;
             AnswerString = ans;
