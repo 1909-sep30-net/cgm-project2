@@ -44,7 +44,7 @@ namespace Data.Library.Entities
                 .HasPostgresExtension("uuid-ossp")
                 .HasPostgresExtension("xml2");
             **/
-           
+        //User
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.UserId);
@@ -76,8 +76,116 @@ namespace Data.Library.Entities
                     .IsRequired()
                     .HasMaxLength(9);
             });
+        //Title
+            modelBuilder.Entity<Title>(entity =>
+            {
+                entity.HasKey(e => e.TitleId);
 
-            
+                entity.Property(e => e.TitleId)
+                    .UseIdentityColumn();
+
+                entity.Property(e => e.TitleString)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.HasOne(t => t.User)
+                    .WithMany(u => u.Titles)
+                    .HasForeignKey(t => t.CreatorId)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+        //Result
+            modelBuilder.Entity<Result>(entity =>
+            {
+                entity.HasKey(e => e.ResultId);
+
+                entity.Property(e => e.ResultId)
+                    .UseIdentityColumn();
+
+                entity.HasOne(r => r.User)
+                    .WithMany(u => u.Results)
+                    .HasForeignKey(r => r.TakerId)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(r => r.Title)
+                    .WithMany(t => t.Results)
+                    .HasForeignKey(r => r.TakerId)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+        //Category
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.HasKey(e => e.CategoryId);
+
+                entity.Property(e => e.CategoryId)
+                    .UseIdentityColumn();
+
+                entity.Property(e => e.CategoryString)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.CategoryDescription)
+                    .IsRequired()
+                    .HasMaxLength(500);
+
+                entity.Property(e => e.Rank)
+                    .IsRequired();
+
+                entity.HasOne(c => c.Title)
+                    .WithMany(t => t.Categories)
+                    .HasForeignKey(c => c.TitleId)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+        //Question
+            modelBuilder.Entity<Question>(entity =>
+            {
+                entity.HasKey(e => e.QuestionId);
+
+                entity.Property(e => e.QuestionId)
+                    .UseIdentityColumn();
+
+                entity.Property(e => e.QuestionString)
+                    .IsRequired()
+                    .HasMaxLength(0);
+
+                entity.HasOne(q => q.Title)
+                    .WithMany(t => t.Questions)
+                    .HasForeignKey(q => q.TitleId)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+        //Title
+            modelBuilder.Entity<Answer>(entity =>
+            {
+                entity.HasKey(e => e.AnswerId);
+
+                entity.Property(e => e.AnswerId)
+                    .UseIdentityColumn();
+
+                entity.Property(e => e.AnswerString)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Weight)
+                    .IsRequired();
+
+                entity.HasOne(a => a.Question)
+                    .WithMany(q => q.Answers)
+                    .HasForeignKey(a => a.QuestionId)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(a => a.Category)
+                    .WithMany(c => c.Answers)
+                    .HasForeignKey(a => a.CategoryId)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
 
             OnModelCreatingPartial(modelBuilder);
         }
