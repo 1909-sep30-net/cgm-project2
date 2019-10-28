@@ -187,9 +187,7 @@ namespace Data.Library.Entities
                     .OnDelete(DeleteBehavior.Cascade);
             });
 
-            OnModelCreatingPartial(modelBuilder);
         }
 
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
