@@ -74,7 +74,7 @@ namespace Data.Library.Migrations
                 {
                     QuestionId = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    QuestionString = table.Column<string>(maxLength: 0, nullable: false),
+                    QuestionString = table.Column<string>(maxLength: 50, nullable: false),
                     TitleId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

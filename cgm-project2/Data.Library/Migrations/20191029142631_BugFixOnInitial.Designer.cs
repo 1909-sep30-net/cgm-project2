@@ -2,15 +2,17 @@
 using Data.Library.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Data.Library.Migrations
 {
     [DbContext(typeof(ecgbhozpContext))]
-    partial class ecgbhozpContextModelSnapshot : ModelSnapshot
+    [Migration("20191029142631_BugFixOnInitial")]
+    partial class BugFixOnInitial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,8 +89,8 @@ namespace Data.Library.Migrations
 
                     b.Property<string>("QuestionString")
                         .IsRequired()
-                        .HasColumnType("character varying(50)")
-                        .HasMaxLength(50);
+                        .HasColumnType("character varying(0)")
+                        .HasMaxLength(0);
 
                     b.Property<int>("TitleId")
                         .HasColumnType("integer");

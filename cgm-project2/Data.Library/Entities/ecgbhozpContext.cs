@@ -150,7 +150,7 @@ namespace Data.Library.Entities
 
                 entity.Property(e => e.QuestionString)
                     .IsRequired()
-                    .HasMaxLength(0);
+                    .HasMaxLength(50);
 
                 entity.HasOne(q => q.Title)
                     .WithMany(t => t.Questions)
