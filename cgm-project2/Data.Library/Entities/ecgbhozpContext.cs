@@ -114,6 +114,7 @@ namespace Data.Library.Entities
                     .IsRequired()
                     .OnDelete(DeleteBehavior.Cascade);
             });
+        
         //Category
             modelBuilder.Entity<Category>(entity =>
             {
