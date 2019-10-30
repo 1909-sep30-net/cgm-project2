@@ -32,7 +32,7 @@ namespace Data.Library.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("integer");
-
+                    
                     b.Property<int>("QuestionId")
                         .HasColumnType("integer");
 
