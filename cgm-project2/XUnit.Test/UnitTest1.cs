@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Xunit;
 using LLM = Logic.Library.Models;
 using Microsoft.Extensions.Logging.Abstractions;
+using Data.Library.Repositories;
+using System.Linq;
 
 namespace XUnit.Test
 {
@@ -12,7 +14,7 @@ namespace XUnit.Test
     {
 
         [Fact]
-        public void SearchCustomersReturnsAllCustomers()
+        public void SearchUsersReturnsAllUsers()
         {
             //arrange
             //configure the context
@@ -40,15 +42,14 @@ namespace XUnit.Test
             arrangeContext.SaveChanges();
 
             using var actContext = new DLE.ecgbhozpContext(options);
-            var repo = new UserRepository(actContext, new NullLogger<UserRepository>());
+            var repo = new UserRepository(actContext/*, new NullLogger<UserRepository>()*/);
 
             //act
-            List<LLM.User> actual = repo.SearchUsers();
+            List<LLM.User> actual = repo.SearchUsers().ToList();
 
 
             //assert
-
-
+            Assert.NotNull(actual);
         }
     }
 }
