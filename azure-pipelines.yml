@@ -27,6 +27,17 @@ steps:
 - script: dotnet build ./cgm-project2 --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
+- task: DotNetCoreCLI@2
+  displayName: dotnet test
+  inputs:
+    command: 'test'
+    projects: './cgm-project2'
+    arguments: --configuration $(buildConfiguration) --settings **/coverletArgs.runsettings
+
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
 
 - task: SonarCloudAnalyze@1
   displayName: Sonar Analyze
@@ -34,10 +45,7 @@ steps:
 - task: SonarCloudPublish@1
   displayName: Sonar Publish
 
-- task: PublishCodeCoverageResults@1
-  inputs:
-    codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+
 
 - task: DotNetCoreCLI@2
   displayName: dotnet publish + zip
