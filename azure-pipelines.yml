@@ -43,10 +43,10 @@ steps:
     summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
 
 - task: SonarCloudAnalyze@1
-  displayName: Sonar Analyze
+  displayName: Run SonarCloud Analysis
 
 - task: SonarCloudPublish@1
-  displayName: Sonar Publish
+  displayName: Publish SonarCloud Quality Gate Result
 
 
 
@@ -54,6 +54,7 @@ steps:
   displayName: dotnet publish + zip
   inputs:
     command: 'publish'
+    arguments: --configuration $(buildConfiguration)
     publishWebProjects: true
     zipAfterPublish: true
 
