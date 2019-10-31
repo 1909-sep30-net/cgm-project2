@@ -8,7 +8,7 @@ trigger:
 - master
 
 pool:
-  name: Greg
+  vmImage: 'ubuntu-latest'
 
 variables:
   buildConfiguration: 'Release'
@@ -21,10 +21,11 @@ steps:
     organization: '1909-sep30-net'
     scannerMode: 'MSBuild'
     projectKey: 'cgm-project2'
+    projectName: 'cgm-project2'
     extraProperties: |
       sonar.exclusions=**/lib/**
       sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/*/coverage.opencover.xml
-    
+
 
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
@@ -39,13 +40,13 @@ steps:
       --configuration $(buildConfiguration) 
       --settings ./cgm-project2/coverletArgs.runsettings
 
+- task: SonarCloudAnalyze@1
+  displayName: Run SonarCloud Analysis
+
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: 'Cobertura'
     summaryFileLocation: '$(Agent.TempDirectory)/*/coverage.cobertura.xml'
-
-- task: SonarCloudAnalyze@1
-  displayName: Run SonarCloud Analysis
 
 - task: SonarCloudPublish@1
   displayName: Publish SonarCloud Quality Gate Result
