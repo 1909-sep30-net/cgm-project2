@@ -24,8 +24,9 @@ steps:
         sonar.exclusions=**/lib/**
 
 
-- script: dotnet build ./cgm-project2 --configuration $(buildConfiguration)
+- script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
+  workingDirectory: ./cgm-project2
 
 - task: DotNetCoreCLI@2
   displayName: dotnet test
