@@ -12,7 +12,19 @@ namespace XUnit.Test
 {
     public class UnitTest1
     {
-        DLE.User user = new DLE.User
+        DLE.User userEnt = new DLE.User
+        {
+            UserId = 1,
+            FirstName = "Jimmy",
+            LastName = "Crow",
+            Street = "2245 Escals Ct.",
+            City = "Revat",
+            State = "Ur",
+            Zip = "e",
+            Admin = true
+        };
+
+        LLM.User userLog = new LLM.User
         {
             UserId = 1,
             FirstName = "Jimmy",
@@ -39,7 +51,7 @@ namespace XUnit.Test
             //make a test user
             
 
-            arrangeContext.User.Add(user);
+            arrangeContext.User.Add(userEnt);
             arrangeContext.SaveChanges();
 
             using var actContext = new DLE.ecgbhozpContext(options);
@@ -66,7 +78,7 @@ namespace XUnit.Test
 
             //act
 
-            arrangeContext.User.Add(user);
+            arrangeContext.User.Add(userEnt);
             arrangeContext.SaveChanges();
 
             using var actContext = new DLE.ecgbhozpContext(options);
@@ -77,7 +89,34 @@ namespace XUnit.Test
 
             //assert
 
-            Assert.Equal(actual: actual.First().FirstName + actual.First().LastName, expected: user.FirstName + user.LastName);
+            Assert.Equal(actual: actual.First().FirstName + actual.First().LastName, expected: userEnt.FirstName + userEnt.LastName);
+        }
+
+        [Fact]
+
+        public void RegisterNewUserMakesNewUser()
+        {
+            //arrange
+
+            var options = new DbContextOptionsBuilder<DLE.ecgbhozpContext>()
+                .UseInMemoryDatabase("RegisterNewUserMakesNewUser")
+                .Options;
+
+            //create the context variable and initialize
+            using var actContext = new DLE.ecgbhozpContext(options);
+
+            //act
+
+            var repo = new UserRepository(actContext);
+
+            repo.RegisterNewUser(userLog);
+            repo.Save();
+
+            var actual = actContext.User.FirstOrDefault();
+
+            //assert
+
+            Assert.NotNull(actual);
         }
 
     }
