@@ -35,7 +35,7 @@ steps:
     projects: './cgm-project2'
     arguments: 
       --configuration $(buildConfiguration) 
-      --settings cgm-project2/coverletArgs.runsettings
+      --settings ./cgm-project2/coverletArgs.runsettings
 
 - task: PublishCodeCoverageResults@1
   inputs:
