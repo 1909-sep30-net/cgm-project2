@@ -20,7 +20,7 @@ steps:
     SonarCloud: 'cgm-project-2-SonarCloud'
     organization: '1909-sep30-net'
     scannerMode: 'MSBuild'
-    projectKey: '1909-sep30-net_cgm-project2'
+    projectKey: 'cgm-project2'
     extraProperties: |
         sonar.exclusions=**/lib/**
 
