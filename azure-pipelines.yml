@@ -17,7 +17,7 @@ steps:
 - task: SonarCloudPrepare@1
   displayName: Prepare SonarCloud analysis
   inputs:
-    SonarCloud: 'cgm-project-2-sonarcloud'
+    SonarCloud: 'cgm-project-2'
     organization: '1909-sep30-net'
     scannerMode: 'MSBuild'
     projectKey: 'cgm-project2'
