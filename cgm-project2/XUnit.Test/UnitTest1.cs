@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using DLE = Data.Library.Entities;
+using DatLib = Data.Library;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
-using LLM = Logic.Library.Models;
+using LogLib = Logic.Library;
 using Microsoft.Extensions.Logging.Abstractions;
 using Data.Library.Repositories;
 using System.Linq;
@@ -12,11 +12,23 @@ namespace XUnit.Test
 {
     public class UnitTest1
     {
-        DLE.User user = new DLE.User
+        DatLib.Entities.User userEnt = new DatLib.Entities.User
         {
             UserId = 1,
             FirstName = "Jimmy",
-            LastName = "Crow",
+            LastName = "John",
+            Street = "2245 Escals Ct.",
+            City = "Revat",
+            State = "Ur",
+            Zip = "e",
+            Admin = true
+        };
+
+        LogLib.Models.User userLog = new LogLib.Models.User
+        {
+            UserId = 1,
+            FirstName = "Jimmy",
+            LastName = "John",
             Street = "2245 Escals Ct.",
             City = "Revat",
             State = "Ur",
@@ -29,55 +41,89 @@ namespace XUnit.Test
         {
             //arrange
             //configure the context
-            var options = new DbContextOptionsBuilder<DLE.ecgbhozpContext>()
+            var options = new DbContextOptionsBuilder<DatLib.Entities.ecgbhozpContext>()
                 .UseInMemoryDatabase("SearchUsersReturnsAllCustomers")
                 .Options;
 
             //create the context variable and initialize
-            using var arrangeContext = new DLE.ecgbhozpContext(options);
+            using var arrangeContext = new DatLib.Entities.ecgbhozpContext(options);
 
             //make a test user
             
 
-            arrangeContext.User.Add(user);
+            arrangeContext.User.Add(userEnt);
             arrangeContext.SaveChanges();
 
-            using var actContext = new DLE.ecgbhozpContext(options);
+            using var actContext = new DatLib.Entities.ecgbhozpContext(options);
             var repo = new UserRepository(actContext/*, new NullLogger<UserRepository>()*/);
 
             //act
-            List<LLM.User> actual = repo.SearchUsers().ToList();
+            List<LogLib.Models.User> actual = repo.SearchUsers().ToList();
 
 
             //assert
             Assert.NotNull(actual);
         }
-        [Fact]
-
-        public void SearchUserByNameShouldReturnUser()
+        [Theory]
+        [InlineData ("Jimmy","John",true)]
+        [InlineData ("Colton","Clary",false)]
+        public void SearchUserByNameShouldReturnUser(string firstName, string lastName, bool pass)
         {
             //arrange
-            var options = new DbContextOptionsBuilder<DLE.ecgbhozpContext>()
+            var options = new DbContextOptionsBuilder<DatLib.Entities.ecgbhozpContext>()
                 .UseInMemoryDatabase("SearchUserByNameShouldReturnUser")
                 .Options;
 
             //create the context variable and initialize
-            using var arrangeContext = new DLE.ecgbhozpContext(options);
+            using var arrangeContext = new DatLib.Entities.ecgbhozpContext(options);
 
             //act
+            if(!arrangeContext.User.Contains(userEnt))
+            {
+                arrangeContext.User.Add(userEnt);
+                arrangeContext.SaveChanges();
+            }
 
-            arrangeContext.User.Add(user);
-            arrangeContext.SaveChanges();
 
-            using var actContext = new DLE.ecgbhozpContext(options);
+            using var actContext = new DatLib.Entities.ecgbhozpContext(options);
             var repo = new UserRepository(actContext/*, new NullLogger<UserRepository>()*/);
 
 
-            List<LLM.User> actual = repo.SearchUsers("Jimmy", "Crow").ToList();
+            List<LogLib.Models.User> actual = repo.SearchUsers(firstName, lastName).ToList();
+
+            //assert
+            if (pass)
+                Assert.Equal(actual: actual.First().FirstName + actual.First().LastName, expected: userEnt.FirstName + userEnt.LastName);
+            else
+                Assert.Empty(actual);
+
+        }
+
+        [Fact]
+
+        public void RegisterNewUserMakesNewUser()
+        {
+            //arrange
+
+            var options = new DbContextOptionsBuilder<DatLib.Entities.ecgbhozpContext>()
+                .UseInMemoryDatabase("RegisterNewUserMakesNewUser")
+                .Options;
+
+            //create the context variable and initialize
+            using var actContext = new DatLib.Entities.ecgbhozpContext(options);
+
+            //act
+
+            var repo = new UserRepository(actContext);
+
+            repo.RegisterNewUser(userLog);
+            repo.Save();
+
+            var actual = actContext.User.FirstOrDefault();
 
             //assert
 
-            Assert.Equal(actual: actual.First().FirstName + actual.First().LastName, expected: user.FirstName + user.LastName);
+            Assert.NotNull(actual);
         }
 
     }

@@ -15,8 +15,9 @@ variables:
 
 steps:
 - task: SonarCloudPrepare@1
+  displayName: Prepare SonarCloud analysis
   inputs:
-    SonarCloud: 'cgm-project-2-sonarcloud'
+    SonarCloud: 'cgm-project-2-SonarCloud'
     organization: '1909-sep30-net'
     scannerMode: 'MSBuild'
     projectKey: 'cgm-project2'
@@ -43,10 +44,10 @@ steps:
     summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
 
 - task: SonarCloudAnalyze@1
-  displayName: Sonar Analyze
+  displayName: Run SonarCloud Analysis
 
 - task: SonarCloudPublish@1
-  displayName: Sonar Publish
+  displayName: Publish SonarCloud Quality Gate Result
 
 
 
@@ -54,6 +55,7 @@ steps:
   displayName: dotnet publish + zip
   inputs:
     command: 'publish'
+    arguments: --configuration $(buildConfiguration)
     publishWebProjects: true
     zipAfterPublish: true
 

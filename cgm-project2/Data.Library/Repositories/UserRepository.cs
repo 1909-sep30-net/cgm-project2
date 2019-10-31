@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using DatLib = Data.Library;
+using LogLib = Logic.Library;
 
 namespace Data.Library.Repositories
 {
@@ -20,14 +22,20 @@ namespace Data.Library.Repositories
 
             if(firstName != null)
             {
-                users.Where(u => u.FirstName == firstName);
+                users = users.Where(u => u.FirstName == firstName);
             }
             if(lastName != null)
             {
-                users.Where(u => u.LastName == lastName);
+                users = users.Where(u => u.LastName == lastName);
             }
 
             return users.Select(Mapper.MapUser);//Select automatically runs each item in users through the Mapper.
+        }
+
+        public void RegisterNewUser(LogLib.Models.User user)
+        {
+            DatLib.Entities.User newUser = Mapper.MapUser(user);
+            _dbContext.Add(newUser);
         }
         public void Save()
         {
