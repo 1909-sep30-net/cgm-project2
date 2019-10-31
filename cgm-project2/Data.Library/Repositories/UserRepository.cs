@@ -22,11 +22,11 @@ namespace Data.Library.Repositories
 
             if(firstName != null)
             {
-                users.Where(u => u.FirstName == firstName);
+                users = users.Where(u => u.FirstName == firstName);
             }
             if(lastName != null)
             {
-                users.Where(u => u.LastName == lastName);
+                users = users.Where(u => u.LastName == lastName);
             }
 
             return users.Select(Mapper.MapUser);//Select automatically runs each item in users through the Mapper.
