@@ -21,6 +21,9 @@ steps:
     organization: '1909-sep30-net'
     scannerMode: 'MSBuild'
     projectKey: 'cgm-project2'
+    extraProperties: |
+      sonar.exclusions=**/lib/**
+      sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/*/coverage.opencover.xml
     
 
 - script: dotnet build --configuration $(buildConfiguration)
