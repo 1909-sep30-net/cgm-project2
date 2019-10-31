@@ -24,7 +24,6 @@ steps:
     extraProperties: |
         sonar.exclusions=**/lib/**
 
-
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
   workingDirectory: ./cgm-project2
@@ -48,8 +47,6 @@ steps:
 
 - task: SonarCloudPublish@1
   displayName: Publish SonarCloud Quality Gate Result
-
-
 
 - task: DotNetCoreCLI@2
   displayName: dotnet publish + zip
