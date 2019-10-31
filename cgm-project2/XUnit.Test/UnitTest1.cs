@@ -12,6 +12,17 @@ namespace XUnit.Test
 {
     public class UnitTest1
     {
+        DLE.User user = new DLE.User
+        {
+            UserId = 1,
+            FirstName = "Jimmy",
+            LastName = "Crow",
+            Street = "2245 Escals Ct.",
+            City = "Revat",
+            State = "Ur",
+            Zip = "e",
+            Admin = true
+        };
 
         [Fact]
         public void SearchUsersReturnsAllUsers()
@@ -19,24 +30,14 @@ namespace XUnit.Test
             //arrange
             //configure the context
             var options = new DbContextOptionsBuilder<DLE.ecgbhozpContext>()
-                .UseInMemoryDatabase("SearchCustomersReturnsAllCustomers")
+                .UseInMemoryDatabase("SearchUsersReturnsAllCustomers")
                 .Options;
 
             //create the context variable and initialize
             using var arrangeContext = new DLE.ecgbhozpContext(options);
 
             //make a test user
-            DLE.User user = new DLE.User
-            {
-                UserId = 1,
-                FirstName = "Jimmy",
-                LastName = "Crow",
-                Street = "2245 Escals Ct.",
-                City = "Revat",
-                State = "Ur",
-                Zip = "e",
-                Admin = true
-            };
+            
 
             arrangeContext.User.Add(user);
             arrangeContext.SaveChanges();
@@ -51,5 +52,33 @@ namespace XUnit.Test
             //assert
             Assert.NotNull(actual);
         }
+        [Fact]
+
+        public void SearchUserByNameShouldReturnUser()
+        {
+            //arrange
+            var options = new DbContextOptionsBuilder<DLE.ecgbhozpContext>()
+                .UseInMemoryDatabase("SearchUserByNameShouldReturnUser")
+                .Options;
+
+            //create the context variable and initialize
+            using var arrangeContext = new DLE.ecgbhozpContext(options);
+
+            //act
+
+            arrangeContext.User.Add(user);
+            arrangeContext.SaveChanges();
+
+            using var actContext = new DLE.ecgbhozpContext(options);
+            var repo = new UserRepository(actContext/*, new NullLogger<UserRepository>()*/);
+
+
+            List<LLM.User> actual = repo.SearchUsers("Jimmy", "Crow").ToList();
+
+            //assert
+
+            Assert.Equal(actual: actual.First().FirstName + actual.First().LastName, expected: user.FirstName + user.LastName);
+        }
+
     }
 }
