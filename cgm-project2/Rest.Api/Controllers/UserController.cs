@@ -18,7 +18,7 @@ namespace Rest.Api.Controllers
 
         public UserController(IUserRepository context)
         {
-            this.repo = context;
+            this.repo = context ?? throw new ArgumentNullException(nameof(repo));
         }
 
         // GET: api/User
