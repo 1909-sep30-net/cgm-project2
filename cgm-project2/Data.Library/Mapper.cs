@@ -51,7 +51,7 @@ namespace Data.Library
         {
             return new Entities.Title
             {
-                //title.TitleId,
+                TitleId = title.TitleId,
                 TitleString = title.TitleString,
                 CreatorId = title.CreatorId
             };
@@ -68,7 +68,7 @@ namespace Data.Library
         {
             return new Entities.Result
             {
-                //result.ResultId,
+                ResultId = result.ResultId,
                 Score = result.Score,
                 TakerId = result.TakerId,
                 TitleId = result.TitleId
@@ -86,7 +86,7 @@ namespace Data.Library
         {
             return new Entities.Question
             {
-                //question.QuestionId,
+                QuestionId = question.QuestionId,
                 TitleId = question.TitleId,
                 QuestionString = question.QuestionString,
             };
@@ -103,7 +103,7 @@ namespace Data.Library
         {
             return new Entities.Category
             {
-                //category.CategoryId,
+                CategoryId = category.CategoryId,
                 TitleId = category.TitleId,      //this needs to be manually searched and inserted before getting here.
                 Rank = category.Rank,
                 CategoryString = category.CategoryString,
@@ -122,7 +122,7 @@ namespace Data.Library
         {
             return new Entities.Answer
             {
-                //answer.AnswerId,
+                AnswerId = answer.AnswerId,
                 AnswerString = answer.AnswerString,
                 Weight = answer.Weight,
                 CategoryId = answer.CategoryId,
