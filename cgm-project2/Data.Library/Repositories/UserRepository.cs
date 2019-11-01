@@ -46,10 +46,8 @@ namespace Data.Library.Repositories
             _dbContext.Add(newUser);
         }
 
-
-
         /// <summary>
-        /// This Saves the state of the DB
+        /// This saves the state of the DB
         /// </summary>
         public void Save()
         {
