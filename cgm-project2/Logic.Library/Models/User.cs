@@ -8,8 +8,33 @@ namespace Logic.Library.Models
     public class User
     {
         public int    UserId    { get; set; }
-        public string FirstName { get; set; }
-        public string LastName  { get; set; }
+
+        private string _firstName;
+        public string FirstName 
+        { 
+            get => _firstName;
+            set
+            {
+                if (value == "")
+                {
+                    throw new ArgumentException("First Name must not be empty.", nameof(value));
+                }
+                _firstName = value;
+            }
+        }
+        private string _lastName;
+        public string LastName
+        {
+            get => _firstName;
+            set
+            {
+                if (value == "")
+                {
+                    throw new ArgumentException("Last Name must not be empty.", nameof(value));
+                }
+                _firstName = value;
+            }
+        }
         public string Street    { get; set; }
         public string City      { get; set; }
         public string State     { get; set; }
