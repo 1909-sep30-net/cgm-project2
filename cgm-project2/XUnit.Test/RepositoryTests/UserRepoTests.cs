@@ -153,5 +153,34 @@ namespace XUnit.Test
 
             Assert.Null(assertContext.User.FirstOrDefault(u => u.UserId == id));
         }
+
+        [Fact]
+        public void DeleteUserThrowsErrorWhenUserNotFound()
+        {
+            //arrange
+            var options = new DbContextOptionsBuilder<DatLib.Entities.ecgbhozpContext>()
+                .UseInMemoryDatabase("DeleteUserThrowsErrorWhenUserNotFound")
+                .Options;
+
+            using var arrangeContext = new DatLib.Entities.ecgbhozpContext(options);
+
+            int id = -101;
+            //arrangeContext.User.Add(userEnt);
+            arrangeContext.SaveChanges();
+
+            using var actContext = new DatLib.Entities.ecgbhozpContext(options);
+            var repo = new UserRepository(actContext);
+
+            //act
+            Exception ex = Assert.Throws<ArgumentNullException>(() => repo.DeleteUser(id));
+
+            //repo.Save();
+            
+            //assert
+            //using var assertContext = new DatLib.Entities.ecgbhozpContext(options);
+
+            Assert.Equal("Value cannot be null.", ex.Message);
+        }
+
     }
 }

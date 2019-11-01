@@ -60,7 +60,7 @@ namespace Data.Library.Repositories
             var user = _dbContext.User.Where(u => u.UserId == id).FirstOrDefault();
             try
             { _dbContext.User.Remove(user); }
-            catch
+            catch(ArgumentNullException ex)
             { throw new ArgumentNullException(); }
 
         }
