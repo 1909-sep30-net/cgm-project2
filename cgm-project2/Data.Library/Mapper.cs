@@ -30,7 +30,7 @@ namespace Data.Library
         {
             return new Entities.User
             {
-                //user.UserId,
+                UserId = user.UserId,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Street = user.Street,

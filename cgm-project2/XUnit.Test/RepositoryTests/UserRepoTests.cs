@@ -138,8 +138,9 @@ namespace XUnit.Test
 
             using var arrangeContext = new DatLib.Entities.ecgbhozpContext(options);
 
-            arrangeContext.User.Add(userEnt);
             int id = userEnt.UserId;
+            arrangeContext.User.Add(userEnt);
+            arrangeContext.SaveChanges();
 
             using var actContext = new DatLib.Entities.ecgbhozpContext(options);
             var repo = new UserRepository(actContext);
