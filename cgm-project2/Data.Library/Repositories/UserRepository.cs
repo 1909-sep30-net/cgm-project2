@@ -10,15 +10,19 @@ namespace Data.Library.Repositories
 {
     public class UserRepository
     {
-
         private readonly Entities.ecgbhozpContext _dbContext;
-
         public UserRepository(Entities.ecgbhozpContext dbContext) =>
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 
+        /// <summary>
+        /// This function takes the First and Last names of a User, searches the Users Table and returns an IEnumerable of User Objects.
+        /// </summary>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
+        /// <returns></returns>
         public IEnumerable<Logic.Library.Models.User> SearchUsers(string firstName = null, string lastName = null)
         {
-            IQueryable<Entities.User> users = _dbContext.User.AsNoTracking();//to prevent caching
+            IQueryable<Entities.User> users = _dbContext.User.AsNoTracking();//'AsNoTracking()' is used to prevent caching
 
             if(firstName != null)
             {
@@ -28,23 +32,28 @@ namespace Data.Library.Repositories
             {
                 users = users.Where(u => u.LastName == lastName);
             }
-
             return users.Select(Mapper.MapUser);//Select automatically runs each item in users through the Mapper.
         }
 
+        /// <summary>
+        /// This function takes a User, searches the Users Table and inserts it into the DB.
+        /// </summary>
+        /// <param name="user"></param>
         public void RegisterNewUser(LogLib.Models.User user)
         {
             DatLib.Entities.User newUser = Mapper.MapUser(user);
             _dbContext.Add(newUser);
         }
+
+
+
+
+        /// <summary>
+        /// This Saves the state of the DB
+        /// </summary>
         public void Save()
         {
             _dbContext.SaveChanges();
         }
-
-//test to push
-
-
-
     }
 }
