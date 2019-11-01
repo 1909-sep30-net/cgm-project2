@@ -7,6 +7,7 @@ using LogLib = Logic.Library;
 using Microsoft.Extensions.Logging.Abstractions;
 using Data.Library.Repositories;
 using System.Linq;
+using Moq;
 
 namespace XUnit.Test
 {

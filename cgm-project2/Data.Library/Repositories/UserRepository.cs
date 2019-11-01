@@ -5,10 +5,11 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using DatLib = Data.Library;
 using LogLib = Logic.Library;
+using Logic.Library.Interfaces;
 
 namespace Data.Library.Repositories
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
 
         private readonly Entities.ecgbhozpContext _dbContext;
