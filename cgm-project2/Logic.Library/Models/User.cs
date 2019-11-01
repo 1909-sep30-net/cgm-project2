@@ -25,14 +25,14 @@ namespace Logic.Library.Models
         private string _lastName;
         public string LastName
         {
-            get => _firstName;
+            get => _lastName;
             set
             {
                 if (value == "")
                 {
                     throw new ArgumentException("Last Name must not be empty.", nameof(value));
                 }
-                _firstName = value;
+                _lastName = value;
             }
         }
         public string Street    { get; set; }
