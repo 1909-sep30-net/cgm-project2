@@ -5,12 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using Xunit;
 using LogLib = Logic.Library;
 using Microsoft.Extensions.Logging.Abstractions;
-using Data.Library.Repositories;
 using System.Linq;
+
+using Data.Library.Repositories;
 
 namespace XUnit.Test
 {
-    public class UnitTest1
+    public class UserRepoTests
     {
         DatLib.Entities.User userEnt = new DatLib.Entities.User
         {
