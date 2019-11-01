@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Data.Library.Repositories;
+using Logic.Library.Interfaces;
 using Logic.Library.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,12 +14,13 @@ namespace Rest.Api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        UserRepository repo;
+        IUserRepository repo { get; }
 
-        public UserController(UserRepository context)
+        public UserController(IUserRepository context)
         {
-            this.repo = context;
+            this.repo = context ?? throw new ArgumentNullException(nameof(repo));
         }
+
 
 
 

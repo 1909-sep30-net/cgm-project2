@@ -29,9 +29,7 @@ namespace Rest.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DatLib.Entities.ecgbhozpContext>(options =>
-            {
-                options.UseNpgsql(Configuration.GetConnectionString("db"));
-            });
+                options.UseNpgsql(Configuration.GetConnectionString("db")));
 
             //Use the following line as a template for all Repo Constructors to be injected into controllers.
             services.AddScoped<LogLib.Interfaces.IUserRepository, DatLib.Repositories.UserRepository>();
