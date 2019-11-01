@@ -16,11 +16,20 @@ namespace Rest.Api.Controllers
     {
         IUserRepository repo;
 
+        /// <summary>
+        /// This is the constructor for the UseController Class.
+        /// </summary>
+        /// <param name="context"></param>
         public UserController(IUserRepository context)
         {
             this.repo = context ?? throw new ArgumentNullException(nameof(repo));
         }
 
+
+        /// <summary>
+        /// This method searches the Db for all the users and returns a List<User>
+        /// </summary>
+        /// <returns></returns>
         // GET: api/User
         [HttpGet]
         public List<User> Get()
@@ -31,6 +40,11 @@ namespace Rest.Api.Controllers
             //return "temp success";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET: api/User/5
         [HttpGet("{id}", Name = "Get")]
         public string Get(int id)
@@ -38,6 +52,11 @@ namespace Rest.Api.Controllers
             return "value";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         // POST: api/User
         [HttpPost]
         public string Post([FromBody] string value)
@@ -45,6 +64,11 @@ namespace Rest.Api.Controllers
             return value;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="value"></param>
         // PUT: api/User/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] User value)
@@ -65,6 +89,10 @@ namespace Rest.Api.Controllers
             //return user;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
