@@ -127,5 +127,30 @@ namespace XUnit.Test
             Assert.NotNull(actual);
         }
 
+        [Fact]
+        public void DeleteUserDeletesUser()
+        {
+            //arrange
+
+            var options = new DbContextOptionsBuilder<DatLib.Entities.ecgbhozpContext>()
+                .UseInMemoryDatabase("DeleteUserDeletesUser")
+                .Options;
+
+            using var arrangeContext = new DatLib.Entities.ecgbhozpContext(options);
+
+            arrangeContext.User.Add(userEnt);
+            int id = userEnt.UserId;
+
+            using var actContext = new DatLib.Entities.ecgbhozpContext(options);
+            var repo = new UserRepository(actContext);
+            
+            //act
+            repo.DeleteUser(id);
+            repo.Save();
+            //assert
+            using var assertContext = new DatLib.Entities.ecgbhozpContext(options);
+
+            Assert.Null(assertContext.User.FirstOrDefault(u => u.UserId == id));
+        }
     }
 }

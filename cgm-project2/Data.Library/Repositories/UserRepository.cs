@@ -62,5 +62,13 @@ namespace Data.Library.Repositories
         {
             _dbContext.SaveChanges();
         }
+
+        public void DeleteUser(int id)
+        {
+            
+            var user = _dbContext.User.Where(u => u.UserId == id).FirstOrDefault();
+            _dbContext.User.Remove(user);
+
+        }
     }
 }
