@@ -6,6 +6,7 @@ using Data.Library.Repositories;
 using Logic.Library.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Logic.Library.Interfaces;
 
 namespace Rest.Api.Controllers
 {
@@ -13,22 +14,21 @@ namespace Rest.Api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        UserRepository repo;
+        IUserRepository repo;
 
-        public UserController(UserRepository context)
+        public UserController(IUserRepository context)
         {
             this.repo = context;
         }
 
-
-
         // GET: api/User
         [HttpGet]
-        public string /*List<User>*/ Get()
+        public List<User> Get()
         {
-            //var users = repo.GetAllUsers();
-            //return users;
-            return "temp success";
+            var users = repo.SearchUsers().ToList();
+            repo.Save();
+            return users;
+            //return "temp success";
         }
 
         // GET: api/User/5
