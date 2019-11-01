@@ -42,10 +42,17 @@ namespace Data.Library.Repositories
         /// <param name="user"></param>
         public void RegisterNewUser(LogLib.Models.User user)
         {
-            DatLib.Entities.User newUser = Mapper.MapUser(user);
+            Entities.User newUser = Mapper.MapUser(user);
             _dbContext.Add(newUser);
         }
 
+        public string/*List<LogLib.Models.User>*/ GetAllUsers()
+        {
+            //IQueryable<Entities.User> users = _dbContext.User;//'AsNoTracking()' is used to prevent caching
+
+            //return users.Select(Mapper.MapUser).ToList();//Select automatically runs each item in users through the Mapper.
+            return "success";
+        }
 
 
 
