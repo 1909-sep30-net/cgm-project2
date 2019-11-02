@@ -46,6 +46,11 @@ namespace Data.Library.Repositories
             _dbContext.Add(newUser);
         }
 
+        public LogLib.Models.User CreateUser(string firstName, string lastName, string street, string city, string state, string zip, bool admin)
+        {
+            return new LogLib.Models.User(0, firstName, lastName, street, city, state, zip, admin);
+        }
+
         /// <summary>
         /// This saves the state of the DB
         /// </summary>

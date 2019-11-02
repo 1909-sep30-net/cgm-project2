@@ -41,21 +41,22 @@ namespace Logic.Library.Models
         public string Zip       { get; set; }
         public bool   Admin     { get; set; }
 
-        //public User()
-        //{
+        public User()
+        {
 
-        //}
+        }
 
-        //public User(int uid, string fn, string ln, string st, string c, string sta, string z)
-        //{
-        //    UserId = uid;
-        //    FirstName = fn;
-        //    LastName = ln;
-        //    Street = st;
-        //    City = c;
-        //    State = sta;
-        //    Zip = z;
-        //}
+        public User(int uid, string fn, string ln, string st, string c, string sta, string z, bool a)
+        {
+            UserId = uid;
+            FirstName = fn;
+            LastName = ln;
+            Street = st;
+            City = c;
+            State = sta;
+            Zip = z;
+            Admin = a;
+        }
 
 
 
