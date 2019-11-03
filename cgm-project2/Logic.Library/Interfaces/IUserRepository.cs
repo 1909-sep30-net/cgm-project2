@@ -13,7 +13,7 @@ namespace Logic.Library.Interfaces
         /// <param name="firstName"></param>
         /// <param name="lastName"></param>
         /// <returns></returns>
-        public IEnumerable<Logic.Library.Models.User> SearchUsers(string firstName = null, string lastName = null);
+        public IEnumerable<LogLib.Models.User> SearchUsers(string firstName = null, string lastName = null);
 
         /// <summary>
         /// This function takes a User, searches the Users Table and inserts it into the DB.

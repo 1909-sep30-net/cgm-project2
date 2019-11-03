@@ -21,7 +21,7 @@ namespace Data.Library.Repositories
         /// <param name="firstName"></param>
         /// <param name="lastName"></param>
         /// <returns></returns>
-        public IEnumerable<Logic.Library.Models.User> SearchUsers(string firstName = null, string lastName = null)
+        public IEnumerable<LogLib.Models.User> SearchUsers(string firstName = null, string lastName = null)
         {
             IQueryable<Entities.User> users = _dbContext.User.AsNoTracking();//'AsNoTracking()' is used to prevent caching
 
