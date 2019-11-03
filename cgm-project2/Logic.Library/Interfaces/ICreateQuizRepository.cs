@@ -7,17 +7,15 @@ namespace Logic.Library.Interfaces
 {
     public interface ICreateQuizRepository
     {
-        public LogLibMod.Title CreateTitle(int titleId, string titleString, int creatorId);
+        public void CreateTitle(LogLibMod.Title title);
 
-        public LogLibMod.Category CreateCategory(int categoryId, string categoryString, string categoryDescription, int titleId);
+        public void CreateCategory(LogLibMod.Category category);
 
-        public LogLibMod.Question CreateQuestion(int questionId, string questionString, int titleId);
+        public void CreateQuestion(LogLibMod.Question question);
 
-        public LogLibMod.Answer CreateAnswer(int answerId, string answerString, int weight, int categoryId, int questionId);
+        public void CreateAnswer(LogLibMod.Answer answer);
 
-        public void CreateFinalQuiz(LogLibMod.Title title, List<LogLibMod.Category> categories, List<LogLibMod.Question> questions, List<LogLibMod.Answer> answers); 
-
-        public void DeleteQuiz();
+        public void DeleteQuiz(int titleId);
 
         public void Save();
     }

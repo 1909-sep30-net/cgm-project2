@@ -9,54 +9,49 @@ using Logic.Library.Interfaces;
 
 namespace Data.Library.Repositories
 {
-    public class CreateQuizRepository
+    public class CreateQuizRepository : ICreateQuizRepository
     {
         private readonly Entities.ecgbhozpContext _dbContext;
         public CreateQuizRepository(Entities.ecgbhozpContext dbContext) =>
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 
-        public LogLib.Models.Title CreateTitle(int titleId, string titleString, int creatorId)
+        public void CreateTitle(LogLib.Models.Title title)
         {
-            return new LogLib.Models.Title
-            {
-                TitleId = titleId,
-                TitleString = titleString,
-                CreatorId = creatorId
-            };
+            var titleEnt = Mapper.MapTitle(title);
+            titleEnt.TitleId = 0;
+            _dbContext.Title.Add(titleEnt);
         }
 
-        public LogLib.Models.Category CreateCategory(int categoryId, string categoryString, string categoryDescription, int titleId)
+        public void CreateCategory(LogLib.Models.Category category)
         {
-            return new LogLib.Models.Category
-            {
-                CategoryId = categoryId,
-                CategoryString = categoryString,
-                CategoryDescription = categoryDescription,
-                TitleId = titleId
-            };
+            var categoryEnt = Mapper.MapCategory(category);
+            categoryEnt.CategoryId = 0;
+            _dbContext.Category.Add(categoryEnt);
         }
 
-        public LogLib.Models.Question CreateQuestion(int questionId, string questionString, int titleId)
+        public void CreateQuestion(LogLib.Models.Question question)
         {
-            return new LogLib.Models.Question
-            {
-                QuestionId = questionId,
-                QuestionString = questionString,
-                TitleId = titleId
-            };
+            var questionEnt = Mapper.MapQuestion(question);
+            questionEnt.QuestionId = 0;
+            _dbContext.Question.Add(questionEnt);
         }
 
-        public LogLib.Models.Answer CreateAnswer(int answerId, string answerString, int weight, int categoryId, int questionId)
+        public void CreateAnswer(LogLib.Models.Answer answer)
         {
-            return new LogLib.Models.Answer
-            {
-                AnswerId = answerId,
-                AnswerString = answerString,
-                Weight = weight,
-                CategoryId = categoryId,
-                QuestionId = questionId
-            };
+            var answerEnt = Mapper.MapAnswer(answer);
+            answerEnt.AnswerId = 0;
+            _dbContext.Answer.Add(answerEnt);
         }
 
+        public void DeleteQuiz(int titleId)
+        {
+            _dbContext.Title.Remove(_dbContext.Title.Find(titleId));
+        }
+
+
+        public void Save()
+        {
+            _dbContext.SaveChanges();
+        }
     }
 }
