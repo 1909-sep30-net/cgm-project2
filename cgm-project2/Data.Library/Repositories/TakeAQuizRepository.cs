@@ -16,6 +16,12 @@ namespace Data.Library.Repositories
         public TakeAQuizRepository(Entities.ecgbhozpContext dbContext) =>
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 
+        /// <summary>
+        /// This method takes  the name or Id (or both) of a quiz and returns the quizes matching the criteria.
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
         public IEnumerable<LogLib.Models.Title> GetQuizByNameOrId(int Id = -1, string title = null)
         {
             IQueryable<Entities.Title> titles = _dbContext.Title.AsNoTracking();
@@ -31,6 +37,9 @@ namespace Data.Library.Repositories
 
             return titles.Select(Mapper.MapTitle);
         }
+
+        
+
 
 
         /// <summary>

@@ -10,6 +10,8 @@ namespace Logic.Library.Models
         public int      TitleId         { get; set; }
         public string   QuestionString  { get; set; }
 
+        public List<Answer> answers;
+
         public Question()
         {
 

@@ -10,6 +10,8 @@ namespace Logic.Library.Interfaces
     {
         public IEnumerable<Models.Title> GetQuizByNameOrId(int Id = -1, string title = null);
 
+        public 
+
         public void Save();
 
     }
