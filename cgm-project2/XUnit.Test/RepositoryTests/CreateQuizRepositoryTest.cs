@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using System.Linq;
 
 using Data.Library.Repositories;
+using LogLibMod = Logic.Library.Models;
 
 namespace XUnit.Test
 {
@@ -26,13 +27,18 @@ namespace XUnit.Test
             string titleString = "TitleString";
             int creatorId = 1;
 
+            var titleLog = new LogLibMod.Title() { TitleId = titleId, TitleString = titleString, CreatorId = creatorId };
+
             using var actContext = new DatLib.Entities.ecgbhozpContext(options);
 
             var repo = new CreateQuizRepository(actContext);
 
             //act
-            var title = repo.CreateTitle(titleId, titleString, creatorId);
+            repo.CreateTitle(titleLog);
+            repo.Save();
 
+            using var assertContext = new DatLib.Entities.ecgbhozpContext(options);
+            var title = assertContext.Title.FirstOrDefault();
             //assert
 
             Assert.Equal(expected: titleId + titleString + creatorId, actual: title.TitleId + title.TitleString + title.CreatorId);
@@ -53,16 +59,21 @@ namespace XUnit.Test
             string categoryDescription = "Desc";
             int titleId = 1;
 
+            var categoryLog = new LogLibMod.Category { CategoryId = categoryId, CategoryString = categoryString, CategoryDescription = categoryDescription, TitleId = titleId };
+
             using var actContext = new DatLib.Entities.ecgbhozpContext(options);
 
             var repo = new CreateQuizRepository(actContext);
 
             //act
-            var category = repo.CreateCategory( categoryId,  categoryString,  categoryDescription,  titleId);
+            repo.CreateCategory(categoryLog);
+            repo.Save();
 
+            using var assertContext = new DatLib.Entities.ecgbhozpContext(options);
+            var category = assertContext.Category.FirstOrDefault();
             //assert
 
-            Assert.Equal(expected:  categoryId+  categoryString+ categoryDescription+  titleId, actual: category.CategoryId + category.CategoryString + category.CategoryDescription + category.TitleId);
+            Assert.Equal(expected: categoryId + categoryString + categoryDescription + titleId, actual: category.CategoryId + category.CategoryString + category.CategoryDescription + category.TitleId);
         }
 
         [Fact]
@@ -78,13 +89,18 @@ namespace XUnit.Test
             string questionString = "This is Question?";
             int titleId = 1;
 
+            var questionLog = new LogLibMod.Question { QuestionId = questionId, QuestionString = questionString, TitleId = titleId };
+
             using var actContext = new DatLib.Entities.ecgbhozpContext(options);
 
             var repo = new CreateQuizRepository(actContext);
 
             //act
-            var question = repo.CreateQuestion(questionId, questionString, titleId);
+            repo.CreateQuestion(questionLog);
+            repo.Save();
 
+            using var assertContext = new DatLib.Entities.ecgbhozpContext(options);
+            var question = assertContext.Question.FirstOrDefault();
             //assert
 
             Assert.Equal(expected: questionId + questionString + titleId, actual: question.QuestionId + question.QuestionString + question.TitleId);
@@ -105,16 +121,22 @@ namespace XUnit.Test
             int categoryId = 1;
             int questionId = 1;
 
+            var answerLog = new LogLibMod.Answer { AnswerId = answerId, AnswerString = answerString, Weight = weight, CategoryId = categoryId, QuestionId = questionId };
+
             using var actContext = new DatLib.Entities.ecgbhozpContext(options);
 
             var repo = new CreateQuizRepository(actContext);
 
             //act
-            var answer = repo.CreateAnswer(answerId,  answerString,  weight,  categoryId,  questionId);
+            repo.CreateAnswer(answerLog);
+            repo.Save();
 
+            using var assertContext = new DatLib.Entities.ecgbhozpContext(options);
+            var answer = assertContext.Answer.FirstOrDefault();
             //assert
 
-            Assert.Equal(expected: answerId+ answerString+ weight+ categoryId+ questionId, actual: answer.AnswerId + answer.AnswerString + answer.Weight + answer.CategoryId + answer.QuestionId);
+            Assert.Equal(expected: answerId + answerString + weight + categoryId + questionId, actual: answer.AnswerId + answer.AnswerString + answer.Weight + answer.CategoryId + answer.QuestionId);
         }
+
     }
 }
