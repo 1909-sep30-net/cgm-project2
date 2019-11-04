@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using LogLib = Logic.Library;
+using LogLibMod = Logic.Library.Models;
 
 namespace Logic.Library.Interfaces
 {
     public interface ICreateQuizRepository
     {
-        public LogLib.Models.Title CreateTitle(int titleId, string titleString, int creatorId);
+        public void CreateTitle(LogLibMod.Title title);
 
-        public LogLib.Models.Category CreateCategory(int categoryId, string categoryString, string categoryDescription, int titleId);
+        public void CreateCategory(LogLibMod.Category category);
 
-        public LogLib.Models.Question CreateQuestion(int questionId, string questionString, int titleId);
+        public void CreateQuestion(LogLibMod.Question question);
 
-        public LogLib.Models.Answer CreateAnswer(int answerId, string answerString, int weight, int categoryId, int questionId);
+        public void CreateAnswer(LogLibMod.Answer answer);
 
-        public void CreateFinalQuiz(); 
-
-        public void DeleteQuiz();
+        public void DeleteQuiz(int titleId);
 
         public void Save();
     }
