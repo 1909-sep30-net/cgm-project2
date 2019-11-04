@@ -12,4 +12,5 @@ namespace Rest.Api
 
         public string Summary { get; set; }
     }
+    //test of Azure Pipelines integration.
 }
