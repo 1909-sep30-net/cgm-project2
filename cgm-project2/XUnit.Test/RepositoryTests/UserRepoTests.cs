@@ -63,7 +63,7 @@ namespace XUnit.Test
 
 
             //assert
-            Assert.NotNull(actual);
+            Assert.NotEmpty(actual);
         }
         [Theory]
         [InlineData ("Jimmy","John",true)]
