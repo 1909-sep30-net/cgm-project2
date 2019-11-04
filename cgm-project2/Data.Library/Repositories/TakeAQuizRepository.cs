@@ -38,7 +38,49 @@ namespace Data.Library.Repositories
             return titles.Select(Mapper.MapTitle);
         }
 
-        
+        /// <summary>
+        /// This method takes a quiz Id and/or title and returns a Quiz object which contains all the data for the quiz
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public LogLib.Models.Quiz GetQuiz(int Id = -1, string title = null)
+        {
+            //make a Title object
+            LogLib.Models.Title quizTitle = new LogLib.Models.Title();
+
+            //get needed title object
+            if (Id != -1 && title != null)
+            {
+                quizTitle = GetQuizByNameOrId(Id, title).FirstOrDefault();
+            }
+            else if (Id != -1)
+            {
+                quizTitle = GetQuizByNameOrId(Id).FirstOrDefault();
+            }
+            else if (title != null)
+            {
+                quizTitle = GetQuizByNameOrId(-1,title).FirstOrDefault();
+            }
+            else
+            {
+                return null;
+            }
+
+            //create a quiz object to return to render. Use Title obj as constructor parameter.
+            LogLib.Models.Quiz quiz = new LogLib.Models.Quiz(quizTitle);
+
+            //get all questions with the TitleId and load into Quiz Obj in foreach loop
+
+
+
+            //get all answers to each question in foreach loop
+
+
+
+
+            return quiz;
+        }
 
 
 
