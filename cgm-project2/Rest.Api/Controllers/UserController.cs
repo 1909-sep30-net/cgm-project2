@@ -25,7 +25,6 @@ namespace Rest.Api.Controllers
             this.repo = context ?? throw new ArgumentNullException(nameof(repo));
         }
 
-
         /// <summary>
         /// This method searches the Db for all the users and returns a List<User>
         /// </summary>
