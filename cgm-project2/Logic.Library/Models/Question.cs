@@ -17,11 +17,11 @@ namespace Logic.Library.Models
 
         }
 
-        public Question(int qid, int t, string s)
+        public Question(int qid, int t, string str)
         {
             QuestionId = qid;
             TitleId = t;
-            QuestionString = s;
+            QuestionString = str;
         }
 
     }
