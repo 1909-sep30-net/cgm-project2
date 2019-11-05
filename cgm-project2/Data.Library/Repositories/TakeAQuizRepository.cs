@@ -34,7 +34,6 @@ namespace Data.Library.Repositories
             {
                 titles = titles.Where(i => i.TitleString == title);
             }
-
             return titles.Select(Mapper.MapTitle);
         }
 
@@ -69,16 +68,33 @@ namespace Data.Library.Repositories
 
             //create a quiz object to return to render. Use Title obj as constructor parameter.
             LogLib.Models.Quiz quiz = new LogLib.Models.Quiz(quizTitle);
+            
+            //place title obj into quiz obj.
+            quiz.title = quizTitle;
 
-            //get all questions with the TitleId and load into Quiz Obj in foreach loop
+            //get all questions with the TitleId 
+            IQueryable<Entities.Question> quizQuestions = _dbContext.Question
+                .Where(i => i.TitleId == quiz.title.TitleId).AsNoTracking();
 
-
+            //load mapped question obj into Quiz.questions List<Question> in foreach loop
+            foreach (var item in quizQuestions)
+            {
+                quiz.questions.Add(Mapper.MapQuestion(item));
+            }
 
             //get all answers to each question in foreach loop
+            foreach (var item in quiz.questions)
+            {
+                //get all answers for this quesiton
+                IQueryable<Entities.Answer> questionAnswers = _dbContext.Answer
+                    .Where(i => i.QuestionId == item.QuestionId).AsNoTracking();
 
-
-
-
+                //use a loop to add qnswers to quiz.questions.answers( here, x .answers)
+                foreach (var x in questionAnswers)
+                {
+                    item.answers.Add(Mapper.MapAnswer(x)); 
+                }
+            }
             return quiz;
         }
 
