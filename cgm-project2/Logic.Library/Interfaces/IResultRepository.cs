@@ -7,7 +7,7 @@ namespace Logic.Library.Interfaces
 {
     public interface IResultRepository
     {
-        public IEnumerable<LogLibMod.Result> GetResults(int userId);
+        public IEnumerable<LogLibMod.Result> GetResults(int userId = -1);
 
         public void CalculateDemographics();
     }

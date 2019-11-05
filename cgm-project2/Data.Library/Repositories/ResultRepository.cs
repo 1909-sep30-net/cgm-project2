@@ -20,9 +20,12 @@ namespace Data.Library.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<LogLib.Models.Result> GetResults(int userId)
+        public IEnumerable<LogLib.Models.Result> GetResults(int userId = -1)
         {
-            return _dbContext.Result.Where(r => r.TakerId == userId).Select(Mapper.MapResult);
+            if (userId == -1)
+                return _dbContext.Result.Select(Mapper.MapResult);
+            else
+                return _dbContext.Result.Where(r => r.TakerId == userId).Select(Mapper.MapResult);
         }
     }
 }

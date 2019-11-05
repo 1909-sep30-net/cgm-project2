@@ -34,7 +34,7 @@ namespace Rest.Api.Controllers
         public List<User> Get()
         {
             var users = repo.SearchUsers().ToList();
-            repo.Save();
+            //repo.Save();
             return users;
             //return "temp success";
         }
@@ -45,7 +45,7 @@ namespace Rest.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         // GET: api/User/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}", Name = "UserGet")]
         public string Get(int id)
         {
             return "value";
