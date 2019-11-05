@@ -53,5 +53,12 @@ namespace Data.Library.Repositories
         {
             _dbContext.SaveChanges();
         }
+
+
+        //REMOVE THIS BEFORE MERGE
+        public LogLib.Models.Title GetTitle()
+        {
+            return _dbContext.Title.Select(Mapper.MapTitle).FirstOrDefault();
+        }
     }
 }

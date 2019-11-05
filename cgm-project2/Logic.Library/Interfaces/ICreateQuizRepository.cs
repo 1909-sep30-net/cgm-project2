@@ -18,5 +18,8 @@ namespace Logic.Library.Interfaces
         public void DeleteQuiz(int titleId);
 
         public void Save();
+
+        //REMOVE BEFORE MERGE
+        public LogLibMod.Title GetTitle();
     }
 }

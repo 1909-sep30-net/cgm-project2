@@ -27,5 +27,6 @@ namespace Data.Library.Repositories
             else
                 return _dbContext.Result.Where(r => r.TakerId == userId).Select(Mapper.MapResult);
         }
+
     }
 }
