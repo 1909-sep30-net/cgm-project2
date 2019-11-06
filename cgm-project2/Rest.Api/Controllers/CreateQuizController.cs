@@ -18,31 +18,73 @@ namespace Rest.Api.Controllers
     public class CreateQuizController : ControllerBase
     {
         ICreateQuizRepository repo;
+        IGetDataRepository getRepo;
 
-        Models.CreateQuizIds ids = new Models.CreateQuizIds();
 
         
-        public CreateQuizController(ICreateQuizRepository context)
+        public CreateQuizController(ICreateQuizRepository context, IGetDataRepository getContext)
         {
             this.repo = context ?? throw new ArgumentNullException(nameof(repo));
+            this.getRepo = getContext ?? throw new ArgumentNullException(nameof(repo));
         }
 
 
         // GET: api/CreateQuiz
         [HttpGet]
-        public Title Get()
+        public List<Title> Get()
         {
-            return repo.GetTitle();
+            return repo.GetTitle().ToList();
         }
 
         // POST: api/CreateQuiz/Title
         [HttpPost("Title")]
-        public void PostTitle([FromBody, Bind("titleString, creatorId")] Models.TitleModel title)
+        public ActionResult PostTitle([FromBody, Bind("titleString, creatorId")] models.TitleModel title)
         {
+            if(getRepo.IfUserExists(title.CreatorId))
+                return StatusCode(StatusCodes.Status406NotAcceptable);
             repo.CreateTitle(new Title { TitleString = title.TitleString, CreatorId = title.CreatorId });
             repo.Save();
-            ids.CreatorId = title.CreatorId;
+            return StatusCode(StatusCodes.Status202Accepted);
         }
 
+        // POST: api/CreateQuiz/Category
+        [HttpPost("Category")]
+        public ActionResult PostCategory([FromBody, Bind("categoryString, categoryDescription, titleId")] models.CategoryModel category)
+        {
+            if (getRepo.IfTitleExists(category.TitleId))
+                return StatusCode(StatusCodes.Status406NotAcceptable);
+
+            repo.CreateCategory(new Category
+            {
+                CategoryString = category.CategoryString,
+                CategoryDescription = category.CategoryDescription,
+                TitleId = category.TitleId,
+                Rank = getRepo.GetNumberOfCategories(category.TitleId) + 1
+            });
+            repo.Save();
+            return StatusCode(StatusCodes.Status202Accepted);
+        }
+
+        // POST: api/CreateQuiz/Category/Ranks
+        [HttpPut("Category/Ranks")]
+        public ActionResult PutCategoryRanks([FromBody, Bind("categoryId, rank")] models.CategoryModel[] categories)
+        {
+            int maxRank = categories.Length;
+            var ranks = new HashSet<int> { };
+            for(int i = 0; i < maxRank; i++)
+            {
+                int rank = categories[i].Rank;
+                if (rank < 0 || rank > maxRank || ranks.Contains(rank))
+                    return StatusCode(StatusCodes.Status406NotAcceptable);
+                ranks.Add(rank);
+            }
+
+            foreach(var category in categories)
+            {
+                repo.SetCategoryRank(category.CategoryId, category.Rank);
+            }
+            repo.Save();
+            return StatusCode(StatusCodes.Status204NoContent);
+        }
     }
 }

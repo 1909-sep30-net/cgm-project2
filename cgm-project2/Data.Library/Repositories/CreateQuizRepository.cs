@@ -48,6 +48,11 @@ namespace Data.Library.Repositories
             _dbContext.Title.Remove(_dbContext.Title.Find(titleId));
         }
 
+        public void SetCategoryRank(int categoryId, int newRank)
+        {
+            _dbContext.Category.Find(categoryId).Rank = newRank;
+        }
+
 
         public void Save()
         {
@@ -56,9 +61,9 @@ namespace Data.Library.Repositories
 
 
         //REMOVE THIS BEFORE MERGE
-        public LogLib.Models.Title GetTitle()
+        public IEnumerable<LogLib.Models.Title> GetTitle()
         {
-            return _dbContext.Title.Select(Mapper.MapTitle).FirstOrDefault();
+            return _dbContext.Title.Select(Mapper.MapTitle);
         }
     }
 }

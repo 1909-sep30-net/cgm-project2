@@ -16,10 +16,11 @@ namespace Logic.Library.Interfaces
         public void CreateAnswer(LogLibMod.Answer answer);
 
         public void DeleteQuiz(int titleId);
+        public void SetCategoryRank(int categoryId, int newRank);
 
         public void Save();
 
         //REMOVE BEFORE MERGE
-        public LogLibMod.Title GetTitle();
+        public IEnumerable<LogLibMod.Title> GetTitle();
     }
 }

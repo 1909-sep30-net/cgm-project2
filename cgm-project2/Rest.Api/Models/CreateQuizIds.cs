@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rest.Api.Models
+namespace Rest.Api.models
 {
     public class CreateQuizIds
     {
