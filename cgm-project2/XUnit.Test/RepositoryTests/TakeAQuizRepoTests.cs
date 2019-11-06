@@ -23,7 +23,7 @@ namespace XUnit.Test
             using var arrangeContext = new DatLib.Entities.ecgbhozpContext(options);
             int Id = 102;
 
-            arrangeContext.Title.Add(new DatLib.Entities.Title 
+            arrangeContext.Title.Add(new DatLib.Entities.Title
             {
                 TitleId = 101,
                 TitleString = "TestTitle1",
@@ -34,7 +34,7 @@ namespace XUnit.Test
             {
                 TitleId = Id,
                 TitleString = "TestTitle2",
-                CreatorId = 502            
+                CreatorId = 502
             });
 
             arrangeContext.Title.Add(new DatLib.Entities.Title
@@ -57,7 +57,7 @@ namespace XUnit.Test
             var repo = new TakeAQuizRepository(actContext);
             var actual = repo.GetQuizByNameOrId(Id).ToList();
             //assert
-            Assert.Equal(expected:Id, actual:actual.Where(t => t.TitleId == Id).FirstOrDefault().TitleId);
+            Assert.Equal(expected: Id, actual: actual.Where(t => t.TitleId == Id).FirstOrDefault().TitleId);
         }
 
         [Fact]
@@ -105,12 +105,49 @@ namespace XUnit.Test
             //act
             using var actContext = new DatLib.Entities.ecgbhozpContext(options);
             var repo = new TakeAQuizRepository(actContext);
-            var actual = repo.GetQuizByNameOrId(title:testTitle).ToList();
-            
-            
+            var actual = repo.GetQuizByNameOrId(title: testTitle).ToList();
+
+
             //assert
-            Assert.Equal(expected:2, actual:actual.Count);
+            Assert.Equal(expected: 2, actual: actual.Count);
         }
 
+        [Fact]
+        public void GetQuizReturnsNullWithEmptyString()
+        {
+            //arrange
+            var options = new DbContextOptionsBuilder<DatLib.Entities.ecgbhozpContext>()
+                .UseInMemoryDatabase("GetQuizReturnsNullWithEmptyString")
+                .Options;
+
+            using var arrangeContext = new DatLib.Entities.ecgbhozpContext(options);
+            using var actContext = new DatLib.Entities.ecgbhozpContext(options);
+            var repo = new TakeAQuizRepository(actContext);
+            
+            //act
+            var actual = repo.GetQuiz(title: "");
+
+            //assert
+            Assert.Null(actual);
+        }
+
+        [Fact]
+        public void GetQuizReturnsNullWithNoParams()
+        {
+            //arrange
+            var options = new DbContextOptionsBuilder<DatLib.Entities.ecgbhozpContext>()
+                .UseInMemoryDatabase("GetQuizReturnsNullWithNoParams")
+                .Options;
+
+            using var arrangeContext = new DatLib.Entities.ecgbhozpContext(options);
+            using var actContext = new DatLib.Entities.ecgbhozpContext(options);
+            var repo = new TakeAQuizRepository(actContext);
+
+            //act
+            var actual = repo.GetQuiz();
+
+            //assert
+            Assert.Null(actual);
+        }
     }
 }

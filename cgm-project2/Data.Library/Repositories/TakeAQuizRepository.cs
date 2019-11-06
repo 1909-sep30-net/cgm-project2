@@ -49,7 +49,7 @@ namespace Data.Library.Repositories
             LogLib.Models.Title quizTitle = new LogLib.Models.Title();
 
             //get needed title object
-            if (Id != -1 && title != null)
+            if (Id != -1 && !string.IsNullOrEmpty(title))
             {
                 quizTitle = GetQuizByNameOrId(Id, title).FirstOrDefault();
             }
@@ -57,9 +57,9 @@ namespace Data.Library.Repositories
             {
                 quizTitle = GetQuizByNameOrId(Id).FirstOrDefault();
             }
-            else if (title != null)
+            else if (!string.IsNullOrEmpty(title))
             {
-                quizTitle = GetQuizByNameOrId(-1,title).FirstOrDefault();
+                quizTitle = GetQuizByNameOrId(title:title).FirstOrDefault();
             }
             else
             {
@@ -97,6 +97,8 @@ namespace Data.Library.Repositories
             }
             return quiz;
         }
+
+        public 
 
 
 
