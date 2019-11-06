@@ -67,4 +67,4 @@ steps:
     azureSubscription: 'Free Trial(6f6e7a2e-8f7d-4539-b3c4-ad46caaf8864)'
     appType: 'webApp'
     WebAppName: 'cgm-project2-rest-api'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/**/*.zip'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
