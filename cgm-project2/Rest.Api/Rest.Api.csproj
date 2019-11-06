@@ -24,8 +24,4 @@
     <ProjectReference Include="..\Logic.Library\Logic.Library.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="models\" />
-  </ItemGroup>
-
 </Project>

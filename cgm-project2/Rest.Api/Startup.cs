@@ -34,6 +34,9 @@ namespace Rest.Api
             //Use the following line as a template for all Repo Constructors to be injected into controllers.
             services.AddScoped<LogLib.Interfaces.IUserRepository, DatLib.Repositories.UserRepository>();
             services.AddScoped<LogLib.Interfaces.IResultRepository, DatLib.Repositories.ResultRepository>();
+            services.AddScoped<LogLib.Interfaces.ICreateQuizRepository, DatLib.Repositories.CreateQuizRepository>();
+            services.AddScoped<LogLib.Interfaces.IGetDataRepository, DatLib.Repositories.GetDataRepository>();
+            services.AddScoped<LogLib.Interfaces.ITakeAQuizRepository, DatLib.Repositories.TakeAQuizRepository>();
 
             services.AddControllers();
         }
