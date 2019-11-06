@@ -1,0 +1,12 @@
+DELETE FROM "Answer";
+DELETE FROM "Question" ;
+DELETE FROM "Category";
+DELETE FROM "Title";
+DELETE FROM "Result";
+DELETE FROM "User";
+ALTER SEQUENCE "Answer_AnswerId_seq" RESTART WITH 1;
+ALTER SEQUENCE "Category_CategoryId_seq" RESTART WITH 1;
+ALTER SEQUENCE "Question_QuestionId_seq" RESTART WITH 1;
+ALTER SEQUENCE "Result_ResultId_seq" RESTART WITH 1;
+ALTER SEQUENCE "Title_TitleId_seq" RESTART WITH 1;
+ALTER SEQUENCE "User_UserId_seq" RESTART WITH 1;
