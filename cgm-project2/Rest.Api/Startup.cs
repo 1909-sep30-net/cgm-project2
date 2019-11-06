@@ -36,6 +36,7 @@ namespace Rest.Api
             services.AddScoped<LogLib.Interfaces.IResultRepository, DatLib.Repositories.ResultRepository>();
             services.AddScoped<LogLib.Interfaces.ICreateQuizRepository, DatLib.Repositories.CreateQuizRepository>();
             services.AddScoped<LogLib.Interfaces.IGetDataRepository, DatLib.Repositories.GetDataRepository>();
+            services.AddScoped<LogLib.Interfaces.ITakeAQuizRepository, DatLib.Repositories.TakeAQuizRepository>();
 
             services.AddControllers();
         }
