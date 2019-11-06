@@ -13,27 +13,41 @@ using DatLib = Data.Library;
 
 namespace Rest.Api.Controllers
 {
+    /// <summary>
+    /// A controller with Functionality for Creating a Quiz with HTTP Req/Res 
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class CreateQuizController : ControllerBase
     {
+        /// <summary>
+        /// Repository with main Create Quiz methods
+        /// </summary>
         ICreateQuizRepository repo;
+
+        /// <summary>
+        /// Repository with helper methods
+        /// </summary>
         IGetDataRepository getRepo;
 
 
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="context">database connection</param>
+        /// <param name="getContext">database connection</param>
         public CreateQuizController(ICreateQuizRepository context, IGetDataRepository getContext)
         {
             this.repo = context ?? throw new ArgumentNullException(nameof(repo));
             this.getRepo = getContext ?? throw new ArgumentNullException(nameof(repo));
         }
 
-
+        //TODO:Implement functionality or remove method
         // GET: api/CreateQuiz
         [HttpGet]
-        public List<Title> Get()
+        public ActionResult Get()
         {
-            return repo.GetTitle().ToList();
+            return StatusCode(StatusCodes.Status100Continue);
         }
 
         // POST: api/CreateQuiz/Title

@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Rest.Api.Models
 {
+    /// <summary>
+    /// Compare to Domains.Library.Models.Question
+    /// </summary>
     public class QuestionModel
     {
         public int TitleId { get; set; }
