@@ -9,15 +9,10 @@ namespace Logic.Library.Models
         public Title title;
         public List<Question> questions;
         public List<Category> category;
+        public int score {get;set;}
 
-        public Quiz()
-        {
+        public Quiz()  {  }
 
-        }
-
-        public Quiz(Title t)
-        {
-            this.title = t;
-        }
+        public Quiz(Title t) {  this.title = t;  }
     }
 }
