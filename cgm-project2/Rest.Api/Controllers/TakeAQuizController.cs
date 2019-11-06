@@ -24,9 +24,9 @@ namespace Rest.Api.Controllers
 
         // GET: api/TakeAQuiz
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Title> Get()
         {
-            return new string[] { "value1", "value2" };
+            return repo.GetQuizByNameOrId();
         }
 
         // GET: api/TakeAQuiz/5

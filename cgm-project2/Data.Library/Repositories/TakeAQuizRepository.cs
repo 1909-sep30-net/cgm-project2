@@ -98,10 +98,6 @@ namespace Data.Library.Repositories
             return quiz;
         }
 
-        public 
-
-
-
         /// <summary>
         /// This saves the state of the DB
         /// </summary>
