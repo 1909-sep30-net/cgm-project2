@@ -7,9 +7,13 @@ namespace Logic.Library.Interfaces
 {
     public interface IGetDataRepository
     {
-        public bool IfUserExists(int userId);
+        public bool UserExists(int userId);
 
-        public bool IfTitleExists(int userId);
+        public bool TitleExists(int userId);
+
+        public bool CategoryExists(int categoryId);
+
+        public bool QuestionExists(int questionId);
 
         public int GetLastTitleId(int creatorId);
 

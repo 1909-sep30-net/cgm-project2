@@ -14,16 +14,25 @@ namespace Data.Library.Repositories
         public GetDataRepository(Entities.ecgbhozpContext dbContext) =>
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 
-        public bool IfUserExists(int userId)
+        public bool UserExists(int userId)
         {
             return _dbContext.User.Find(userId) != null;
         }
 
-        public bool IfTitleExists(int userId)
+        public bool TitleExists(int userId)
         {
             return _dbContext.Title.Find(userId) != null;
         }
 
+        public bool CategoryExists(int categoryId)
+        {
+            return _dbContext.Category.Find(categoryId) != null;
+        }
+
+        public bool QuestionExists(int questionId)
+        {
+            return _dbContext.Question.Find(questionId) != null;
+        }
 
         public int GetLastTitleId(int creatorId)
         {

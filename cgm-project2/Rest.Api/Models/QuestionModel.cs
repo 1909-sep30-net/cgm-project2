@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Rest.Api.Models
 {
-    public class TitleModel
+    public class QuestionModel
     {
-        public string TitleString { get; set; }
-        public int CreatorId { get; set; }
+        public int TitleId { get; set; }
+        public string QuestionString { get; set; }
     }
 }

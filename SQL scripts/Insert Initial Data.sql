@@ -15,3 +15,7 @@ INSERT INTO "Title"("TitleString", "CreatorId") VALUES
 
 SELECT * FROM "User";	
 SELECT * FROM "Title";
+SELECT * FROM "Category";
+SELECT * FROM "Question";
+SELECT * FROM "Answer";
+SELECT * FROM "Result";

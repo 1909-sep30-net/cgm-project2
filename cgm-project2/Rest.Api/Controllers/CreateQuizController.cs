@@ -21,7 +21,7 @@ namespace Rest.Api.Controllers
         IGetDataRepository getRepo;
 
 
-        
+
         public CreateQuizController(ICreateQuizRepository context, IGetDataRepository getContext)
         {
             this.repo = context ?? throw new ArgumentNullException(nameof(repo));
@@ -38,9 +38,9 @@ namespace Rest.Api.Controllers
 
         // POST: api/CreateQuiz/Title
         [HttpPost("Title")]
-        public ActionResult PostTitle([FromBody, Bind("titleString, creatorId")] models.TitleModel title)
+        public ActionResult PostTitle([FromBody, Bind("titleString, creatorId")] Models.TitleModel title)
         {
-            if(getRepo.IfUserExists(title.CreatorId))
+            if (! getRepo.UserExists(title.CreatorId))
                 return StatusCode(StatusCodes.Status406NotAcceptable);
             repo.CreateTitle(new Title { TitleString = title.TitleString, CreatorId = title.CreatorId });
             repo.Save();
@@ -49,9 +49,9 @@ namespace Rest.Api.Controllers
 
         // POST: api/CreateQuiz/Category
         [HttpPost("Category")]
-        public ActionResult PostCategory([FromBody, Bind("categoryString, categoryDescription, titleId")] models.CategoryModel category)
+        public ActionResult PostCategory([FromBody, Bind("categoryString, categoryDescription, titleId")] Models.CategoryModel category)
         {
-            if (getRepo.IfTitleExists(category.TitleId))
+            if (! getRepo.TitleExists(category.TitleId))
                 return StatusCode(StatusCodes.Status406NotAcceptable);
 
             repo.CreateCategory(new Category
@@ -65,13 +65,13 @@ namespace Rest.Api.Controllers
             return StatusCode(StatusCodes.Status202Accepted);
         }
 
-        // POST: api/CreateQuiz/Category/Ranks
+        // Put: api/CreateQuiz/Category/Ranks
         [HttpPut("Category/Ranks")]
-        public ActionResult PutCategoryRanks([FromBody, Bind("categoryId, rank")] models.CategoryModel[] categories)
+        public ActionResult PutCategoryRanks([FromBody, Bind("categoryId, rank")] Models.CategoryModel[] categories)
         {
             int maxRank = categories.Length;
             var ranks = new HashSet<int> { };
-            for(int i = 0; i < maxRank; i++)
+            for (int i = 0; i < maxRank; i++)
             {
                 int rank = categories[i].Rank;
                 if (rank < 0 || rank > maxRank || ranks.Contains(rank))
@@ -79,12 +79,44 @@ namespace Rest.Api.Controllers
                 ranks.Add(rank);
             }
 
-            foreach(var category in categories)
+            foreach (var category in categories)
             {
                 repo.SetCategoryRank(category.CategoryId, category.Rank);
             }
             repo.Save();
             return StatusCode(StatusCodes.Status204NoContent);
+        }
+
+        // POST: api/CreateQuiz/Questions
+        [HttpPost("Question")]
+        public ActionResult PostQuestion([FromBody, Bind("titleId, questionString")] Models.QuestionModel question)
+        {
+            if (! getRepo.TitleExists(question.TitleId))
+                return StatusCode(StatusCodes.Status406NotAcceptable);
+            repo.CreateQuestion(new Question
+            {
+                TitleId = question.TitleId,
+                QuestionString = question.QuestionString
+            });
+            repo.Save();
+            return StatusCode(StatusCodes.Status202Accepted);
+        }
+
+        // POST: api/CreateQuiz/Answers
+        [HttpPost("Answer")]
+        public ActionResult PostAnswer([FromBody, Bind("questionId, categoryId, answerString, weight")] Models.AnswerModel answer)
+        {
+            if (! getRepo.QuestionExists(answer.QuestionId) || ! getRepo.CategoryExists(answer.CategoryId))
+                return StatusCode(StatusCodes.Status406NotAcceptable);
+            repo.CreateAnswer(new Answer
+            {
+                QuestionId = answer.QuestionId,
+                CategoryId = answer.CategoryId,
+                AnswerString = answer.AnswerString,
+                Weight = answer.Weight
+            }) ;
+            repo.Save();
+            return StatusCode(StatusCodes.Status202Accepted);
         }
     }
 }
