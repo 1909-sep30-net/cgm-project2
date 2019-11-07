@@ -70,8 +70,8 @@ namespace Data.Library.Repositories
             LogLib.Models.Quiz quiz = new LogLib.Models.Quiz(quizTitle);
 
             //get all questions with the TitleId 
-            IQueryable<Entities.Question> quizQuestions = _dbContext.Question
-                .Where(i => i.TitleId == quiz.title.TitleId).AsNoTracking();
+            List<Entities.Question> quizQuestions = _dbContext.Question
+                .Where(i => i.TitleId == quiz.title.TitleId).AsNoTracking().ToList();
 
             //load mapped question obj into Quiz.questions List<Question> in foreach loop
             foreach (var item in quizQuestions)

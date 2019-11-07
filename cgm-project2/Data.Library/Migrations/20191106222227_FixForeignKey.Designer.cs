@@ -2,15 +2,17 @@
 using Data.Library.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Data.Library.Migrations
 {
     [DbContext(typeof(ecgbhozpContext))]
-    partial class ecgbhozpContextModelSnapshot : ModelSnapshot
+    [Migration("20191106222227_FixForeignKey")]
+    partial class FixForeignKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,8 +122,6 @@ namespace Data.Library.Migrations
 
                     b.HasIndex("TakerId");
 
-                    b.HasIndex("TitleId");
-
                     b.ToTable("Result");
                 });
 
@@ -227,15 +227,15 @@ namespace Data.Library.Migrations
 
             modelBuilder.Entity("Data.Library.Entities.Result", b =>
                 {
-                    b.HasOne("Data.Library.Entities.User", "User")
+                    b.HasOne("Data.Library.Entities.Title", "Title")
                         .WithMany("Results")
                         .HasForeignKey("TakerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Library.Entities.Title", "Title")
+                    b.HasOne("Data.Library.Entities.User", "User")
                         .WithMany("Results")
-                        .HasForeignKey("TitleId")
+                        .HasForeignKey("TakerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
