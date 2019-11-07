@@ -38,6 +38,19 @@ namespace Rest.Api
             services.AddScoped<LogLib.Interfaces.IGetDataRepository, DatLib.Repositories.GetDataRepository>();
             services.AddScoped<LogLib.Interfaces.ITakeAQuizRepository, DatLib.Repositories.TakeAQuizRepository>();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAngular",
+                builder =>
+                {
+                    builder.WithOrigins("https://cgm-project2-rest-api.azurewebsites.net/")
+                        .AllowAnyMethod() // not just GET and POST, but allow all methods
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                });
+            });
+
+
             services.AddControllers();
         }
 
@@ -54,6 +67,8 @@ namespace Rest.Api
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors("AllowAngular");
 
             app.UseEndpoints(endpoints =>
             {

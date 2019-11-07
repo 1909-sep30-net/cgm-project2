@@ -24,6 +24,16 @@ INSERT INTO "Question"("QuestionString", "TitleId") VALUES
 	('Do you experience extreme deflation of ego?', 2),
 	('Do you suffer from tangents of anger?', 2);
 
+INSERT INTO "Answer"("AnswerString","Weight","QuestionId","CategoryId") VALUES
+	('Yes', 1, 3, 1),
+	('No', 1, 3, 2),
+	('Yes', 1, 3, 3),
+	('No', 1, 3, 2),
+	('Yes', 1, 3, 4),
+	('Yes', 1, 4, 4),
+	('Yes', 1, 5, 4),
+	('Yes', 1, 6, 4);
+
 INSERT INTO "Result"("Score","TakerId","TitleId") VALUES
 	(1,1,1),
 	(2,2,2),
