@@ -116,5 +116,23 @@ namespace XUnit.Test.ControllerTests
             var statusCode = Assert.IsType<StatusCodeResult>(controller.PutCategoryRanks(categories));
             Assert.Equal(406, statusCode.StatusCode);
         }
+
+        [Fact]
+        public void GetReturnsStatusCode101()
+        {
+            //arrange
+            var mockRepo = new Mock<LogLib.Interfaces.ICreateQuizRepository>();
+            var mockRepo2 = new Mock<LogLib.Interfaces.IGetDataRepository>();
+            var controller = new CreateQuizController(mockRepo.Object, mockRepo2.Object);
+
+
+            //act
+
+
+
+            //assert
+            var statusCode = Assert.IsType<StatusCodeResult>(controller.Get());
+            Assert.Equal(100, statusCode.StatusCode);
+        }
     }
 }
