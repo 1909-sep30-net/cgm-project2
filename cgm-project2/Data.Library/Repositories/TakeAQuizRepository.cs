@@ -100,7 +100,6 @@ namespace Data.Library.Repositories
             {
                 quiz.category.Add(Mapper.MapCategory(item));
             }
-
             return quiz;
         }
         
@@ -172,10 +171,14 @@ namespace Data.Library.Repositories
         /// <summary>
         /// This method takes the criteria for evaluating a quiz and returns the Category determined.
         /// </summary>
+        /// <param name="titleId"></param>
+        /// <param name="score"></param>
         /// <returns></returns>
         private LogLib.Models.Category GetResultCategory(int titleId, int score)
         {
 
+            //TODO
+            return null;
         }
 
         /// <summary>
