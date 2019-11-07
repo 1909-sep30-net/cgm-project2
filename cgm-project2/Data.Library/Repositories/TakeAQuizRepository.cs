@@ -68,26 +68,22 @@ namespace Data.Library.Repositories
 
             //create a quiz object to return to render. Use Title obj as constructor parameter.
             LogLib.Models.Quiz quiz = new LogLib.Models.Quiz(quizTitle);
-            
-            //place title obj into quiz obj.
-            quiz.title = quizTitle;
 
             //get all questions with the TitleId 
-            List<Entities.Question> quizQuestions = _dbContext.Question
-                .Where(i => i.TitleId == quiz.title.TitleId).AsNoTracking().ToList();
+            var quizQuestions = GetQuestionsFromTitleId(quiz.title.TitleId);
 
             //load mapped question obj into Quiz.questions List<Question> in foreach loop
             foreach (var item in quizQuestions)
             {
-                quiz.questions.Add(Mapper.MapQuestion(item));
+                var insert = Mapper.MapQuestion(item);
+                quiz.questions.Add(insert);
             }
 
             //get all answers to each question in foreach loop
             foreach (var item in quiz.questions)
             {
                 //get all answers for this quesiton
-                IQueryable<Entities.Answer> questionAnswers = _dbContext.Answer
-                    .Where(i => i.QuestionId == item.QuestionId).AsNoTracking();
+                var questionAnswers = GetAnswersFromQuestionId(item.QuestionId);
 
                 //use a loop to add qnswers to quiz.questions.answers( here, x .answers)
                 foreach (var x in questionAnswers)
@@ -95,7 +91,91 @@ namespace Data.Library.Repositories
                     item.answers.Add(Mapper.MapAnswer(x)); 
                 }
             }
+
+            //Use titleID to get the categories that go along with the Quiz TitleId.
+            var categories = GetCategoriesFromTitleId(quiz.title.TitleId);
+
+            //populate the Category array with the categories.
+            foreach (var item in categories)
+            {
+                quiz.category.Add(Mapper.MapCategory(item));
+            }
+
             return quiz;
+        }
+        
+        /// <summary>
+        /// This method gets all the categories for a Quiz based on the Quiz TitleId.
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public List<Entities.Category> GetCategoriesFromTitleId(int Id)
+        {
+            return _dbContext.Category.Where(i => i.TitleId == Id).AsNoTracking().ToList();
+        }
+
+        /// <summary>
+        /// This method gets all the Answers for a Question based on the QuestionId.
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public List<Entities.Answer> GetAnswersFromQuestionId(int Id)
+        {
+            return _dbContext.Answer.Where(i => i.QuestionId == Id).AsNoTracking().ToList();
+        }
+
+        /// <summary>
+        /// THis method gets all the Questions for a Quiz based on the TitleId
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public List<Entities.Question> GetQuestionsFromTitleId(int Id)
+        {
+            return _dbContext.Question.Where(i => i.TitleId == Id).AsNoTracking().ToList();
+        }
+
+        /// <summary>
+        /// This method takes an array with userId, TitleId,...questionAnswers...  from Angular model which tool the quiz rew results and populated an Angular Model.
+        ///  Then, returns a Result to be rendered.
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
+        public /*LogLib.Models.Category*/ void EvaluateQuiz(int[] formValues)
+        {
+            /***FYI***arr[0] = userId;***/
+            /***FYI***arr[1] = titleId;***/
+            
+            int totalScore = 0;//to hold the total waights of the choices.
+            foreach (var item in formValues)
+            {
+                totalScore += item;
+            }
+            totalScore -= formValues[0];
+            totalScore -= formValues[1];
+
+            //query db for categories based on TitleId
+
+
+
+
+
+            //This method will.....
+            //sum the total score.
+            //determine the category acheived by the user.(with GetResultCategory()
+            //construct the Results Object.
+            //insert the Result to DB
+            //
+            //
+            //
+        }
+
+        /// <summary>
+        /// This method takes the criteria for evaluating a quiz and returns the Category determined.
+        /// </summary>
+        /// <returns></returns>
+        private LogLib.Models.Category GetResultCategory(int titleId, int score)
+        {
+
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace Logic.Library.Models
 {
@@ -10,7 +11,7 @@ namespace Logic.Library.Models
         public int      TitleId         { get; set; }
         public string   QuestionString  { get; set; }
 
-        public List<Answer> answers;
+        public List<Answer> answers { get; set; }
 
         public Question()
         {
@@ -23,6 +24,7 @@ namespace Logic.Library.Models
             QuestionId = qid;
             TitleId = t;
             QuestionString = str;
+            answers = new List<Answer>() { };
         }
 
     }
