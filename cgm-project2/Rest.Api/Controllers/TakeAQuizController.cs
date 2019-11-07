@@ -51,7 +51,7 @@ namespace Rest.Api.Controllers
         [HttpPost]
         public void Post([FromBody] Quiz quiz)
         {
-
+            var newQuiz = quiz;
         }
 
         // PUT: api/TakeAQuiz/5

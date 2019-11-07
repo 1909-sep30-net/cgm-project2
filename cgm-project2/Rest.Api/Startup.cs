@@ -38,6 +38,9 @@ namespace Rest.Api
             services.AddScoped<LogLib.Interfaces.IGetDataRepository, DatLib.Repositories.GetDataRepository>();
             services.AddScoped<LogLib.Interfaces.ITakeAQuizRepository, DatLib.Repositories.TakeAQuizRepository>();
 
+            /*Add the CORS/ allow Angular here? Check Nicks fridge code. */
+
+
             services.AddControllers();
         }
 
