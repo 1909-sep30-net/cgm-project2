@@ -19,6 +19,6 @@ namespace Logic.Library.Interfaces
 
         public int GetNumberOfCategories(int titleId);
 
-        public bool CreatorExists(int creatorId);
+        
     }
 }

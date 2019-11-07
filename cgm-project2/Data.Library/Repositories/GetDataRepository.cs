@@ -92,9 +92,9 @@ namespace Data.Library.Repositories
             return _dbContext.Category.Where(c => c.TitleId == titleId).Count();
         }
 
-        public bool CreatorExists(int creatorId)
-        {
-            return _dbContext.User.Find(creatorId) != null;
-        }
+        //public bool CreatorExists(int creatorId)
+        //{
+        //    return _dbContext.User.Find(creatorId) != null;
+        //}
     }
 }
