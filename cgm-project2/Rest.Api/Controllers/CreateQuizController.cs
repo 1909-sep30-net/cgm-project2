@@ -54,7 +54,7 @@ namespace Rest.Api.Controllers
         [HttpPost("Title")]
         public ActionResult PostTitle([FromBody, Bind("titleString, creatorId")] Models.TitleModel title)
         {
-            if (! getRepo.UserExists(title.CreatorId))
+            if (!getRepo.UserExists(title.CreatorId))
                 return StatusCode(StatusCodes.Status406NotAcceptable);
             repo.CreateTitle(new Title { TitleString = title.TitleString, CreatorId = title.CreatorId });
             repo.Save();
