@@ -147,7 +147,7 @@ namespace XUnit.Test.ControllerTests
             
 
             var mockGetRepo = new Mock<LogLib.Interfaces.IGetDataRepository>();
-            mockGetRepo.Setup(r => r.CreatorExists(It.IsAny<int>())).Returns(true);
+            mockGetRepo.Setup(r => r.UserExists(It.IsAny<int>())).Returns(true);
             mockGetRepo.Setup(r => r.TitleExists(It.IsAny<int>())).Returns(true);
  
             var controller = new CreateQuizController(mockRepo.Object, mockGetRepo.Object);
