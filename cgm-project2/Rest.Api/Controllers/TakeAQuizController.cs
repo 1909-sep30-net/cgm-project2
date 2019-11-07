@@ -19,27 +19,39 @@ namespace Rest.Api.Controllers
         {
             this.repo = context ?? throw new ArgumentNullException(nameof(repo));
         }
+        /*********************************************************************/
 
 
-
-        // GET: api/TakeAQuiz
+        // GET: api/TakeAQuiz => this gets all the quiz titles
         [HttpGet]
         public IEnumerable<Title> Get()
         {
             return repo.GetQuizByNameOrId();
         }
 
-        // GET: api/TakeAQuiz/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        // GET: api/TakeAQuiz/5 => this uses the quiz Id to get a chosen quiz to take
+        [HttpGet("{id}", Name = "GetTakeAQuiz")]
+        public Quiz Get(int id)
         {
-            return "value";
+            //query DB for the quiz by it's Id.
+            Quiz quiz = repo.GetQuiz(id);
+
+            return quiz;
         }
+
+        //// GET: api/TakeAQuiz/my quiz => this uses the quiz title to get a chosen quiz to take
+        //[HttpGet("{title}", Name = "GetTakeAQuiz1")]
+        //public Quiz Get(string title)
+        //{
+        //    //query DB for the quiz by it's Id.
+        //    return repo.GetQuiz(title:title);
+        //}
 
         // POST: api/TakeAQuiz
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Quiz quiz)
         {
+
         }
 
         // PUT: api/TakeAQuiz/5

@@ -68,9 +68,6 @@ namespace Data.Library.Repositories
 
             //create a quiz object to return to render. Use Title obj as constructor parameter.
             LogLib.Models.Quiz quiz = new LogLib.Models.Quiz(quizTitle);
-            
-            //place title obj into quiz obj.
-            quiz.title = quizTitle;
 
             //get all questions with the TitleId 
             IQueryable<Entities.Question> quizQuestions = _dbContext.Question
@@ -79,7 +76,8 @@ namespace Data.Library.Repositories
             //load mapped question obj into Quiz.questions List<Question> in foreach loop
             foreach (var item in quizQuestions)
             {
-                quiz.questions.Add(Mapper.MapQuestion(item));
+                var insert = Mapper.MapQuestion(item);
+                quiz.questions.Add(insert);
             }
 
             //get all answers to each question in foreach loop
@@ -95,7 +93,37 @@ namespace Data.Library.Repositories
                     item.answers.Add(Mapper.MapAnswer(x)); 
                 }
             }
+
+
+
+            //TODO : get the categories!!!
+
+
+
+
             return quiz;
+        }
+
+        /// <summary>
+        /// This method takes the form results from user taking the quiz and returns the Category determined
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
+        public /*LogLib.Models.Category*/ void EvaluateQuiz(LogLib.Models.Quiz quiz)
+        {
+            //compare score with categories to determine result... 
+
+
+            //
+        }
+
+        /// <summary>
+        /// This method takes the criteria for evaluating a quiz and returns the Category determined.
+        /// </summary>
+        /// <returns></returns>
+        private /*LogLib.Models.Category*/ void GetResultCategory()
+        {
+
         }
 
         /// <summary>

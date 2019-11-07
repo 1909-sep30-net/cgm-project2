@@ -12,11 +12,9 @@ namespace Logic.Library.Models
         public string   CategoryString      { get; set; }
         public string   CategoryDescription { get; set; }
     
-        public Category()
-        {
 
-        }
 
+        public Category() {   }
 
         //this is for converting from the DB entity to class.
         public Category(int cid, int t, int r, string cs, string cd)

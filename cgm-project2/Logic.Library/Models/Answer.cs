@@ -12,11 +12,9 @@ namespace Logic.Library.Models
         public int      CategoryId  { get; set; }
         public int      QuestionId  { get; set; }
 
-        public Answer()
-        {
 
-        }
-
+        //constructors
+        public Answer()  {  }
         public Answer(int a, string ans, int w, int c, int q)
         {
             AnswerId = a;
