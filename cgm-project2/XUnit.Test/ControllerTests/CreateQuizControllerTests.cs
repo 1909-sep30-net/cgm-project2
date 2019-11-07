@@ -118,7 +118,7 @@ namespace XUnit.Test.ControllerTests
         }
 
         [Fact]
-        public void GetReturnsStatusCode101()
+        public void GetReturnsStatusCode100()
         {
             //arrange
             var mockRepo = new Mock<LogLib.Interfaces.ICreateQuizRepository>();
@@ -128,11 +128,38 @@ namespace XUnit.Test.ControllerTests
 
             //act
 
-
+            var statusCode = Assert.IsType<StatusCodeResult>(controller.Get());
 
             //assert
-            var statusCode = Assert.IsType<StatusCodeResult>(controller.Get());
+
             Assert.Equal(100, statusCode.StatusCode);
         }
+
+        [Fact]
+
+        public void PostTitleReturns202()
+        {
+            //arrange
+
+            var mockRepo = new Mock<LogLib.Interfaces.ICreateQuizRepository>();
+            var mockRepo2 = new Mock<LogLib.Interfaces.IGetDataRepository>();
+
+            mockRepo.Setup(r => r.CreateTitle(new LogLibMod.Title
+            {
+                TitleId = 1,
+                TitleString = "Colton's Title",
+                CreatorId = 1
+            }));
+
+            var controller = new CreateQuizController(mockRepo.Object, mockRepo2.Object);
+
+            //act
+
+            //assert
+
+            var statusCode = Assert.IsType<StatusCodeResult>(controller.PostTitle(new Rest.Api.Models.TitleModel() { }));
+            Assert.Equal(202, statusCode.StatusCode);
+        }
     }
+
 }
