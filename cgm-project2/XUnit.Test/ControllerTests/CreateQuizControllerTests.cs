@@ -141,23 +141,24 @@ namespace XUnit.Test.ControllerTests
         {
             //arrange
 
+
             var mockRepo = new Mock<LogLib.Interfaces.ICreateQuizRepository>();
-            var mockRepo2 = new Mock<LogLib.Interfaces.IGetDataRepository>();
+            mockRepo.Setup(r => r.CreateTitle(It.IsAny<LogLibMod.Title>()));
+            
 
-            mockRepo.Setup(r => r.CreateTitle(new LogLibMod.Title
-            {
-                TitleId = 1,
-                TitleString = "Colton's Title",
-                CreatorId = 1
-            }));
-
-            var controller = new CreateQuizController(mockRepo.Object, mockRepo2.Object);
+            var mockGetRepo = new Mock<LogLib.Interfaces.IGetDataRepository>();
+            mockGetRepo.Setup(r => r.CreatorExists(It.IsAny<int>())).Returns(true);
+            mockGetRepo.Setup(r => r.TitleExists(It.IsAny<int>())).Returns(true);
+ 
+            var controller = new CreateQuizController(mockRepo.Object, mockGetRepo.Object);
 
             //act
 
+            var statusCode = Assert.IsType<StatusCodeResult>(controller.PostTitle(new Rest.Api.Models.TitleModel() { }));
+
             //assert
 
-            var statusCode = Assert.IsType<StatusCodeResult>(controller.PostTitle(new Rest.Api.Models.TitleModel() { }));
+
             Assert.Equal(202, statusCode.StatusCode);
         }
     }
