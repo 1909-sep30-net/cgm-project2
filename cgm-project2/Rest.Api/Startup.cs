@@ -43,8 +43,8 @@ namespace Rest.Api
                 options.AddPolicy("AllowAngular",
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:4200/",
-                        "https://cgm-project2-rest-api.azurewebsites.net/")
+                    builder.WithOrigins("http://localhost:4200",
+                        "https://cgm-project2-rest-api.azurewebsites.net")
                         .AllowAnyMethod() // not just GET and POST, but allow all methods
                         .AllowAnyHeader()
                         .AllowCredentials();
