@@ -31,15 +31,17 @@ namespace Rest.Api.Controllers
 
         // GET: api/TakeAQuiz/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public Quiz Get(int id)
         {
-            return "value";
+            return repo.GetQuiz(id);
         }
+
 
         // POST: api/TakeAQuiz
         [HttpPost]
         public void Post([FromBody] string value)
         {
+
         }
 
         // PUT: api/TakeAQuiz/5

@@ -110,7 +110,7 @@ namespace Data.Library.Entities
 
                 entity.HasOne(r => r.Title)
                     .WithMany(t => t.Results)
-                    .HasForeignKey(r => r.TakerId)
+                    .HasForeignKey(r => r.TitleId)
                     .IsRequired()
                     .OnDelete(DeleteBehavior.Cascade);
             });
