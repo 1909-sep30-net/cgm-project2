@@ -69,13 +69,12 @@ namespace Rest.Api.Controllers
         /// <param name="id"></param>
         /// <param name="value"></param>
         // PUT: api/User/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] User value)
+        [HttpPost("{id}")]
+        public ActionResult Post([FromBody] User value)
         {
             var user = new User {
-                UserId = id,
-                FirstName = "Jimmy",
-                LastName = "Fred",
+                FirstName = value.FirstName,
+                LastName = value.LastName,
                 Street = value.Street,
                 City = value.City,
                 State = value.State,
@@ -86,6 +85,7 @@ namespace Rest.Api.Controllers
             repo.RegisterNewUser(user);
             repo.Save();
             //return user;
+            return StatusCode(StatusCodes.Status202Accepted);
         }
 
         /// <summary>
