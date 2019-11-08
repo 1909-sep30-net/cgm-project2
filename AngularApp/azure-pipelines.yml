@@ -65,5 +65,5 @@ steps:
     azureSubscription: 'Azure subscription 1 ( 2e66b483-5399-4849-af0d-65ba12e5f517 )'
     appType: 'webApp'
     WebAppName: 'quizmethis'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    packageForLinux: '$(appDir)/dist/*'
     
