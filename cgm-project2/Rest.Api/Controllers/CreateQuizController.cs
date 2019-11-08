@@ -110,7 +110,7 @@ namespace Rest.Api.Controllers
             return StatusCode(StatusCodes.Status204NoContent);
         }
 
-        // POST: api/CreateQuiz/Questions
+        // POST: api/CreateQuiz/Question
         [HttpPost("Question")]
         public ActionResult PostQuestion([FromBody, Bind("titleId, questionString")] Models.QuestionModel question)
         {
@@ -125,7 +125,7 @@ namespace Rest.Api.Controllers
             return StatusCode(StatusCodes.Status202Accepted);
         }
 
-        // POST: api/CreateQuiz/Answers
+        // POST: api/CreateQuiz/Answer
         [HttpPost("Answer")]
         public ActionResult PostAnswer([FromBody, Bind("questionId, categoryId, answerString, weight")] Models.AnswerModel answer)
         {

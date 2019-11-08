@@ -13,6 +13,7 @@ import { catchError, map, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class CreateQuizService {
+  
 
   postTitle(titleModel: TitleModel): Observable<HttpResponse<TitleModel>> {
 
@@ -31,15 +32,25 @@ export class CreateQuizService {
     return `{"titleString":"${titleModel.titleString}","creatorId":${titleModel.creatorId}}`;
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
+  getTitleId(titleModel: TitleModel) : Promise<number> {
 
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instea;
+    let url = `${environment.restApiBaseUrl}/api/CreateQuiz/LastTitleBy/`;
+    return this.httpClient.get<number>(url+`${titleModel.creatorId}`).toPromise();
 
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
+  }
+
+  postQuestion(questionModel: QuestionModel): Observable<HttpResponse<QuestionModel>> {
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+
+    let url = `${environment.restApiBaseUrl}/api/CreateQuiz/Question`;
+
+    return this.httpClient.post<QuestionModel>(url, JSON.parse(this.generatePostQuestionJson(questionModel)), { headers: headers, observe: 'response'})
+  }
+
+  private generatePostQuestionJson(questionModel: QuestionModel): string {
+    console.log(`{"titleId": ${questionModel.titleId},"questionstring": "${questionModel.questionString}"}`);
+    return `{"titleId": ${questionModel.titleId},"questionstring": "${questionModel.questionString}"}`;
   }
 
   constructor(private httpClient: HttpClient) { }

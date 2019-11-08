@@ -1,20 +1,38 @@
-<p>create-quiz works!</p>
-
-<form [formGroup]="quiz" (ngSubmit)="onTitleSubmit()">
+<h1>Add a title:</h1>
+<form [formGroup]="titleForm" (ngSubmit)="onTitleSubmit()">
     <label>
         Title:
-        <input type="text" formControlName="titleString">
+        <input type="text" formControlName="titleString" required>
     </label>
 
     <label>
         Creator ID:
-        <input type="text" formControlName="creatorId">
-    </label>
+        <input type="number" formControlName="creatorId" required>
+    </label> 
+    
+<!--
+    <div formArrayName="questions">
+        <h2>Questions</h2>
+        
+        <button (click)="addQuestion()">Add Question</button>
 
-    <button type="submit">Submit</button>
+        <div *ngFor="let question of questions.controls; let i = index">
+            <label>
+                Question {{i +1}}: 
+                <input type="text" [formControlName]="i">
+            </label>
+
+        </div>
+        
+    </div>
+-->
+    <div>
+        <button type="submit" [disabled]="!titleForm.valid">Submit Quiz</button>
+    </div>
+
 </form>
 
-<div *ngIf="submitted">
-    Yay 
+<div *ngIf="titleSubmitted">
+    Title successfully submitted.
 </div>
 
