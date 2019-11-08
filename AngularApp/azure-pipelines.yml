@@ -1,0 +1,56 @@
+  
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - AngularApp
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  appDir: AngularApp
+
+steps:
+- checkout: self
+  clean: true
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '12.x'
+  displayName: 'Install Node.js'
+
+- script: npm ci
+  displayName: npm install
+  workingDirectory: $(appDir)
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'cgm-project2(1)'
+    organization: '1909-sep30-net'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'cgm-project-Angular'
+    cliSources: '$(appDir)/src'
+    extraProperties: |
+      sonar.coverage.exclusions=**/*.spec.ts
+      sonar.typescript.lcov.reportPaths=$(appDir)/coverage/$(appDir)/lcov.info
+- script: npx ng build --prod
+  displayName: ng build
+  workingDirectory: $(appDir)
+
+- script: npx ng test --browsers ChromeHeadless --no-watch --code-coverage
+  displayName: ng test
+  workingDirectory: $(appDir)
+
+- script: npm run lint
+  displayName: ng lint
+  workingDirectory: $(appDir)
+
+- task: SonarCloudAnalyze@1
+  displayName: Run SonarCloud analysis
+
+- task: SonarCloudPublish@1
+  displayName: Publish SonarCloud quality gate result
