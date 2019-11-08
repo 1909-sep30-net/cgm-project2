@@ -43,12 +43,21 @@ namespace Rest.Api.Controllers
         }
 
         //TODO:Implement functionality or remove method
+        // GET: api/CreateQuiz
+        [HttpGet]
+        public ActionResult Get()
+        {
+            return StatusCode(StatusCodes.Status100Continue);
+        }
+
+        //TODO:Implement functionality or remove method
         // GET: api/CreateQuiz/LastTitleBy/{id}
         [HttpGet("LastTitleBy/{id}")]
         public int GetNewTitleId(int id)
         {
             return getRepo.GetLastTitleId(id);
         }
+
 
         // POST: api/CreateQuiz/Title
         [HttpPost("Title")]
