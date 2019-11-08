@@ -55,11 +55,10 @@ export class CreateQuizComponent implements OnInit {
   }
 
   questionSubmit(questions: FormArray, titleId: number) : void{
-    for(let question in questions.value)
+    let questionValues = questions.value;
+    for(let questionIndex in questionValues)
     {
-      let questionModel: QuestionModel = { questionString: question, titleId: titleId};
-      console.log(question);
-      console.log(titleId);
+      let questionModel: QuestionModel = { questionString: questionValues[questionIndex], titleId: titleId};
       this.createQuizService.postQuestion(questionModel).subscribe(
         response => { console.log(response) });
     }
