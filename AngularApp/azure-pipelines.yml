@@ -48,17 +48,22 @@ steps:
 - script: npm run lint
   displayName: ng lint
   workingDirectory: $(appDir)
+  condition: always()
 
 - task: SonarCloudAnalyze@1
   displayName: Run SonarCloud analysis
+  condition: always()
 
 - task: SonarCloudPublish@1
   displayName: Publish SonarCloud quality gate result
+  condition: always()
 
 - task: AzureRmWebAppDeployment@4
+  condition: always()
   inputs:
     ConnectionType: 'AzureRM'
     azureSubscription: 'Azure subscription 1 ( 2e66b483-5399-4849-af0d-65ba12e5f517 )'
     appType: 'webApp'
     WebAppName: 'quizmethis'
     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    
