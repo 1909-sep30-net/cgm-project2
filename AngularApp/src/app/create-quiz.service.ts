@@ -15,7 +15,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 export class CreateQuizService {
   
 
-  postTitle(titleModel: TitleModel): Observable<HttpResponse<TitleModel>> {
+  postTitle(titleModel: TitleModel): Promise<HttpResponse<TitleModel>> {
 
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
@@ -23,14 +23,12 @@ export class CreateQuizService {
 
     let url = `${environment.restApiBaseUrl}/api/CreateQuiz/Title`;
 
-    return this.httpClient.post<TitleModel>(url, JSON.parse(this.generatePostTitleJson(titleModel)), { headers: headers, observe: 'response'})
-
-
+    return this.httpClient.post<TitleModel>(url, titleModel, { headers: headers, observe: 'response'}).toPromise();
   };
 
-  private generatePostTitleJson(titleModel: TitleModel): string {
-    return `{"titleString":"${titleModel.titleString}","creatorId":${titleModel.creatorId}}`;
-  }
+  // private generatePostTitleJson(titleModel: TitleModel): string {
+  //   return `{"titleString":"${titleModel.titleString}","creatorId":${titleModel.creatorId}}`;
+  // }
 
   getTitleId(titleModel: TitleModel) : Promise<number> {
 
@@ -45,13 +43,13 @@ export class CreateQuizService {
 
     let url = `${environment.restApiBaseUrl}/api/CreateQuiz/Question`;
 
-    return this.httpClient.post<QuestionModel>(url, JSON.parse(this.generatePostQuestionJson(questionModel)), { headers: headers, observe: 'response'})
+    return this.httpClient.post<QuestionModel>(url, questionModel, { headers: headers, observe: 'response'});
   }
 
-  private generatePostQuestionJson(questionModel: QuestionModel): string {
-    console.log(`{"titleId": ${questionModel.titleId},"questionstring": "${questionModel.questionString}"}`);
-    return `{"titleId": ${questionModel.titleId},"questionstring": "${questionModel.questionString}"}`;
-  }
+  // private generatePostQuestionJson(questionModel: QuestionModel): string {
+  //   console.log(`{"titleId": ${questionModel.titleId},"questionstring": "${questionModel.questionString}"}`);
+  //   return `{"titleId": ${questionModel.titleId},"questionstring": "${questionModel.questionString}"}`;
+  // }
 
   constructor(private httpClient: HttpClient) { }
 }

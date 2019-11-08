@@ -10,11 +10,9 @@
         <input type="number" formControlName="creatorId" required>
     </label> 
     
-<!--
     <div formArrayName="questions">
         <h2>Questions</h2>
         
-        <button (click)="addQuestion()">Add Question</button>
 
         <div *ngFor="let question of questions.controls; let i = index">
             <label>
@@ -25,12 +23,15 @@
         </div>
         
     </div>
--->
     <div>
         <button type="submit" [disabled]="!titleForm.valid">Submit Quiz</button>
     </div>
 
 </form>
+
+
+<button (click)="addQuestion()">Add Question</button>
+
 
 <div *ngIf="titleSubmitted">
     Title successfully submitted.

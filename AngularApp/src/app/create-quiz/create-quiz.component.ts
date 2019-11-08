@@ -42,23 +42,27 @@ export class CreateQuizComponent implements OnInit {
     let titleString = this.titleForm.get('titleString').value as string;
     let creatorId = this.titleForm.get('creatorId').value as number;
     let titleModel: TitleModel = { titleString: titleString, creatorId: creatorId };
-    this.createQuizService.postTitle(titleModel).subscribe(
-      response => { console.log(response) });
+    this.createQuizService.postTitle(titleModel)
+      .then(() => this.getTitleId(titleModel))
+      .then(titleId => this.questionSubmit(this.questions, titleId))
+      .then(() => {this.titleSubmitted = true;});
 
-/**
-    let titleId : number;
-    this.createQuizService.getTitleId(titleModel).then(id => titleId = id);
-    let questions = this.questions;
-    for(let question in questions)
+    
+  }
+
+  getTitleId(titleModel: TitleModel) : Promise<number>{
+    return this.createQuizService.getTitleId(titleModel);
+  }
+
+  questionSubmit(questions: FormArray, titleId: number) : void{
+    for(let question in questions.value)
     {
-      let questionModel: QuestionModel = { questionString: question.valueOf(), titleId: titleId};
-      console.log(question.valueOf());
+      let questionModel: QuestionModel = { questionString: question, titleId: titleId};
+      console.log(question);
       console.log(titleId);
       this.createQuizService.postQuestion(questionModel).subscribe(
         response => { console.log(response) });
     }
-**/
-    this.titleSubmitted = true;
   }
 
 
