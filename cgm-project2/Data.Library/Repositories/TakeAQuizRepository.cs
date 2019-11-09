@@ -108,7 +108,7 @@ namespace Data.Library.Repositories
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public List<Entities.Category> GetCategoriesFromTitleId(int Id)
+        private List<Entities.Category> GetCategoriesFromTitleId(int Id)
         {
             return _dbContext.Category.Where(i => i.TitleId == Id).AsNoTracking().ToList();
         }
@@ -118,7 +118,7 @@ namespace Data.Library.Repositories
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public List<Entities.Answer> GetAnswersFromQuestionId(int Id)
+        private List<Entities.Answer> GetAnswersFromQuestionId(int Id)
         {
             return _dbContext.Answer.Where(i => i.QuestionId == Id).AsNoTracking().ToList();
         }
@@ -128,44 +128,35 @@ namespace Data.Library.Repositories
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public List<Entities.Question> GetQuestionsFromTitleId(int Id)
+        private List<Entities.Question> GetQuestionsFromTitleId(int Id)
         {
             return _dbContext.Question.Where(i => i.TitleId == Id).AsNoTracking().ToList();
         }
 
         /// <summary>
-        /// This method takes an array with userId, TitleId,...questionAnswers...  from Angular model which tool the quiz rew results and populated an Angular Model.
+        /// This method takes a List<int> with userId, TitleId,ans ...AnswerWeights...  from Angular model which tool the quiz rew results and populated an Angular Model.
         ///  Then, returns a Result to be rendered.
         /// </summary>
         /// <param name=""></param>
         /// <returns></returns>
-        public /*LogLib.Models.Category*/ void EvaluateQuiz(int[] formValues)
+        public LogLib.Models.Category EvaluateQuiz(List<int> formValues)
         {
-            /***FYI***arr[0] = userId;***/
-            /***FYI***arr[1] = titleId;***/
-            
-            int totalScore = 0;//to hold the total waights of the choices.
-            foreach (var item in formValues)
-            {
-                totalScore += item;
-            }
-            totalScore -= formValues[0];
-            totalScore -= formValues[1];
+            /*************create the Result Object***Add to the DB************/
+            Entities.Result result = new Entities.Result();
+            result.TakerId = formValues[0]; /***FYI***arr[0] = userId;***/
+            result.TitleId = formValues[1]; /***FYI***arr[1] = titleId;***/
 
-            //query db for categories based on TitleId
+            formValues.RemoveAt(0);
+            formValues.RemoveAt(1);
 
+            int totalScore = 0;//to hold the total weights of the choices.
+            foreach (var item in formValues)//get score from all answer weights.
+                {   totalScore += item; }
 
+            result.Score = totalScore;
+            _dbContext.Result.Add(result);//DB to be saved in the controller.
 
-
-
-            //This method will.....
-            //sum the total score.
-            //determine the category acheived by the user.(with GetResultCategory()
-            //construct the Results Object.
-            //insert the Result to DB
-            //
-            //
-            //
+            return GetResultCategory(result.TitleId, totalScore);
         }
 
         /// <summary>
@@ -176,8 +167,24 @@ namespace Data.Library.Repositories
         /// <returns></returns>
         private LogLib.Models.Category GetResultCategory(int titleId, int score)
         {
+            var categories = GetCategoriesFromTitleId(titleId);
 
-            //TODO
+            var questions = GetQuestionsFromTitleId(titleId);
+
+            //get the divisor
+            int division = questions.Count;
+            int mod = (categories.Count * questions.Count) % categories.Count;
+
+            //determine the users category.
+            int i;
+            for (i = 0; i < categories.Count; i++)
+            {
+                if (score < division * ((i + 1) + mod))
+                {
+                    return Mapper.MapCategory(categories[i]);
+                }
+            }
+
             return null;
         }
 
