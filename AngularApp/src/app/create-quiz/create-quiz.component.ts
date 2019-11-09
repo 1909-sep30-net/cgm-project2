@@ -19,16 +19,105 @@ import { HttpResponse } from '@angular/common/http';
   styleUrls: ['./create-quiz.component.css']
 })
 export class CreateQuizComponent implements OnInit {
-  /////////////////////////////////////Title Methods//////////////////////////////////
-  titleSubmitted: boolean = false;
 
+  quiz = {
+    titleModel: null,
+    categoryModels: null
+  }
+
+
+  /////////////////////////////////////Title Methods//////////////////////////////////
   titleForm = this.formBuilder.group({
     titleString: ['', Validators.required],
     creatorId: ['', Validators.required],
-    questions: this.formBuilder.array([
-      this.formBuilder.control('')
+  });
+
+  titleSubmitted: boolean = false;
+  titleUpdating: boolean = false;
+
+  onTitleSubmit() {
+    let titleString = this.titleForm.get('titleString').value as string;
+    let creatorId = this.titleForm.get('creatorId').value as number;
+    let titleModel: TitleModel = { titleString: titleString, creatorId: creatorId };
+    this.quiz.titleModel = titleModel;
+    this.titleSubmitted = true;
+    this.titleUpdating = false;
+  };
+
+  onTitleUpdate() {
+    this.titleUpdating = true;
+  }
+
+
+
+  /////////////////////////////////////Category Methods//////////////////////////////////
+
+  categoryForm = this.formBuilder.group({
+    categories: this.formBuilder.array([
+      this.formBuilder.group({
+        categoryString: ['', Validators.required],
+        categoryDescription: ['', Validators.required]
+      })
     ])
   });
+
+  numberOfCategories: number = 0;
+  maxNumberOfCategories: number = 5;
+
+  categoriesSubmitted: boolean = false;
+  categoriesUpdating: boolean = false;
+
+  get categories() {
+    return this.categoryForm.get('categories') as FormArray;
+  }
+
+  addCategory() {
+    if (this.numberOfCategories < this.maxNumberOfCategories) {
+      this.categories.push(
+        this.formBuilder.group({
+          categoryString: ['', Validators.required],
+          categoryDescription: ['', Validators.required]
+        }));
+        this.numberOfCategories++;
+    }
+  }
+
+  removeCategory() {
+    if(this.numberOfCategories > 0)
+    {
+      this.categories.removeAt(this.categories.length - 1);
+      this.numberOfCategories--;
+    }
+  }
+
+  onCategorySubmit() {
+    let categoryValues = this.categories.value;
+    let quizCategories : CategoryModel[] = [];
+    for (let index in categoryValues) {
+      let categoryModel: CategoryModel = { 
+        categoryString: categoryValues[index], 
+        categoryDescription: categoryValues.categoryDescription,
+        categoryId: 0,
+        rank: quizCategories.length + 1,
+        titleId: 0
+      };
+      quizCategories.push(categoryModel);
+    }
+    this.quiz.categoryModels = quizCategories;
+    this.categoriesSubmitted = true;
+    this.categoriesUpdating = false;
+  }
+
+  onCategoriesUpdate() {
+    this.categoriesUpdating = true;
+  }
+
+
+
+
+
+
+
 
   get questions() {
     return this.titleForm.get('questions') as FormArray;
@@ -38,27 +127,24 @@ export class CreateQuizComponent implements OnInit {
     this.questions.push(this.formBuilder.control(''));
   }
 
-  onTitleSubmit() {
+  onTitleSubmitz() {
     let titleString = this.titleForm.get('titleString').value as string;
     let creatorId = this.titleForm.get('creatorId').value as number;
     let titleModel: TitleModel = { titleString: titleString, creatorId: creatorId };
     this.createQuizService.postTitle(titleModel)
       .then(() => this.getTitleId(titleModel))
       .then(titleId => this.questionSubmit(this.questions, titleId))
-      .then(() => {this.titleSubmitted = true;});
-
-    
+      .then(() => { this.titleSubmitted = true; });
   }
 
-  getTitleId(titleModel: TitleModel) : Promise<number>{
+  getTitleId(titleModel: TitleModel): Promise<number> {
     return this.createQuizService.getTitleId(titleModel);
   }
 
-  questionSubmit(questions: FormArray, titleId: number) : void{
+  questionSubmit(questions: FormArray, titleId: number): void {
     let questionValues = questions.value;
-    for(let questionIndex in questionValues)
-    {
-      let questionModel: QuestionModel = { questionString: questionValues[questionIndex], titleId: titleId};
+    for (let questionIndex in questionValues) {
+      let questionModel: QuestionModel = { questionString: questionValues[questionIndex], titleId: titleId };
       this.createQuizService.postQuestion(questionModel).subscribe(
         response => { console.log(response) });
     }

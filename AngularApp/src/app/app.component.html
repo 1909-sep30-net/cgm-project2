@@ -1,4 +1,4 @@
 <app-navbar></app-navbar>
-<!--<router-outlet></router-outlet>-->
 <app-user></app-user>
+<app-create-quiz *ngIf="auth.loggedIn"></app-create-quiz>
 <app-create-quiz></app-create-quiz>
