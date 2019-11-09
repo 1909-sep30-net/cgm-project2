@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -38,12 +39,14 @@ namespace Rest.Api
             services.AddScoped<LogLib.Interfaces.IGetDataRepository, DatLib.Repositories.GetDataRepository>();
             services.AddScoped<LogLib.Interfaces.ITakeAQuizRepository, DatLib.Repositories.TakeAQuizRepository>();
 
+
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAngular",
                 builder =>
                 {
-                    builder.WithOrigins("https://cgm-project2-rest-api.azurewebsites.net/")
+                    builder.WithOrigins("http://localhost:4200",
+                        "https://cgm-project2-rest-api.azurewebsites.net")
                         .AllowAnyMethod() // not just GET and POST, but allow all methods
                         .AllowAnyHeader()
                         .AllowCredentials();
@@ -52,6 +55,16 @@ namespace Rest.Api
 
 
             services.AddControllers();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = "https://dev-r0t9fl5u.auth0.com/";
+                options.Audience = "https://cgm-project2-rest-api.azurewebsites.net";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,7 +79,10 @@ namespace Rest.Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            // this line added based on Auth0 ASP.NET Core quickstart
             app.UseAuthorization();
+
 
             app.UseCors("AllowAngular");
 

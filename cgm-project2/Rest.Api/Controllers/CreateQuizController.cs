@@ -10,6 +10,7 @@ using Logic.Library.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 using DatLib = Data.Library;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Rest.Api.Controllers
 {
@@ -17,6 +18,7 @@ namespace Rest.Api.Controllers
     /// A controller with Functionality for Creating a Quiz with HTTP Req/Res 
     /// </summary>
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class CreateQuizController : ControllerBase
     {
@@ -49,6 +51,15 @@ namespace Rest.Api.Controllers
         {
             return StatusCode(StatusCodes.Status100Continue);
         }
+
+        //TODO:Implement functionality or remove method
+        // GET: api/CreateQuiz/LastTitleBy/{id}
+        [HttpGet("LastTitleBy/{id}")]
+        public int GetNewTitleId(int id)
+        {
+            return getRepo.GetLastTitleId(id);
+        }
+
 
         // POST: api/CreateQuiz/Title
         [HttpPost("Title")]
@@ -101,7 +112,7 @@ namespace Rest.Api.Controllers
             return StatusCode(StatusCodes.Status204NoContent);
         }
 
-        // POST: api/CreateQuiz/Questions
+        // POST: api/CreateQuiz/Question
         [HttpPost("Question")]
         public ActionResult PostQuestion([FromBody, Bind("titleId, questionString")] Models.QuestionModel question)
         {
@@ -116,7 +127,7 @@ namespace Rest.Api.Controllers
             return StatusCode(StatusCodes.Status202Accepted);
         }
 
-        // POST: api/CreateQuiz/Answers
+        // POST: api/CreateQuiz/Answer
         [HttpPost("Answer")]
         public ActionResult PostAnswer([FromBody, Bind("questionId, categoryId, answerString, weight")] Models.AnswerModel answer)
         {
