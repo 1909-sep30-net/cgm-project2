@@ -10,6 +10,7 @@ using Logic.Library.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 using DatLib = Data.Library;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Rest.Api.Controllers
 {
@@ -17,6 +18,7 @@ namespace Rest.Api.Controllers
     /// A controller with Functionality for Creating a Quiz with HTTP Req/Res 
     /// </summary>
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class CreateQuizController : ControllerBase
     {

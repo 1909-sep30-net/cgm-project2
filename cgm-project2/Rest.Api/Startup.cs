@@ -79,7 +79,10 @@ namespace Rest.Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            // this line added based on Auth0 ASP.NET Core quickstart
             app.UseAuthorization();
+
 
             app.UseCors("AllowAngular");
 
