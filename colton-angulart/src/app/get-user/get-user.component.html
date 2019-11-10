@@ -1,0 +1,94 @@
+<div>
+    <!-- content generated with JS -->  
+    colton clary i8s poaisjdf
+    </div>
+<h1>Add a User Form</h1>
+<h2 class = "colton">H2!!</h2>
+<form [formGroup]="userForm">
+    <label>
+        User Id:
+        <input type="number" formControlName="userId" required>
+    </label>
+    <label class = "get-user">
+        First Name:
+        <input type="text" formControlName="firstName" required>
+    </label>
+    <label class = "get-user">
+        Last Name:
+        <input type="text" formControlName="lastName" required>
+    </label>
+
+    <label class = "get-user">
+        Street:
+        <input class = "get-user" type="text" formControlName="street" required>
+    </label> 
+    <label class = "get-user">
+        City:
+        <input type="text" formControlName="city" required>
+    </label>
+
+    <label class = "get-user">
+        State:
+        <input type="text" formControlName="state" required>
+    </label> 
+    <label class = "get-user">
+        Zip:
+        <input type="text" formControlName="zip" required>
+    </label>
+
+    <label class = "get-user">
+        Admin:
+        <input class = "get-user" type="checkbox" formControlName="admin" required>
+    </label> 
+
+    <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider round"></div>
+          </label>
+          <em>Enable Dark Mode!</em>
+        </div>
+
+
+    <div class = "get-user">
+        <button type="submit" [disabled]="!userForm.valid">Submit Quiz</button>
+    </div>
+
+</form>
+
+<ul class = "get-user">
+    <span class = "badge">Colton Clary</span>
+</ul>
+<a data-theme = "dark">GREG MAKE TWEAK!!!</a>
+
+
+<button (click)="mark()">Add Question</button>
+
+<div class = ".intro-text" id = ".intro-text">
+    Colton Clary is the Best!
+</div>
+<div *ngIf="titleSubmitted">
+    Title successfully submitted.
+</div>
+<label class = "get-user">Ciolton;alksdjf;oi</label>
+<nav>
+        <div class="theme-switch-wrapper">
+             <label class="theme-switch" for="checkbox">
+          <input type="checkbox" id="checkbox" />
+          <div class="slider round"></div>
+        </label>
+          <em>Enable Dark Mode!</em>
+        </div>
+      
+      </nav>  
+      <section>
+          <article class="post">
+            <h1>The Principles of Good Design</h1>
+            <p class="post-meta">Circa 2014 <span>by</span> Ian Daniel Stewart</p>
+      
+            <p>Is <strong>beauty</strong> objectively true? Are there principles you can use to guide you to it in your work? Can designers from both the sciences and the arts look at each others work and find <strong class="sevenhundred">beauty</strong>? These are important questions for all designers.</p>
+      
+            <p>For those of us who design things … we need to be able to recognize it. We need good taste to make good things. Instead of treating <strong class="eighthundred">beauty</strong> as an airy abstraction, to be either blathered about or avoided depending on how one feels about airy abstractions, let’s try considering it as a practical question: how do you make good stuff?</p>
+       <a href="#">Read More</a>
+        </article>
+      </section>
