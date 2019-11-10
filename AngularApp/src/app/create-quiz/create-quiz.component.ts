@@ -123,6 +123,7 @@ export class CreateQuizComponent implements OnInit {
 
 
   /////////////////////////////////////Question Methods//////////////////////////////////
+  //nickfindthis
   questionForm = this.formBuilder.group({
     questions: this.formBuilder.array([
       this.formBuilder.group({
@@ -130,8 +131,7 @@ export class CreateQuizComponent implements OnInit {
         answers: this.formBuilder.array([
           this.formBuilder.group({
             categoryId: ['', Validators.required],
-            answerString: ['', Validators.required],
-            weight: ['', Validators.required]
+            answerString: ['', Validators.required]
           })
         ])
       })
@@ -145,10 +145,6 @@ export class CreateQuizComponent implements OnInit {
 
   questionsSubmitted: boolean = false;
   questionsUpdating: boolean = false;
-
-  answersData = {
-
-  }
 
   answerInfo: AnswerInfo[] = [];
   //set by OnCategorySubmit()
@@ -167,8 +163,7 @@ export class CreateQuizComponent implements OnInit {
           answers: this.formBuilder.array([
             this.formBuilder.group({
               categoryId: ['', Validators.required],
-              answerString: ['', Validators.required],
-              weight: ['', Validators.required]
+              answerString: ['', Validators.required]
             })
           ])
         }));
@@ -186,6 +181,11 @@ export class CreateQuizComponent implements OnInit {
     }
   }
 
+
+  // let titleString = this.titleForm.get('titleString').value as string;
+  // let creatorId = this.titleForm.get('creatorId').value as number;
+  // let titleModel: TitleModel = { titleString: titleString, creatorId: creatorId };
+
   onQuestionSubmit() {
     let questionValues = this.questions.value;
     let quizQuestions: QuestionModel[] = [];
@@ -194,12 +194,18 @@ export class CreateQuizComponent implements OnInit {
         questionString: questionValues[index],
         titleId: 0};
 
-      let answerValues = this.answers.value;
+      let answerValues = this.answers[index].value;
       let quizAnswers: AnswerModel[] = [];
       for(let answerIndex in answerValues)
       {
-        questionModel.answers.push(answerValues[answerIndex]);
+        let answerString = this.answers[index].get('answerString').value as string;
+        let categoryRank = this.answers[index].get('categoryRank').value as number;
+
+
+        let answerModel : AnswerModel = {answerString : answerString , questionId : 0, categoryRank : categoryRank}
+        quizAnswers.push(answerModel);
       }
+      questionModel.answers = quizAnswers;
       quizQuestions.push(questionModel);
     }
     this.quiz.questionModels = quizQuestions;
@@ -211,17 +217,16 @@ export class CreateQuizComponent implements OnInit {
     this.questionsUpdating = true;
   }
 
-  get answers(){
-    return this.questions.get('answers') as FormArray;
+  answers(index : number){
+    return this.questionForm.controls[index].get('answers') as FormArray;
   }
 
   addAnswer(questionIndex: number) {
     if (this.answerInfo[questionIndex].numberOfAnswers < this.maxNumberOfAnswers) {
       this.questions[questionIndex].push(
         this.formBuilder.group({
-          categoryId: ['', Validators.required],
-          answerString: ['', Validators.required],
-          weight: ['', Validators.required]
+          categoryRank: ['', Validators.required],
+          answerString: ['', Validators.required]
         }));
       this.answerInfo[questionIndex].answersSubmitted = true;
       this.answerInfo[questionIndex].answersUpdating = false;

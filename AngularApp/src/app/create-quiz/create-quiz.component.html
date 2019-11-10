@@ -58,18 +58,42 @@
         <button (click)="onCategoriesUpdate()">Update Categories</button>
 </div>
 
-<!--------------------------------------------------------------------------------------------------------------------------------Question Form-->
+<!-------------------------------------------------------------------------------------------------------------------------Question/Answer Form-->
 <div *ngIf="categoriesSubmitted && !questionsSubmitted || questionsUpdating">
         <h3>What questions will your quiz have?</h3>
         <form [formGroup]="questionForm" (ngSubmit)="onQuestionSubmit()">
     
             <div formArrayName="questions">
     
-                <div *ngFor="let question of questionForm.get('questions').controls; let i = index">
+                <div *ngFor="let question of questionForm.get('questions').controls; let i = index" [formGroupName]="i">
                     <div [formGroupName]="i">
                         <label>
                             Question {{i + 1}}:
                             <input type="text" formControlName="questionString" required>
+                        </label>
+
+                        <label>
+                            A
+                            <div formArrayName="answers">
+                                B
+                                <!--nickfindthis-->
+                                <div *ngFor="let answer of questionForm.get('questions').controls[i].get('answers'); let j = index">
+                                    <!--
+                                    <div [formGroupName] = "j">
+                                        <label>
+                                            Answer {{j + 1}}
+                                            <input type="text" formControlName="answerString" required>
+                                        </label>
+
+                                        <label>
+                                            Category
+                                            <input type="number" formControlName="categoryRank" min=0 max={{numberOfCategories}}>
+                                        </label>
+                                    </div>
+                                -->
+                                </div>
+
+                            </div>
                         </label>
                     </div>
                 </div>
