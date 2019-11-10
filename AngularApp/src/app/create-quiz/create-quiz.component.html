@@ -85,7 +85,7 @@
 
                     <label>
                         Question {{i + 1}}:
-                        <input type="text"  [(ngModel)]="answerInfo[i].questionString" formControlName="questionString" required>
+                        <input type="text"  [(ngModel)]="answerInfos[i].questionString" formControlName="questionString" required>
                     </label>
 
                 </div>
@@ -101,9 +101,26 @@
 </div>
 
 <!--------------------------------------------------------------------------------------------------------------------------------Question Form-->
+<div *ngFor="let answerInfo of this.answerInfos; let i = index">
+    <h4>{{answerInfo.questionString}}</h4>
 
-<div *ngFor="let answer of answerInfo; let i = index">
-    <h4>{{answer.questionString}}</h4>
+    <form [formGroup]="answerInfo.answerForm">
+
+            <div formArrayName="answers">
+                {{answerInfo.get('answers')}}
+                <div *ngFor="let answer of answers; let j = index">
+                    <p>aA</p>
+                    <div [formGroupName]="i">
+    
+    
+                    </div>
+                </div>  
+            
+            </div>
+            <!--<button type='submit' [disabled]="!questionForm.valid">Submit Questions</button>--> 
+        </form>
+
+
 
 
 </div>

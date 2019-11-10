@@ -21,6 +21,18 @@ interface AnswerInfo {
   questionString: string;
 }
 
+class AnswerInfoClass implements AnswerInfo {
+  answersSubmitted: boolean;
+  answersUpdating: boolean;
+  numberOfAnswers: number;
+  answerForm: FormGroup;
+  questionString: string;
+
+  get answers() {
+    return this.answerForm.get('answers') as FormArray;
+  }
+}
+
 
 @Component({
   selector: 'app-create-quiz',
@@ -114,17 +126,13 @@ export class CreateQuizComponent implements OnInit {
       quizCategories.push(categoryModel);
     }
     this.quiz.categoryModels = quizCategories;
-    if(this.categoriesSubmitted === false)
-    {
-      this.addAnswerInfo();
-    }
+
     this.categoriesSubmitted = true;
     this.categoriesUpdating = false;
     this.totalNumberOfAnswers = quizCategories.length;
 
-    for (let i = 0; i < this.answerInfo.length; i++) {
-      this.autoAddRemoveAnswers(i);
-    }
+    //INTENTIONALLY TWICE
+    this.ALLAutoAddRemoveAnswers();
 
   }
 
@@ -154,8 +162,12 @@ export class CreateQuizComponent implements OnInit {
     return this.questionForm.get('questions') as FormArray;
   }
 
+
+  get answers() {
+    return this.answerInfos[0].answerForm.get('answers') as FormArray;
+  }
+
   addQuestion() {
-    console.log(this.questionForm)
     if (this.numberOfQuestions < this.maxNumberOfQuestions) {
       this.questions.push(
         this.formBuilder.group({
@@ -163,6 +175,7 @@ export class CreateQuizComponent implements OnInit {
         }));
       this.numberOfQuestions++;
       this.addAnswerInfo();
+      this.ALLAutoAddRemoveAnswers();
     }
   }
 
@@ -171,6 +184,7 @@ export class CreateQuizComponent implements OnInit {
       this.questions.removeAt(this.questions.length - 1);
       this.numberOfQuestions--;
       this.removeAnswerInfo();
+      this.ALLAutoAddRemoveAnswers();
     }
   }
 
@@ -197,22 +211,50 @@ export class CreateQuizComponent implements OnInit {
     this.questionsUpdating = true;
   }
 
-  getQuestionString(index : number): string {
+  getQuestionString(index: number): string {
     return this.questions[index].value;
     console.log(this.questions[index].value);
   }
 
   /////////////////////////////////////Answer Methods//////////////////////////////////
 
-  answerInfo: AnswerInfo[] = [];
-  
+  public answerInfos: AnswerInfoClass[] = [
+    /**{
+      answersSubmitted: false,
+      answersUpdating: false, 
+      numberOfAnswers: 0,
+      answerForm: this.formBuilder.group({
+        answers: this.formBuilder.array([
+          this.formBuilder.group({
+            answerString: ['', Validators.required],
+            categoryRank: ['', Validators.required],
+          })
+        ])
+      }),
+      questionString: 'heyyyy'
+    }**/
+  ];
+
   //set by OnCategorySubmit
   totalNumberOfAnswers: number = 0;
 
   private initializeNewAnswer() {
-    let newAnswer: AnswerInfo = { answersSubmitted: false, answersUpdating: false, numberOfAnswers: 0, answerForm: null, questionString:'heyyyy' };
-    this.answerInfo.push(newAnswer);
-    this.setAnswerForm(this.answerInfo.length - 1);
+    let newAnswer: AnswerInfo = {
+      answersSubmitted: false,
+      answersUpdating: false,
+      numberOfAnswers: 0,
+      answerForm: this.formBuilder.group({
+        answers: this.formBuilder.array([
+          this.formBuilder.group({
+            answerString: ['', Validators.required],
+            categoryRank: ['', Validators.required],
+          })
+        ])
+      }),
+      questionString: 'Enter Question'
+    };
+    this.answerInfos.push(newAnswer as AnswerInfoClass);
+    this.ALLAutoAddRemoveAnswers();
   }
 
   addAnswerInfo() {
@@ -220,33 +262,23 @@ export class CreateQuizComponent implements OnInit {
   }
 
   removeAnswerInfo() {
-    this.answerInfo.pop();
+    this.answerInfos.pop();
   }
 
-  private setAnswerForm(index: number) {
-    this.answerInfo[index].answerForm =
-      this.formBuilder.group({
-        answers: this.formBuilder.array([
-          this.formBuilder.group({
-            answerString: ['', Validators.required],
-            categoryRank: ['', Validators.required],
-          })
-        ])
-      });
-    this.autoAddRemoveAnswers(index);
-  };
-
   getAnswers(index: number): FormArray {
-    return this.answerInfo[index].answerForm.get('answers') as FormArray;
+    return this.answerInfos[index].answerForm.get('answers') as FormArray;
+  }
+
+  ALLAutoAddRemoveAnswers() {
+    for (let i = 0; i < this.answerInfos.length - 1; i++) {
+      this.autoAddRemoveAnswers(i);
+    }
   }
 
   private autoAddRemoveAnswers(index: number) {
-
-    console.log(this.getAnswers(index).value.length);
-
     let numberOfAnswers: number = this.getAnswers(index).value.length;
     while (numberOfAnswers < this.totalNumberOfAnswers) {
-      (this.answerInfo[index].answerForm.get('answers') as FormArray).push(
+      (this.answerInfos[index].answerForm.get('answers') as FormArray).push(
         this.formBuilder.group({
           answerString: ['', Validators.required],
           categoryRank: ['', Validators.required],
@@ -254,22 +286,22 @@ export class CreateQuizComponent implements OnInit {
       numberOfAnswers++;
     }
     while (numberOfAnswers > this.totalNumberOfAnswers) {
-      (this.answerInfo[index].answerForm.get('answers') as FormArray).removeAt(numberOfAnswers - 1);
+      (this.answerInfos[index].answerForm.get('answers') as FormArray).removeAt(numberOfAnswers - 1);
       numberOfAnswers--;
     }
   }
 
   onAnswerSubmit(index: number) {
-    this.answerInfo[index].answersSubmitted = true;
-    this.answerInfo[index].answersUpdating = false;
+    this.answerInfos[index].answersSubmitted = true;
+    this.answerInfos[index].answersUpdating = false;
   }
 
   onAnswerUpdate(index: number) {
-    this.answerInfo[index].answersUpdating = true;
+    this.answerInfos[index].answersUpdating = true;
   }
 
   private finalAnswerSubmit() {
-    for (let answer of this.answerInfo) {
+    for (let answer of this.answerInfos) {
       let questionIndex: number = 0;
       let answerValues = answer.answerForm.value;
       let quizAnswers: AnswerModel[] = [];
@@ -315,34 +347,13 @@ export class CreateQuizComponent implements OnInit {
   //   this.questions.push(this.formBuilder.control(''));
   // }
 
-  onTitleSubmitz() {
-    let titleString = this.titleForm.get('titleString').value as string;
-    let creatorId = this.titleForm.get('creatorId').value as number;
-    let titleModel: TitleModel = { titleString: titleString, creatorId: creatorId };
-    this.createQuizService.postTitle(titleModel)
-      .then(() => this.getTitleId(titleModel))
-      .then(titleId => this.questionSubmit(this.questions, titleId))
-      .then(() => { this.titleSubmitted = true; });
-  }
-
-  getTitleId(titleModel: TitleModel): Promise<number> {
-    return this.createQuizService.getTitleId(titleModel);
-  }
-
-  questionSubmit(questions: FormArray, titleId: number): void {
-    let questionValues = questions.value;
-    for (let questionIndex in questionValues) {
-      let questionModel: QuestionModel = { questionString: questionValues[questionIndex], titleId: titleId };
-      this.createQuizService.postQuestion(questionModel).subscribe(
-        response => { console.log(response) });
-    }
-  }
 
 
 
   constructor(private createQuizService: CreateQuizService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.addAnswerInfo();
   }
 
 }
