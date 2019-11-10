@@ -18,6 +18,7 @@ interface AnswerInfo {
   answersUpdating: boolean;
   numberOfAnswers: number;
   answerForm: FormGroup;
+  questionString: string;
 }
 
 
@@ -104,8 +105,8 @@ export class CreateQuizComponent implements OnInit {
     let quizCategories: CategoryModel[] = [];
     for (let index in categoryValues) {
       let categoryModel: CategoryModel = {
-        categoryString: categoryValues[index],
-        categoryDescription: categoryValues.categoryDescription,
+        categoryString: categoryValues[index].categoryString,
+        categoryDescription: categoryValues[index].categoryDescription,
         categoryId: 0,
         rank: quizCategories.length + 1,
         titleId: 0
@@ -113,6 +114,10 @@ export class CreateQuizComponent implements OnInit {
       quizCategories.push(categoryModel);
     }
     this.quiz.categoryModels = quizCategories;
+    if(this.categoriesSubmitted === false)
+    {
+      this.addAnswerInfo();
+    }
     this.categoriesSubmitted = true;
     this.categoriesUpdating = false;
     this.totalNumberOfAnswers = quizCategories.length;
@@ -157,7 +162,7 @@ export class CreateQuizComponent implements OnInit {
           questionString: ['', Validators.required]
         }));
       this.numberOfQuestions++;
-      this.addAnswerInfo;
+      this.addAnswerInfo();
     }
   }
 
@@ -165,7 +170,7 @@ export class CreateQuizComponent implements OnInit {
     if (this.numberOfQuestions > 0) {
       this.questions.removeAt(this.questions.length - 1);
       this.numberOfQuestions--;
-      this.removeAnswerInfo;
+      this.removeAnswerInfo();
     }
   }
 
@@ -177,7 +182,7 @@ export class CreateQuizComponent implements OnInit {
     let quizQuestions: QuestionModel[] = [];
     for (let index in questionValues) {
       let questionModel: QuestionModel = {
-        questionString: questionValues[index],
+        questionString: questionValues[index].questionString,
         titleId: 0
       };
 
@@ -192,6 +197,11 @@ export class CreateQuizComponent implements OnInit {
     this.questionsUpdating = true;
   }
 
+  getQuestionString(index : number): string {
+    return this.questions[index].value;
+    console.log(this.questions[index].value);
+  }
+
   /////////////////////////////////////Answer Methods//////////////////////////////////
 
   answerInfo: AnswerInfo[] = [];
@@ -200,7 +210,7 @@ export class CreateQuizComponent implements OnInit {
   totalNumberOfAnswers: number = 0;
 
   private initializeNewAnswer() {
-    let newAnswer: AnswerInfo = { answersSubmitted: false, answersUpdating: false, numberOfAnswers: 0, answerForm: null };
+    let newAnswer: AnswerInfo = { answersSubmitted: false, answersUpdating: false, numberOfAnswers: 0, answerForm: null, questionString:'heyyyy' };
     this.answerInfo.push(newAnswer);
     this.setAnswerForm(this.answerInfo.length - 1);
   }
@@ -265,7 +275,7 @@ export class CreateQuizComponent implements OnInit {
       let quizAnswers: AnswerModel[] = [];
       for (let index in answerValues) {
         let answerModel: AnswerModel = {
-          answerString: answerValues[index],
+          answerString: answerValues[index].answerString,
           questionId: questionIndex,
           categoryRank: -1
         };
