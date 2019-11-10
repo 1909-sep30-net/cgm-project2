@@ -127,13 +127,7 @@ export class CreateQuizComponent implements OnInit {
   questionForm = this.formBuilder.group({
     questions: this.formBuilder.array([
       this.formBuilder.group({
-        questionString: ['', Validators.required],
-        answers: this.formBuilder.array([
-          this.formBuilder.group({
-            categoryId: ['', Validators.required],
-            answerString: ['', Validators.required]
-          })
-        ])
+        questionString: ['', Validators.required]
       })
     ])
   });
@@ -146,30 +140,18 @@ export class CreateQuizComponent implements OnInit {
   questionsSubmitted: boolean = false;
   questionsUpdating: boolean = false;
 
-  answerInfo: AnswerInfo[] = [];
-  //set by OnCategorySubmit()
-  maxNumberOfAnswers: number = 0;
-  ;
-
   get questions() {
     return this.questionForm.get('questions') as FormArray;
   }
 
   addQuestion() {
+    console.log(this.questionForm)
     if (this.numberOfQuestions < this.maxNumberOfQuestions) {
       this.questions.push(
         this.formBuilder.group({
-          questionString: ['', Validators.required],
-          answers: this.formBuilder.array([
-            this.formBuilder.group({
-              categoryId: ['', Validators.required],
-              answerString: ['', Validators.required]
-            })
-          ])
+          questionString: ['', Validators.required]
         }));
       this.numberOfQuestions++;
-      let newAnswerInfo: AnswerInfo = { answersSubmitted: false, answersUpdating: false, numberOfAnswers: 0 }
-      this.answerInfo.push(newAnswerInfo);
     }
   }
 
@@ -177,16 +159,13 @@ export class CreateQuizComponent implements OnInit {
     if (this.numberOfQuestions > 0) {
       this.questions.removeAt(this.questions.length - 1);
       this.numberOfQuestions--;
-      this.answerInfo.pop();
     }
   }
 
 
-  // let titleString = this.titleForm.get('titleString').value as string;
-  // let creatorId = this.titleForm.get('creatorId').value as number;
-  // let titleModel: TitleModel = { titleString: titleString, creatorId: creatorId };
-
   onQuestionSubmit() {
+    console.log(this.questionForm.value)
+
     let questionValues = this.questions.value;
     let quizQuestions: QuestionModel[] = [];
     for (let index in questionValues) {
@@ -194,18 +173,6 @@ export class CreateQuizComponent implements OnInit {
         questionString: questionValues[index],
         titleId: 0};
 
-      let answerValues = this.answers[index].value;
-      let quizAnswers: AnswerModel[] = [];
-      for(let answerIndex in answerValues)
-      {
-        let answerString = this.answers[index].get('answerString').value as string;
-        let categoryRank = this.answers[index].get('categoryRank').value as number;
-
-
-        let answerModel : AnswerModel = {answerString : answerString , questionId : 0, categoryRank : categoryRank}
-        quizAnswers.push(answerModel);
-      }
-      questionModel.answers = quizAnswers;
       quizQuestions.push(questionModel);
     }
     this.quiz.questionModels = quizQuestions;
@@ -217,33 +184,6 @@ export class CreateQuizComponent implements OnInit {
     this.questionsUpdating = true;
   }
 
-  answers(index : number){
-    return this.questionForm.controls[index].get('answers') as FormArray;
-  }
-
-  addAnswer(questionIndex: number) {
-    if (this.answerInfo[questionIndex].numberOfAnswers < this.maxNumberOfAnswers) {
-      this.questions[questionIndex].push(
-        this.formBuilder.group({
-          categoryRank: ['', Validators.required],
-          answerString: ['', Validators.required]
-        }));
-      this.answerInfo[questionIndex].answersSubmitted = true;
-      this.answerInfo[questionIndex].answersUpdating = false;
-    }
-  }
-
-  removeAnswer(questionIndex: number) {
-    if (this.answerInfo[questionIndex].numberOfAnswers > 0) {
-      this.answers[questionIndex].removeAt(this.answers[questionIndex].length - 1);
-      this.numberOfQuestions--;
-      this.answerInfo.pop();
-    }
-  }
-
-  updateAnswer(questionIndex: number) {
-    this.answerInfo[questionIndex].answersUpdating = true;
-  }
 
 
 

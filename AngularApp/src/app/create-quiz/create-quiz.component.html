@@ -24,6 +24,13 @@
 <!--------------------------------------------------------------------------------------------------------------------------------Category Form-->
 <div *ngIf="titleSubmitted && !categoriesSubmitted || categoriesUpdating">
     <h3>What categories will your quiz have?</h3>
+    <span>
+            <button  [disabled]="numberOfCategories + 1 >= maxNumberOfCategories" (click)="addCategory()">Add another Category</button> 
+            <em>({{maxNumberOfCategories}} max)</em>
+            or
+            <button  [disabled]="numberOfCategories < 1" (click)="removeCategory()">Remove a Category</button> 
+            <em>(1 min)</em>
+        </span>
     <form [formGroup]="categoryForm" (ngSubmit)="onCategorySubmit()">
 
         <div formArrayName="categories">
@@ -44,14 +51,7 @@
         </div>
         <button type='submit' [disabled]="!categoryForm.valid">Submit Categories</button>
     </form>
-    <span>
-        or 
-        <button  [disabled]="numberOfCategories + 1 >= maxNumberOfCategories" (click)="addCategory()">Add another Category</button> 
-        <em>({{maxNumberOfCategories}} max)</em>
-        or
-        <button  [disabled]="numberOfCategories < 1" (click)="removeCategory()">Remove a Category</button> 
-        <em>(1 min)</em>
-    </span>
+    
 </div>
 
 <div *ngIf="categoriesSubmitted && !categoriesUpdating">
@@ -61,53 +61,31 @@
 <!-------------------------------------------------------------------------------------------------------------------------Question/Answer Form-->
 <div *ngIf="categoriesSubmitted && !questionsSubmitted || questionsUpdating">
         <h3>What questions will your quiz have?</h3>
+        <span>
+                <button  [disabled]="numberOfQuestions + 1 >= maxNumberOfQuestions" (click)="addQuestion()">Add another Question</button> 
+                <em>({{ maxNumberOfQuestions }} max)</em>
+                or
+                <button  [disabled]="numberOfQuestions < 1" (click)="removeQuestion()">Remove a Question</button> 
+                <em>(1 min)</em>
+            </span>
         <form [formGroup]="questionForm" (ngSubmit)="onQuestionSubmit()">
     
             <div formArrayName="questions">
     
-                <div *ngFor="let question of questionForm.get('questions').controls; let i = index" [formGroupName]="i">
+                <div *ngFor="let question of questionForm.get('questions').controls; let i = index">
                     <div [formGroupName]="i">
+
                         <label>
                             Question {{i + 1}}:
                             <input type="text" formControlName="questionString" required>
                         </label>
 
-                        <label>
-                            A
-                            <div formArrayName="answers">
-                                B
-                                <!--nickfindthis-->
-                                <div *ngFor="let answer of questionForm.get('questions').controls[i].get('answers'); let j = index">
-                                    <!--
-                                    <div [formGroupName] = "j">
-                                        <label>
-                                            Answer {{j + 1}}
-                                            <input type="text" formControlName="answerString" required>
-                                        </label>
-
-                                        <label>
-                                            Category
-                                            <input type="number" formControlName="categoryRank" min=0 max={{numberOfCategories}}>
-                                        </label>
-                                    </div>
-                                -->
-                                </div>
-
-                            </div>
-                        </label>
                     </div>
                 </div>
             </div>
             <button type='submit' [disabled]="!questionForm.valid">Submit Questions</button>
         </form>
-        <span>
-            or 
-            <button  [disabled]="numberOfQuestions + 1 >= maxNumberOfQuestions" (click)="addQuestion()">Add another Question</button> 
-            <em>({{ maxNumberOfQuestions }} max)</em>
-            or
-            <button  [disabled]="numberOfQuestions < 1" (click)="removeQuestion()">Remove a Question</button> 
-            <em>(1 min)</em>
-        </span>
+        
     </div>
     
     <div *ngIf="questionsSubmitted && !questionsUpdating">
