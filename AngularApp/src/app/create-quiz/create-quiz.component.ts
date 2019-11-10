@@ -14,10 +14,10 @@ import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 
 interface AnswerInfo {
-  numberOfAnswers: number;
-  //filled by addQuestion()
   answersSubmitted: boolean;
   answersUpdating: boolean;
+  numberOfAnswers: number;
+  answerForm: FormGroup;
 }
 
 
@@ -31,7 +31,8 @@ export class CreateQuizComponent implements OnInit {
   quiz = {
     titleModel: null,
     categoryModels: null,
-    questionModels: null
+    questionModels: null,
+    answerModels: null
   }
 
 
@@ -114,7 +115,12 @@ export class CreateQuizComponent implements OnInit {
     this.quiz.categoryModels = quizCategories;
     this.categoriesSubmitted = true;
     this.categoriesUpdating = false;
-    this.maxNumberOfAnswers = quizCategories.length;
+    this.totalNumberOfAnswers = quizCategories.length;
+
+    for (let i = 0; i < this.answerInfo.length; i++) {
+      this.autoAddRemoveAnswers(i);
+    }
+
   }
 
   onCategoriesUpdate() {
@@ -123,7 +129,6 @@ export class CreateQuizComponent implements OnInit {
 
 
   /////////////////////////////////////Question Methods//////////////////////////////////
-  //nickfindthis
   questionForm = this.formBuilder.group({
     questions: this.formBuilder.array([
       this.formBuilder.group({
@@ -152,6 +157,7 @@ export class CreateQuizComponent implements OnInit {
           questionString: ['', Validators.required]
         }));
       this.numberOfQuestions++;
+      this.addAnswerInfo;
     }
   }
 
@@ -159,6 +165,7 @@ export class CreateQuizComponent implements OnInit {
     if (this.numberOfQuestions > 0) {
       this.questions.removeAt(this.questions.length - 1);
       this.numberOfQuestions--;
+      this.removeAnswerInfo;
     }
   }
 
@@ -171,7 +178,8 @@ export class CreateQuizComponent implements OnInit {
     for (let index in questionValues) {
       let questionModel: QuestionModel = {
         questionString: questionValues[index],
-        titleId: 0};
+        titleId: 0
+      };
 
       quizQuestions.push(questionModel);
     }
@@ -183,6 +191,108 @@ export class CreateQuizComponent implements OnInit {
   onQuestionsUpdate() {
     this.questionsUpdating = true;
   }
+
+  /////////////////////////////////////Answer Methods//////////////////////////////////
+
+  answerInfo: AnswerInfo[] = [];
+  
+  //set by OnCategorySubmit
+  totalNumberOfAnswers: number = 0;
+
+  private initializeNewAnswer() {
+    let newAnswer: AnswerInfo = { answersSubmitted: false, answersUpdating: false, numberOfAnswers: 0, answerForm: null };
+    this.answerInfo.push(newAnswer);
+    this.setAnswerForm(this.answerInfo.length - 1);
+  }
+
+  addAnswerInfo() {
+    this.initializeNewAnswer();
+  }
+
+  removeAnswerInfo() {
+    this.answerInfo.pop();
+  }
+
+  private setAnswerForm(index: number) {
+    this.answerInfo[index].answerForm =
+      this.formBuilder.group({
+        answers: this.formBuilder.array([
+          this.formBuilder.group({
+            answerString: ['', Validators.required],
+            categoryRank: ['', Validators.required],
+          })
+        ])
+      });
+    this.autoAddRemoveAnswers(index);
+  };
+
+  getAnswers(index: number): FormArray {
+    return this.answerInfo[index].answerForm.get('answers') as FormArray;
+  }
+
+  private autoAddRemoveAnswers(index: number) {
+
+    console.log(this.getAnswers(index).value.length);
+
+    let numberOfAnswers: number = this.getAnswers(index).value.length;
+    while (numberOfAnswers < this.totalNumberOfAnswers) {
+      (this.answerInfo[index].answerForm.get('answers') as FormArray).push(
+        this.formBuilder.group({
+          answerString: ['', Validators.required],
+          categoryRank: ['', Validators.required],
+        }))
+      numberOfAnswers++;
+    }
+    while (numberOfAnswers > this.totalNumberOfAnswers) {
+      (this.answerInfo[index].answerForm.get('answers') as FormArray).removeAt(numberOfAnswers - 1);
+      numberOfAnswers--;
+    }
+  }
+
+  onAnswerSubmit(index: number) {
+    this.answerInfo[index].answersSubmitted = true;
+    this.answerInfo[index].answersUpdating = false;
+  }
+
+  onAnswerUpdate(index: number) {
+    this.answerInfo[index].answersUpdating = true;
+  }
+
+  private finalAnswerSubmit() {
+    for (let answer of this.answerInfo) {
+      let questionIndex: number = 0;
+      let answerValues = answer.answerForm.value;
+      let quizAnswers: AnswerModel[] = [];
+      for (let index in answerValues) {
+        let answerModel: AnswerModel = {
+          answerString: answerValues[index],
+          questionId: questionIndex,
+          categoryRank: -1
+        };
+
+        quizAnswers.push(answerModel);
+      }
+      this.quiz.answerModels = quizAnswers;
+      answer.answersSubmitted = true;
+      answer.answersUpdating = false;
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
