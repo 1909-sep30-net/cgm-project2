@@ -309,7 +309,7 @@ export class CreateQuizComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private serv: CreateQuizService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder) {}
 
   ngOnInit() {
   }

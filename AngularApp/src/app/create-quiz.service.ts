@@ -79,6 +79,11 @@ export class CreateQuizService {
 
   }
 
+  getAnswers(titleId: number) : Promise<AnswerModel[]>{
+    let url = `${environment.restApiBaseUrl}/api/CreateQuiz/Answer/`;
+    return this.httpClient.get<AnswerModel[]>(url+`${titleId}`).toPromise();
+  }
+
 
   constructor(private httpClient: HttpClient) { }
 }
