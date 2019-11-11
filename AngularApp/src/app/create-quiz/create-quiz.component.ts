@@ -185,7 +185,7 @@ export class CreateQuizComponent implements OnInit {
 
   /////////////////////////////////////Batch Submit Methods//////////////////////////////////
   titleId: number;
-  categoryIds: number[];
+  categoryIds: number[] = [];
 
   OnBatchSubmit() {
     if (this.titleSubmitted && !this.titleUpdating &&
@@ -197,7 +197,7 @@ export class CreateQuizComponent implements OnInit {
           console.log(e);
         })
         .then(() => this.serv.getTitleId(this.quiz.titleModel))
-        .then(titleId => this.titleId = titleId)
+        .then(titleId => this.titleId = titleId - 1)
         .catch(function (e) {
           console.log(e);
         })
@@ -240,16 +240,17 @@ export class CreateQuizComponent implements OnInit {
                       .catch(function (e) {
                         console.log(e);
                       })
+                      
                   }
+                }).then(() => {
+
+                  this.router.navigate(['/create-quiz/' + this.titleId + '/add-answers']);
+        
                 })
             }
           }
         )
-        .finally(() => {
-
-          this.router.navigate(['/create-quiz/' + this.titleId + '/add-answers']);
-
-        })
+        
     }
 
   }

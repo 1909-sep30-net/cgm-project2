@@ -70,6 +70,12 @@ namespace Rest.Api.Controllers
         {
             return getRepo.GetLastCategoryId(id);
         }
+        
+        [HttpGet("NumberOfQuestions/{id}")]
+        public int GetNumberOfQuestions(int id)
+        {
+            return getRepo.GetNumberOfQuestions(id);
+        }
 
 
 
@@ -155,5 +161,16 @@ namespace Rest.Api.Controllers
             repo.Save();
             return StatusCode(StatusCodes.Status202Accepted);
         }
+
+        // GET: api/CreateQuiz/Answer/id
+        [HttpGet("Answer/{id}")]
+        public List<Answer> GetAnswers(int id)
+        {
+            var users = getRepo.GetAnswers(id).ToList();
+            //repo.Save();
+            return users;
+            //return "temp success";
+        }
+
     }
 }

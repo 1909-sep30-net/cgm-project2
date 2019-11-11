@@ -35,9 +35,8 @@ export class AddAnswersComponent implements OnInit {
     return this.answerForm.get('answerArray') as FormArray;
   }
 
-  constructFormGroup()  {
-    for(let i = 0; i < this.numberOfQuestions; i++)
-    {
+  constructFormGroup() {
+    for (let i = 0; i < this.numberOfQuestions; i++) {
       this.answerArray.push(
         this.formBuilder.group({
           answerString: ['', Validators.required],
@@ -62,21 +61,25 @@ export class AddAnswersComponent implements OnInit {
 
   ngOnInit() {
     this.routeSub = this.route.params.subscribe(params => {
-      this.titleId = params['AddAnswersComponent'];
+      this.titleId = params['id'];
 
       this.serv.getAnswers(this.titleId)
         .then(answers => this.answers = answers)
         .catch(function (e) {
           console.log(e);
+        }).then(() => {
+          this.serv.getNumberOfQuestions(this.titleId)
+            .then(num => this.numberOfQuestions = num)
+            .catch(function (e) {
+              console.log(e);
+            })
+            .then(() => this.numberOfAnswersPerQuestion = this.answers.length / this.numberOfQuestions)
         })
+
+
+
     });
 
-    this.serv.getNumberOfQuestions(this.titleId)
-      .then(num => this.numberOfQuestions = num)
-      .catch(function (e) {
-          console.log(e);
-        })
-      .then(() => this.numberOfAnswersPerQuestion = this.answers.length / this.numberOfQuestions)
 
 
   }
