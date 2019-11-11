@@ -101,10 +101,12 @@
 </div>
 
 <!--------------------------------------------------------------------------------------------------------------------------------Question Form-->
-<div *ngFor="let answerInfo of this.answerInfos; let i = index">
-    <h4>{{answerInfo.questionString}}</h4>
+<div *ngIf="categoriesSubmitted">
+<div *ngFor="let answerinfo of answerInfos; let i = index">
+    <h4>{{answerinfo.questionString}}</h4>
+    <h4>{{answerinfo.answerForm}}</h4>
 
-    <form [formGroup]="answerInfo.answerForm">
+    <form [formGroup]="answerinfo.answerForm">
 
             <div formArrayName="answers">
                 {{answerInfo.get('answers')}}
@@ -123,4 +125,5 @@
 
 
 
+</div>
 </div>
