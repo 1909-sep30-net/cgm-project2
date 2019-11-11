@@ -1,6 +1,8 @@
-interface AnswerInfo {
-    numberOfAnswers: number;
-    //filled by addQuestion()
+import { FormGroup } from '@angular/forms';
+
+export interface AnswerInfo {
     answersSubmitted: boolean;
     answersUpdating: boolean;
+    numberOfAnswers: number;
+    answerForm: FormGroup;
 }

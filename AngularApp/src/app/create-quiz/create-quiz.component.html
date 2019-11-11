@@ -24,6 +24,14 @@
 <!--------------------------------------------------------------------------------------------------------------------------------Category Form-->
 <div *ngIf="titleSubmitted && !categoriesSubmitted || categoriesUpdating">
     <h3>What categories will your quiz have?</h3>
+    <span>
+        <button [disabled]="numberOfCategories + 1 >= maxNumberOfCategories" (click)="addCategory()">Add another
+            Category</button>
+        <em>({{maxNumberOfCategories}} max)</em>
+        or
+        <button [disabled]="numberOfCategories < 1" (click)="removeCategory()">Remove a Category</button>
+        <em>(1 min)</em>
+    </span>
     <form [formGroup]="categoryForm" (ngSubmit)="onCategorySubmit()">
 
         <div formArrayName="categories">
@@ -44,48 +52,78 @@
         </div>
         <button type='submit' [disabled]="!categoryForm.valid">Submit Categories</button>
     </form>
-    <span>
-        or 
-        <button  [disabled]="numberOfCategories + 1 >= maxNumberOfCategories" (click)="addCategory()">Add another Category</button> 
-        <em>({{maxNumberOfCategories}} max)</em>
-        or
-        <button  [disabled]="numberOfCategories < 1" (click)="removeCategory()">Remove a Category</button> 
-        <em>(1 min)</em>
-    </span>
+
 </div>
 
 <div *ngIf="categoriesSubmitted && !categoriesUpdating">
-        <button (click)="onCategoriesUpdate()">Update Categories</button>
+    <h3>Categories:</h3>
+    <div *ngFor="let category of quiz.categoryModels; let i = index">
+        {{i + 1}}: {{category.categoryString}}
+    </div>
+    <button (click)="onCategoriesUpdate()">Update Categories</button>
 </div>
 
 <!--------------------------------------------------------------------------------------------------------------------------------Question Form-->
 <div *ngIf="categoriesSubmitted && !questionsSubmitted || questionsUpdating">
-        <h3>What questions will your quiz have?</h3>
-        <form [formGroup]="questionForm" (ngSubmit)="onQuestionSubmit()">
-    
-            <div formArrayName="questions">
-    
-                <div *ngFor="let question of questionForm.get('questions').controls; let i = index">
-                    <div [formGroupName]="i">
-                        <label>
-                            Question {{i + 1}}:
-                            <input type="text" formControlName="questionString" required>
-                        </label>
-                    </div>
+    <h3>What questions will your quiz have?</h3>
+    <span>
+        <button [disabled]="numberOfQuestions + 1 >= maxNumberOfQuestions" (click)="addQuestion()">Add another
+            Question</button>
+        <em>({{ maxNumberOfQuestions }} max)</em>
+        or
+        <button [disabled]="numberOfQuestions < 1" (click)="removeQuestion()">Remove a Question</button>
+        <em>(1 min)</em>
+    </span>
+    <form [formGroup]="questionForm" (ngSubmit)="onQuestionSubmit()">
+
+        <div formArrayName="questions">
+
+            <div *ngFor="let question of questionForm.get('questions').controls; let i = index">
+                <div [formGroupName]="i">
+
+                    
+
+                    <label>
+                        Question {{i + 1}}:
+                        <input type="text"  [(ngModel)]="answerInfos[i].questionString" formControlName="questionString" required>
+                    </label>
+
                 </div>
             </div>
-            <button type='submit' [disabled]="!questionForm.valid">Submit Questions</button>
-        </form>
-        <span>
-            or 
-            <button  [disabled]="numberOfQuestions + 1 >= maxNumberOfQuestions" (click)="addQuestion()">Add another Question</button> 
-            <em>({{ maxNumberOfQuestions }} max)</em>
-            or
-            <button  [disabled]="numberOfQuestions < 1" (click)="removeQuestion()">Remove a Question</button> 
-            <em>(1 min)</em>
-        </span>
-    </div>
+        </div>
+        <button type='submit' [disabled]="!questionForm.valid">Submit Questions</button>
+    </form>
+
+</div>
+
+<div *ngIf="questionsSubmitted && !questionsUpdating">
+    <button (click)="onQuestionsUpdate()">Update Questions</button>
+</div>
+
+<!--------------------------------------------------------------------------------------------------------------------------------Question Form-->
+<div *ngIf="categoriesSubmitted">
+<div *ngFor="let answerinfo of answerInfos; let i = index">
+    <h4>{{answerinfo.questionString}}</h4>
+    <h4>{{answerinfo.answerForm}}</h4>
+
+    <form [formGroup]="answerinfo.answerForm">
+
+            <div formArrayName="answers">
+                {{answerInfo.get('answers')}}
+                <div *ngFor="let answer of answers; let j = index">
+                    <p>aA</p>
+                    <div [formGroupName]="i">
     
-    <div *ngIf="questionsSubmitted && !questionsUpdating">
-            <button (click)="onQuestionsUpdate()">Update Questions</button>
-    </div>
+    
+                    </div>
+                </div>  
+            
+            </div>
+            <!--<button type='submit' [disabled]="!questionForm.valid">Submit Questions</button>--> 
+        </form>
+
+
+
+
+</div>
+</div>
