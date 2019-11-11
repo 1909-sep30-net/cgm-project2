@@ -12,6 +12,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { AppRoutingModule } from './app-routing.module';
 import { TakeAQuizComponent } from './take-aquiz/take-aquiz.component';
 import { RouterModule } from '@angular/router';
+import { TakeYourQuizComponent } from './take-your-quiz/take-your-quiz.component';
 
 
 
@@ -21,7 +22,8 @@ import { RouterModule } from '@angular/router';
     UserComponent,
     CreateQuizComponent,
     NavbarComponent,
-    TakeAQuizComponent
+    TakeAQuizComponent,
+    TakeYourQuizComponent
   ],
   imports: [
     BrowserModule,
@@ -32,6 +34,7 @@ import { RouterModule } from '@angular/router';
     RouterModule.forRoot([
       { path: '', component: UserComponent },
       {path:'app-take-aquiz', component:TakeAQuizComponent},
+      {path: 'app-take-your-quiz/:titleId', component:TakeYourQuizComponent},
     ])
   ],
   providers: [],

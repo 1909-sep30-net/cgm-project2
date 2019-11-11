@@ -51,12 +51,13 @@ namespace Rest.Api.Controllers
         //}
 
         // POST: api/TakeAQuiz
+        
         [HttpPost]
         public Category Post(List<int> list)
         {
-            var newQuiz = repo.EvaluateQuiz(list);
+            var category = repo.EvaluateQuiz(list);
             repo.Save();
-            return newQuiz;
+            return category;
 
         }
 

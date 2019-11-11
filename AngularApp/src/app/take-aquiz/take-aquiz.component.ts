@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { QuizService } from '../quiz.service';
-import { QuizM } from '../models/quiz-m';
 import { ActivatedRoute } from '@angular/router';
 import { TitleM } from '../models/title-m';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-take-aquiz',
@@ -11,13 +11,28 @@ import { TitleM } from '../models/title-m';
 })
 export class TakeAQuizComponent implements OnInit {
 
-  quiz: QuizM[];
   titles: TitleM[];
 
-  getQuiz() : void {
+//ASYNCHRONOUS getQuiz
+  // getQuiz() : void {
+  //   this.quizService.getQuiz()
+  //   .then(titles => {
+  //     this.titles = titles}
+  //     );
+  //     console.log(this.titles);
+  // }
+
+//SYNCHRONOUS getQuiz
+  getQuiz(): void{
     this.quizService.getQuiz()
-    .then(titles => this.titles = titles);
+    .subscribe( titles1 => this.titles = titles1 as TitleM[] );
   }
+
+  // getQuizToTake(titleId: number): void{
+  //   //console.log("here in getQuizToTake().");
+
+  // }
+
   constructor(private quizService: QuizService,
     private activatedRoute: ActivatedRoute) { }
 
