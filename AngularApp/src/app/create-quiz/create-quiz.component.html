@@ -17,7 +17,7 @@
 </div>
 
 <div *ngIf="titleSubmitted && !titleUpdating">
-    <h2>{{ quiz.titleModel.titleString }}</h2>
+    <h1>{{ quiz.titleModel.titleString }}</h1>
     <button (click)="onTitleUpdate()">Update Title</button>
 </div>
 
@@ -58,7 +58,7 @@
 <div *ngIf="categoriesSubmitted && !categoriesUpdating">
     <h3>Categories:</h3>
     <div *ngFor="let category of quiz.categoryModels; let i = index">
-        {{i + 1}}: {{category.categoryString}}
+            <strong>{{i + 1}}:</strong> {{category.categoryString}}
     </div>
     <button (click)="onCategoriesUpdate()">Update Categories</button>
 </div>
@@ -80,14 +80,10 @@
 
             <div *ngFor="let question of questionForm.get('questions').controls; let i = index">
                 <div [formGroupName]="i">
-
-                    
-
                     <label>
                         Question {{i + 1}}:
-                        <input type="text"  [(ngModel)]="answerInfos[i].questionString" formControlName="questionString" required>
+                        <input type="text" formControlName="questionString" required>
                     </label>
-
                 </div>
             </div>
         </div>
@@ -97,33 +93,22 @@
 </div>
 
 <div *ngIf="questionsSubmitted && !questionsUpdating">
+        <h3>Questions:</h3>
+        <div *ngFor="let question of quiz.questionModels; let i = index">
+            <strong>{{i + 1}}:</strong> {{question.questionString}}
+        </div>
     <button (click)="onQuestionsUpdate()">Update Questions</button>
 </div>
 
-<!--------------------------------------------------------------------------------------------------------------------------------Question Form-->
-<div *ngIf="categoriesSubmitted">
-<div *ngFor="let answerinfo of answerInfos; let i = index">
-    <h4>{{answerinfo.questionString}}</h4>
-    <h4>{{answerinfo.answerForm}}</h4>
-
-    <form [formGroup]="answerinfo.answerForm">
-
-            <div formArrayName="answers">
-                {{answerInfo.get('answers')}}
-                <div *ngFor="let answer of answers; let j = index">
-                    <p>aA</p>
-                    <div [formGroupName]="i">
-    
-    
-                    </div>
-                </div>  
-            
-            </div>
-            <!--<button type='submit' [disabled]="!questionForm.valid">Submit Questions</button>--> 
-        </form>
 
 
 
 
-</div>
+
+
+<div *ngIf="titleSubmitted && !titleUpdating &&
+            categoriesSubmitted && !categoriesUpdating &&
+            questionsSubmitted && !questionsUpdating">
+    <h2>Click below to continue to Add Answers</h2>
+            <button (click)="OnBatchSubmit()">Continue</button>
 </div>
