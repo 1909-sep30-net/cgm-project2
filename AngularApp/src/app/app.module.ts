@@ -10,6 +10,11 @@ import { CreateQuizComponent } from './create-quiz/create-quiz.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AddAnswersComponent } from './add-answers/add-answers.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { HomePageComponent } from './home-page/home-page.component';
+
+
 
 
 
@@ -18,14 +23,17 @@ import { AppRoutingModule } from './app-routing.module';
     AppComponent,
     UserComponent,
     CreateQuizComponent,
-    NavbarComponent
+    NavbarComponent,
+    AddAnswersComponent,
+    PageNotFoundComponent,
+    HomePageComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

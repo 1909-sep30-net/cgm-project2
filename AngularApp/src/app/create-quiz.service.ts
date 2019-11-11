@@ -26,9 +26,6 @@ export class CreateQuizService {
     return this.httpClient.post<TitleModel>(url, titleModel, { headers: headers, observe: 'response'}).toPromise();
   };
 
-  // private generatePostTitleJson(titleModel: TitleModel): string {
-  //   return `{"titleString":"${titleModel.titleString}","creatorId":${titleModel.creatorId}}`;
-  // }
 
   getTitleId(titleModel: TitleModel) : Promise<number> {
 
@@ -37,19 +34,28 @@ export class CreateQuizService {
 
   }
 
-  postQuestion(questionModel: QuestionModel): Observable<HttpResponse<QuestionModel>> {
+  postCategory(categoryModel: CategoryModel, titleId: number): Promise<HttpResponse<CategoryModel>> {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
-    let url = `${environment.restApiBaseUrl}/api/CreateQuiz/Question`;
+    categoryModel.titleId = titleId;
 
-    return this.httpClient.post<QuestionModel>(url, questionModel, { headers: headers, observe: 'response'});
+    let url = `${environment.restApiBaseUrl}/api/CreateQuiz/Category`;
+
+    return this.httpClient.post<CategoryModel>(url, categoryModel, { headers: headers, observe: 'response'}).toPromise();
   }
 
-  // private generatePostQuestionJson(questionModel: QuestionModel): string {
-  //   console.log(`{"titleId": ${questionModel.titleId},"questionstring": "${questionModel.questionString}"}`);
-  //   return `{"titleId": ${questionModel.titleId},"questionstring": "${questionModel.questionString}"}`;
-  // }
+  postQuestion(questionModel: QuestionModel, titleId: number): Promise<HttpResponse<QuestionModel>> {
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+
+    questionModel.titleId = titleId;
+
+    let url = `${environment.restApiBaseUrl}/api/CreateQuiz/Question`;
+
+    return this.httpClient.post<QuestionModel>(url, questionModel, { headers: headers, observe: 'response'}).toPromise();
+  }
+
 
   constructor(private httpClient: HttpClient) { }
 }

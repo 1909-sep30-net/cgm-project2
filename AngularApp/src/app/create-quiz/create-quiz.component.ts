@@ -13,6 +13,9 @@ import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
+
 @Component({
   selector: 'app-create-quiz',
   templateUrl: './create-quiz.component.html',
@@ -179,13 +182,81 @@ export class CreateQuizComponent implements OnInit {
     return this.questions[index].value;
   }
 
- /////////////////////////////////////Batch Submit Methods//////////////////////////////////
- OnBatchSubmit(){
+  /////////////////////////////////////Batch Submit Methods//////////////////////////////////
+  titleId: number;
 
- }
+  OnBatchSubmit() {
+    if (this.titleSubmitted && !this.titleUpdating &&
+      this.categoriesSubmitted && !this.categoriesUpdating &&
+      this.questionsSubmitted && !this.questionsUpdating) {
+
+      this.serv.postTitle(this.quiz.titleModel)
+        .catch(function (e) {
+          console.log(e);
+        })
+        .then(() => this.serv.getTitleId(this.quiz.titleModel))
+        .then(titleId => this.titleId = titleId)
+        .catch(function (e) {
+          console.log(e);
+        })
+        .then(() => {
+          
+            for (let category of this.quiz.categoryModels) {
+              this.serv.postCategory(category, this.titleId)
+                .catch(function (e) {
+                  console.log(e);
+                })
+                .then(() => {
+                  
+                    for (let question of this.quiz.categoryModels) {
+                      this.serv.postQuestion(question, this.titleId)
+                        .catch(function (e) {
+                          console.log(e);
+                        });
+                    }
+                  
+                }).finally(() => {
+                  
+                    this.router.navigate(['/create-quiz/' + this.titleId + '/add-answers']);
+                  
+                })
+            }
+          
+        })
+
+      // if (this.submittedSafely) {
+      //   for (let category of this.quiz.categoryModels) {
+      //     this.serv.postCategory(category, this.titleId)
+      //       .catch(function (e) {
+      //         console.log(e);
+      //         this.submittedSafely = false;
+      //       });
+      //   }
+      // }
+
+      // if (this.submittedSafely) {
+      //   for (let question of this.quiz.categoryModels) {
+      //     this.serv.postQuestion(question, this.titleId)
+      //       .catch(function (e) {
+      //         console.log(e);
+      //         this.submittedSafely = false;
+      //       });
+      //   }
+      // }
+
+      // if (this.submittedSafely) {
+      //   this.router.navigate(['/create-quiz/'+ this.titleId +'/add-answers']);
+      // }
+    }
+
+  }
 
 
-  constructor(private createQuizService: CreateQuizService, private formBuilder: FormBuilder) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private serv: CreateQuizService,
+    private formBuilder: FormBuilder) { }
 
   ngOnInit() {
   }
