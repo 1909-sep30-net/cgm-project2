@@ -56,6 +56,29 @@ export class CreateQuizService {
     return this.httpClient.post<QuestionModel>(url, questionModel, { headers: headers, observe: 'response'}).toPromise();
   }
 
+  postAnswer(answerModel: AnswerModel): Promise<HttpResponse<AnswerModel>> {
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+
+    let url = `${environment.restApiBaseUrl}/api/CreateQuiz/Question`;
+
+    return this.httpClient.post<AnswerModel>(url, answerModel, { headers: headers, observe: 'response'}).toPromise();
+  }
+
+  getQuestionId(titleId: number) : Promise<number> {
+
+    let url = `${environment.restApiBaseUrl}/api/CreateQuiz/LastQuestionByTitle/`;
+    return this.httpClient.get<number>(url+`${titleId}`).toPromise();
+
+  }
+
+  getCategoryId(titleId: number) : Promise<number> {
+
+    let url = `${environment.restApiBaseUrl}/api/CreateQuiz/LastCategoryByTitle/`;
+    return this.httpClient.get<number>(url+`${titleId}`).toPromise();
+
+  }
+
 
   constructor(private httpClient: HttpClient) { }
 }

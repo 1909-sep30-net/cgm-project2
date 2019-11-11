@@ -184,6 +184,7 @@ export class CreateQuizComponent implements OnInit {
 
   /////////////////////////////////////Batch Submit Methods//////////////////////////////////
   titleId: number;
+  categoryIds: number[];
 
   OnBatchSubmit() {
     if (this.titleSubmitted && !this.titleUpdating &&
@@ -199,30 +200,82 @@ export class CreateQuizComponent implements OnInit {
         .catch(function (e) {
           console.log(e);
         })
-        .then(() => {
-          
+        .then(
+          () => {
+
             for (let category of this.quiz.categoryModels) {
               this.serv.postCategory(category, this.titleId)
                 .catch(function (e) {
                   console.log(e);
                 })
-                .then(() => {
-                  
-                    for (let question of this.quiz.categoryModels) {
-                      this.serv.postQuestion(question, this.titleId)
-                        .catch(function (e) {
-                          console.log(e);
-                        });
+                .then(() => this.serv.getCategoryId(this.titleId)
+                  .then(categoryId => this.categoryIds.push(categoryId))
+                )
+            }
+          }
+        )
+        .then(
+
+          () => {
+
+            for (let question of this.quiz.categoryModels) {
+
+              this.serv.postQuestion(question, this.titleId)
+                .catch(function (e) {
+                  console.log(e);
+                })
+                .then(() => this.serv.getQuestionId(this.titleId))
+                .then(questionId => {
+
+                  for (let categoryId of this.categoryIds) {
+
+                    let answerModel: AnswerModel = {
+                      answerString: '',
+                      questionId: questionId,
+                      categoryRank: categoryId
                     }
-                  
-                }).finally(() => {
-                  
-                    this.router.navigate(['/create-quiz/' + this.titleId + '/add-answers']);
-                  
+                    this.serv.postAnswer(answerModel)
+                      .catch(function (e) {
+                        console.log(e);
+                      })
+                  }
                 })
             }
-          
+          }
+        )
+
+
+        /**
+        () => {
+        
+          for (let question of this.quiz.categoryModels) {
+
+            this.serv.postQuestion(question, this.titleId)
+              .catch(function (e) {
+                console.log(e);
+              });
+
+              for (let category of this.quiz.categoryModels) {
+                let answerModel: AnswerModel = {
+                  answerString: '';
+                  questionId: question.
+                }
+                this.serv.postCategory(category, this.titleId)
+                  .catch(function (e) {
+                    console.log(e);
+                  }
+                )}
+          }
+        
+      }
+      */
+        .finally(() => {
+
+          this.router.navigate(['/create-quiz/' + this.titleId + '/add-answers']);
+
         })
+
+
 
       // if (this.submittedSafely) {
       //   for (let category of this.quiz.categoryModels) {
