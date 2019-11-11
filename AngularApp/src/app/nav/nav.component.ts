@@ -1,34 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import User from '../models/user';
-import { UserService } from '../user.service';
-import {ThemeService} from '../theme.service';
+import { Component, OnInit } from "@angular/core";
 import {
   faLightbulb as faSolidLightbulb,
   faDollarSign,
   IconDefinition
 } from "@fortawesome/free-solid-svg-icons";
 import { faLightbulb as faRegularLightbulb } from "@fortawesome/free-regular-svg-icons";
+import { ThemeService } from "src/app/theme.service";
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  selector: "app-nav",
+  templateUrl: "./nav.component.html",
+  styleUrls: ["./nav.component.css"]
 })
-export class UserComponent implements OnInit {
-
-  users: User[] = null;
+export class NavComponent implements OnInit {
   faLightbulb: IconDefinition;
   faDollarSign = faDollarSign;
-  getUsers() : void {
-    this.userService.getUsers()
-      .then(users => this.users = users);
-  }
 
-
-  constructor(private userService: UserService, private themeService: ThemeService) { }
+  constructor(
+    private themeService: ThemeService
+  ) {}
 
   ngOnInit() {
-    this.getUsers();
     this.setLightbulb();
   }
 
@@ -48,6 +40,5 @@ export class UserComponent implements OnInit {
     }
 
     this.setLightbulb();
-
-    }
+  }
 }
