@@ -57,6 +57,7 @@ export class CreateQuizComponent implements OnInit {
   /////////////////////////////////////Category Methods//////////////////////////////////
 
   categoryForm = this.formBuilder.group({
+
     categories: this.formBuilder.array([
       this.formBuilder.group({
         categoryString: ['', Validators.required],
@@ -218,9 +219,10 @@ export class CreateQuizComponent implements OnInit {
 
           () => {
 
-            for (let question of this.quiz.categoryModels) {
+            for (let question of this.quiz.questionModels) {
+              question.titleId = this.titleId;
 
-              this.serv.postQuestion(question, this.titleId)
+              this.serv.postQuestion(question)
                 .catch(function (e) {
                   console.log(e);
                 })
@@ -243,63 +245,11 @@ export class CreateQuizComponent implements OnInit {
             }
           }
         )
-
-
-        /**
-        () => {
-        
-          for (let question of this.quiz.categoryModels) {
-
-            this.serv.postQuestion(question, this.titleId)
-              .catch(function (e) {
-                console.log(e);
-              });
-
-              for (let category of this.quiz.categoryModels) {
-                let answerModel: AnswerModel = {
-                  answerString: '';
-                  questionId: question.
-                }
-                this.serv.postCategory(category, this.titleId)
-                  .catch(function (e) {
-                    console.log(e);
-                  }
-                )}
-          }
-        
-      }
-      */
         .finally(() => {
 
           this.router.navigate(['/create-quiz/' + this.titleId + '/add-answers']);
 
         })
-
-
-
-      // if (this.submittedSafely) {
-      //   for (let category of this.quiz.categoryModels) {
-      //     this.serv.postCategory(category, this.titleId)
-      //       .catch(function (e) {
-      //         console.log(e);
-      //         this.submittedSafely = false;
-      //       });
-      //   }
-      // }
-
-      // if (this.submittedSafely) {
-      //   for (let question of this.quiz.categoryModels) {
-      //     this.serv.postQuestion(question, this.titleId)
-      //       .catch(function (e) {
-      //         console.log(e);
-      //         this.submittedSafely = false;
-      //       });
-      //   }
-      // }
-
-      // if (this.submittedSafely) {
-      //   this.router.navigate(['/create-quiz/'+ this.titleId +'/add-answers']);
-      // }
     }
 
   }

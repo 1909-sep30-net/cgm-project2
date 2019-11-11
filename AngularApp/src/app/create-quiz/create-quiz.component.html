@@ -32,6 +32,12 @@
         <button [disabled]="numberOfCategories < 1" (click)="removeCategory()">Remove a Category</button>
         <em>(1 min)</em>
     </span>
+
+
+
+
+
+
     <form [formGroup]="categoryForm" (ngSubmit)="onCategorySubmit()">
 
         <div formArrayName="categories">
@@ -52,6 +58,11 @@
         </div>
         <button type='submit' [disabled]="!categoryForm.valid">Submit Categories</button>
     </form>
+
+
+
+
+    
 
 </div>
 

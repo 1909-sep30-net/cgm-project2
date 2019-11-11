@@ -14,7 +14,6 @@ import { catchError, map, tap } from 'rxjs/operators';
 })
 export class CreateQuizService {
   
-
   postTitle(titleModel: TitleModel): Promise<HttpResponse<TitleModel>> {
 
     let headers = new HttpHeaders();
@@ -45,11 +44,10 @@ export class CreateQuizService {
     return this.httpClient.post<CategoryModel>(url, categoryModel, { headers: headers, observe: 'response'}).toPromise();
   }
 
-  postQuestion(questionModel: QuestionModel, titleId: number): Promise<HttpResponse<QuestionModel>> {
+  postQuestion(questionModel: QuestionModel): Promise<HttpResponse<QuestionModel>> {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
-    questionModel.titleId = titleId;
 
     let url = `${environment.restApiBaseUrl}/api/CreateQuiz/Question`;
 
@@ -84,6 +82,16 @@ export class CreateQuizService {
     return this.httpClient.get<AnswerModel[]>(url+`${titleId}`).toPromise();
   }
 
+  getQuestionStringById(questionId: number) : Promise<string> {
+    let url = `${environment.restApiBaseUrl}/api/CreateQuiz/QuestionString/`;
+    return this.httpClient.get<string>(url + `${questionId}`).toPromise();
+
+  }
+
+  getNumberOfQuestions(titleId: number) : Promise<number> {
+    let url = `${environment.restApiBaseUrl}/api/CreateQuiz/NumberOfQuestions/`;
+    return this.httpClient.get<number>(url + `${titleId}`).toPromise();
+  }
 
   constructor(private httpClient: HttpClient) { }
 }

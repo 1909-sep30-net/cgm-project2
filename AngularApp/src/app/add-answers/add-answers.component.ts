@@ -19,6 +19,40 @@ export class AddAnswersComponent implements OnInit {
   titleId: number;
   answers: AnswerModel[];
 
+  numberOfQuestions: number;
+  numberOfAnswersPerQuestion: number;
+
+  answerForm = this.formBuilder.group({
+    answerArray: this.formBuilder.array([
+      this.formBuilder.group({
+        answerString: ['', Validators.required],
+        categoryRank: ['', Validators.required]
+      })
+    ])
+  });
+
+  get answerArray() {
+    return this.answerForm.get('answerArray') as FormArray;
+  }
+
+  constructFormGroup()  {
+    for(let i = 0; i < this.numberOfQuestions; i++)
+    {
+      this.answerArray.push(
+        this.formBuilder.group({
+          answerString: ['', Validators.required],
+          categoryRank: ['', Validators.required]
+        })
+      )
+    }
+  }
+
+
+
+
+
+
+
   private routeSub: Subscription;
   constructor(
     private route: ActivatedRoute,
@@ -36,6 +70,13 @@ export class AddAnswersComponent implements OnInit {
           console.log(e);
         })
     });
+
+    this.serv.getNumberOfQuestions(this.titleId)
+      .then(num => this.numberOfQuestions = num)
+      .catch(function (e) {
+          console.log(e);
+        })
+      .then(() => this.numberOfAnswersPerQuestion = this.answers.length / this.numberOfQuestions)
 
 
   }

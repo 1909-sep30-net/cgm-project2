@@ -96,5 +96,16 @@ namespace Data.Library.Repositories
         //{
         //    return _dbContext.User.Find(creatorId) != null;
         //}
+
+        public int GetLastQuestionId(int titleId)
+        {
+            return _dbContext.Question.Where(q => q.TitleId == titleId).ToList().LastOrDefault().QuestionId;
+        }
+
+        public int GetLastCategoryId(int titleId)
+        {
+            return _dbContext.Category.Where(c => c.TitleId == titleId).ToList().LastOrDefault().CategoryId;
+
+        }
     }
 }

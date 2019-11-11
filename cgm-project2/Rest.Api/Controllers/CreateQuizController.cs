@@ -18,7 +18,6 @@ namespace Rest.Api.Controllers
     /// A controller with Functionality for Creating a Quiz with HTTP Req/Res 
     /// </summary>
     [Route("api/[controller]")]
-    [Authorize]
     [ApiController]
     public class CreateQuizController : ControllerBase
     {
@@ -59,6 +58,19 @@ namespace Rest.Api.Controllers
         {
             return getRepo.GetLastTitleId(id);
         }
+
+        [HttpGet("LastQuestionByTitle/{id}")]
+        public int GetNewQuestionId(int id)
+        {
+            return getRepo.GetLastQuestionId(id);
+        }
+
+        [HttpGet("LastCategoryByTitle/{id}")]
+        public int GetNewCategoryId(int id)
+        {
+            return getRepo.GetLastCategoryId(id);
+        }
+
 
 
         // POST: api/CreateQuiz/Title

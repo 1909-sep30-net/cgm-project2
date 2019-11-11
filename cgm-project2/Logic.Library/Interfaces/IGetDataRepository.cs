@@ -18,7 +18,7 @@ namespace Logic.Library.Interfaces
         public int GetLastTitleId(int creatorId);
 
         public int GetNumberOfCategories(int titleId);
-
-        
+        public int GetLastQuestionId(int titleId);
+        public int GetLastCategoryId(int titleId);
     }
 }
