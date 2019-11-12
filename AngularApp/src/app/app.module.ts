@@ -31,7 +31,7 @@ import { RouterModule } from '@angular/router';
     NavbarComponent,
     AddAnswersComponent,
     PageNotFoundComponent,
-    HomePageComponent
+    HomePageComponent,
     TakeAQuizComponent
 
   ],
@@ -41,10 +41,7 @@ import { RouterModule } from '@angular/router';
     HttpClientModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    RouterModule.forRoot([
-      { path: '', component: UserComponent },
-      {path:'app-take-aquiz', component:TakeAQuizComponent},
-    ])
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -14,6 +14,8 @@ export class QuizService {
   getQuiz(): Promise<TitleM[]> {
     //TitleM[];
     let url = `${environment.restApiBaseUrl}/api/TakeAQuiz`;
+    
+    console.log("Alpha");
     var return1 = this.httpClient.get<TitleM[]>(url).toPromise();
     //console.log(return1);
     return return1;

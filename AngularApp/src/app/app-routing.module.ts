@@ -7,13 +7,17 @@ import { CreateQuizComponent } from './create-quiz/create-quiz.component';
 import { AddAnswersComponent } from './add-answers/add-answers.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { UserComponent } from './user/user.component';
+import { TakeAQuizComponent } from './take-aquiz/take-aquiz.component';
 
 const appRoutes: Routes = [
   { path: 'create-quiz', component: CreateQuizComponent },
   { path: 'create-quiz/:id/add-answers', component: AddAnswersComponent },
   { path: 'home-page', component: HomePageComponent },
-  { path: '', redirectTo: '/home-page', pathMatch: 'full'},
+  { path: 'app-take-aquiz', component: TakeAQuizComponent },
+  { path: '', redirectTo: '/home-page', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
+
 ];
 
 @NgModule({
@@ -27,6 +31,6 @@ const appRoutes: Routes = [
     RouterModule
   ]
 
-  
+
 })
 export class AppRoutingModule { }
