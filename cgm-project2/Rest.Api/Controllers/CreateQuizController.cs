@@ -60,6 +60,25 @@ namespace Rest.Api.Controllers
             return getRepo.GetLastTitleId(id);
         }
 
+        [HttpGet("LastQuestionByTitle/{id}")]
+        public int GetNewQuestionId(int id)
+        {
+            return getRepo.GetLastQuestionId(id);
+        }
+
+        [HttpGet("LastCategoryByTitle/{id}")]
+        public int GetNewCategoryId(int id)
+        {
+            return getRepo.GetLastCategoryId(id);
+        }
+        
+        [HttpGet("NumberOfQuestions/{id}")]
+        public int GetNumberOfQuestions(int id)
+        {
+            return getRepo.GetNumberOfQuestions(id);
+        }
+
+
 
         // POST: api/CreateQuiz/Title
         [HttpPost("Title")]
@@ -143,5 +162,16 @@ namespace Rest.Api.Controllers
             repo.Save();
             return StatusCode(StatusCodes.Status202Accepted);
         }
+
+        // GET: api/CreateQuiz/Answer/id
+        [HttpGet("Answer/{id}")]
+        public List<Answer> GetAnswers(int id)
+        {
+            var users = getRepo.GetAnswers(id).ToList();
+            //repo.Save();
+            return users;
+            //return "temp success";
+        }
+
     }
 }

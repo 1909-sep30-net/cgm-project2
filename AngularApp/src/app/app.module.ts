@@ -10,8 +10,16 @@ import { CreateQuizComponent } from './create-quiz/create-quiz.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AppRoutingModule } from './app-routing.module';
+
+import { AddAnswersComponent } from './add-answers/add-answers.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { HomePageComponent } from './home-page/home-page.component';
+
+
+
 import { TakeAQuizComponent } from './take-aquiz/take-aquiz.component';
 import { RouterModule } from '@angular/router';
+
 
 
 
@@ -21,7 +29,11 @@ import { RouterModule } from '@angular/router';
     UserComponent,
     CreateQuizComponent,
     NavbarComponent,
+    AddAnswersComponent,
+    PageNotFoundComponent,
+    HomePageComponent
     TakeAQuizComponent
+
   ],
   imports: [
     BrowserModule,

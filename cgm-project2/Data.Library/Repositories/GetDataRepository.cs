@@ -92,9 +92,37 @@ namespace Data.Library.Repositories
             return _dbContext.Category.Where(c => c.TitleId == titleId).Count();
         }
 
+        public int GetNumberOfQuestions(int titleId)
+        {
+            return _dbContext.Question.Where(q => q.TitleId == titleId).Count();
+        }
+
         //public bool CreatorExists(int creatorId)
         //{
         //    return _dbContext.User.Find(creatorId) != null;
         //}
+
+        public int GetLastQuestionId(int titleId)
+        {
+            return _dbContext.Question.Where(q => q.TitleId == titleId).ToList().LastOrDefault().QuestionId;
+        }
+
+        public int GetLastCategoryId(int titleId)
+        {
+            int num = _dbContext.Category.Where(c => c.TitleId == titleId).ToList().LastOrDefault().CategoryId;
+            return num;
+
+        }
+
+        private int ExtractQuestionIds(Entities.Question question)
+        {
+            return question.QuestionId;
+        }
+
+        public IEnumerable<LogLib.Models.Answer> GetAnswers(int titleId)
+        {
+            List<int> questionIds = _dbContext.Question.Where(q => q.TitleId == titleId).Select(ExtractQuestionIds).ToList();
+            return _dbContext.Answer.Where(a => questionIds.Contains(a.QuestionId)).Select(Mapper.MapAnswer);
+        }
     }
 }

@@ -1,39 +1,125 @@
-<h1>Add a title:</h1>
-<form [formGroup]="titleForm" (ngSubmit)="onTitleSubmit()">
-    <label>
-        Title:
-        <input type="text" formControlName="titleString" required>
-    </label>
+<!--------------------------------------------------------------------------------------------------------------------------------Title Form-->
+<div *ngIf="!titleSubmitted || titleUpdating">
+    <h2>What do you want to name your quiz?</h2>
+    <form [formGroup]="titleForm" (ngSubmit)="onTitleSubmit()">
+        <label>
+            Title:
+            <input type="text" formControlName="titleString" required>
+        </label>
 
-    <label>
-        Creator ID:
-        <input type="number" formControlName="creatorId" required>
-    </label> 
-    
-    <div formArrayName="questions">
-        <h2>Questions</h2>
-        
+        <label>
+            Creator ID:
+            <input type="number" formControlName="creatorId" required>
+        </label>
 
-        <div *ngFor="let question of questions.controls; let i = index">
-            <label>
-                Question {{i +1}}: 
-                <input type="text" [formControlName]="i">
-            </label>
-
-        </div>
-        
-    </div>
-    <div>
-        <button type="submit" [disabled]="!titleForm.valid">Submit Quiz</button>
-    </div>
-
-</form>
-
-
-<button (click)="addQuestion()">Add Question</button>
-
-
-<div *ngIf="titleSubmitted">
-    Title successfully submitted.
+        <button type='submit' [disabled]="!titleForm.valid">Submit Title</button>
+    </form>
 </div>
 
+<div *ngIf="titleSubmitted && !titleUpdating">
+    <h1>{{ quiz.titleModel.titleString }}</h1>
+    <button (click)="onTitleUpdate()">Update Title</button>
+</div>
+
+<!--------------------------------------------------------------------------------------------------------------------------------Category Form-->
+<div *ngIf="titleSubmitted && !categoriesSubmitted || categoriesUpdating">
+    <h3>What categories will your quiz have?</h3>
+    <span>
+        <button [disabled]="numberOfCategories + 1 >= maxNumberOfCategories" (click)="addCategory()">Add another
+            Category</button>
+        <em>({{maxNumberOfCategories}} max)</em>
+        or
+        <button [disabled]="numberOfCategories < 1" (click)="removeCategory()">Remove a Category</button>
+        <em>(1 min)</em>
+    </span>
+
+
+
+
+
+
+    <form [formGroup]="categoryForm" (ngSubmit)="onCategorySubmit()">
+
+        <div formArrayName="categories">
+
+            <div *ngFor="let category of categoryForm.get('categories').controls; let i = index">
+                <div [formGroupName]="i">
+                    <label>
+                        Category {{i + 1}}:
+                        <input type="text" formControlName="categoryString" required>
+                    </label>
+
+                    <label>
+                        Description:
+                        <input type="text" formControlName="categoryDescription" required>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <button type='submit' [disabled]="!categoryForm.valid">Submit Categories</button>
+    </form>
+
+
+
+
+    
+
+</div>
+
+<div *ngIf="categoriesSubmitted && !categoriesUpdating">
+    <h3>Categories:</h3>
+    <div *ngFor="let category of quiz.categoryModels; let i = index">
+            <strong>{{i + 1}}:</strong> {{category.categoryString}}
+    </div>
+    <button (click)="onCategoriesUpdate()">Update Categories</button>
+</div>
+
+<!--------------------------------------------------------------------------------------------------------------------------------Question Form-->
+<div *ngIf="categoriesSubmitted && !questionsSubmitted || questionsUpdating">
+    <h3>What questions will your quiz have?</h3>
+    <span>
+        <button [disabled]="numberOfQuestions + 1 >= maxNumberOfQuestions" (click)="addQuestion()">Add another
+            Question</button>
+        <em>({{ maxNumberOfQuestions }} max)</em>
+        or
+        <button [disabled]="numberOfQuestions < 1" (click)="removeQuestion()">Remove a Question</button>
+        <em>(1 min)</em>
+    </span>
+    <form [formGroup]="questionForm" (ngSubmit)="onQuestionSubmit()">
+
+        <div formArrayName="questions">
+
+            <div *ngFor="let question of questionForm.get('questions').controls; let i = index">
+                <div [formGroupName]="i">
+                    <label>
+                        Question {{i + 1}}:
+                        <input type="text" formControlName="questionString" required>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <button type='submit' [disabled]="!questionForm.valid">Submit Questions</button>
+    </form>
+
+</div>
+
+<div *ngIf="questionsSubmitted && !questionsUpdating">
+        <h3>Questions:</h3>
+        <div *ngFor="let question of quiz.questionModels; let i = index">
+            <strong>{{i + 1}}:</strong> {{question.questionString}}
+        </div>
+    <button (click)="onQuestionsUpdate()">Update Questions</button>
+</div>
+
+
+
+
+
+
+
+<div *ngIf="titleSubmitted && !titleUpdating &&
+            categoriesSubmitted && !categoriesUpdating &&
+            questionsSubmitted && !questionsUpdating">
+    <h2>Click below to continue to Add Answers</h2>
+            <button (click)="OnBatchSubmit()">Continue</button>
+</div>
