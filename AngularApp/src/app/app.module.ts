@@ -7,7 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserComponent } from './user/user.component';
 import { CreateQuizComponent } from './create-quiz/create-quiz.component';
 
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NavComponent } from './nav/nav.component';
@@ -22,6 +22,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 
 import { TakeAQuizComponent } from './take-aquiz/take-aquiz.component';
 import { RouterModule } from '@angular/router';
+import { TakeYourQuizComponent } from './take-your-quiz/take-your-quiz.component';
 
 
 
@@ -32,6 +33,7 @@ import { RouterModule } from '@angular/router';
     UserComponent,
     CreateQuizComponent,
     NavbarComponent,
+    TakeYourQuizComponent,
     NavComponent,
     AddAnswersComponent,
     PageNotFoundComponent,
@@ -42,8 +44,14 @@ import { RouterModule } from '@angular/router';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
+    RouterModule.forRoot([
+      { path: '', component: UserComponent },
+      {path:'app-take-aquiz', component:TakeAQuizComponent},
+      {path: 'app-take-your-quiz/:titleId', component:TakeYourQuizComponent},
+    ]),
     FontAwesomeModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],

@@ -1,7 +1,7 @@
 export interface AnswerM {
-    AnswerId: number;
-    AnswerString: string;
-    Weight: number;
-    CategoryId: number;
-    QuestionId: number;
+    answerId: number;
+    answerString: string;
+    weight: number;
+    categoryId: number;
+    questionId: number;
 };

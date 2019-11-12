@@ -24,7 +24,6 @@ namespace Rest.Api.Controllers
         }
         /*********************************************************************/
 
-
         // GET: api/TakeAQuiz => this gets all the quiz titles
         [HttpGet]
         public IEnumerable<Title> Get()
@@ -33,13 +32,20 @@ namespace Rest.Api.Controllers
         }
 
         // GET: api/TakeAQuiz/5 => this uses the quiz Id to get a chosen quiz to take
-        [HttpGet("{id}", Name = "GetTakeAQuiz")]
+        [HttpGet("{id}")]
         public Quiz Get(int id)
         {
             //query DB for the quiz by it's Id.
             Quiz quiz = repo.GetQuiz(id);
-
             return quiz;
+        }
+
+        // GET: api/TakeAQuiz/5 => this will get the last quiz taken with that titleId
+        [HttpGet("/getresult/{id}")]
+        public Category GetResult(int id)
+        {
+            //query DB for the category acheived by the final quiz of that type take.
+            return repo.GetLastQuizBytitleId(id);
         }
 
         //// GET: api/TakeAQuiz/my quiz => this uses the quiz title to get a chosen quiz to take
@@ -51,25 +57,23 @@ namespace Rest.Api.Controllers
         //}
 
         // POST: api/TakeAQuiz
-        [HttpPost]
-        public Category Post(List<int> list)
-        {
-            var newQuiz = repo.EvaluateQuiz(list);
-            repo.Save();
-            return newQuiz;
 
+        [HttpPost]//this needs to accept an array.
+        public ActionResult Post([FromBody] int[] list)
+        {
+            repo.EvaluateQuiz(list);//EvaluateQuiz returned a category.
+            repo.Save();
+            return StatusCode(StatusCodes.Status202Accepted);
         }
 
         // PUT: api/TakeAQuiz/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
-        {
-        }
+        { }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
-        {
-        }
+        { }
     }
 }

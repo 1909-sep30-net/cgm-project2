@@ -1,4 +1,10 @@
 <!-- <p>take-aquiz works!</p> -->
+<app-navbar></app-navbar>
 <br>
 <button (click)="getQuiz()">Get Quiz Titles</button>
-{{quiz}}
+
+<div *ngFor="let title of titles">
+    <h3>
+        <button [title]="title.titleString + ' Details'" [routerLink]="['/app-take-your-quiz', title.titleId]">{{title.titleString}}</button>
+    </h3>
+</div>

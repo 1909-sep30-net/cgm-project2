@@ -12,7 +12,7 @@ namespace Logic.Library.Models
         public List<Category>   category    { get; set; }
         public int              score       { get; set; }
 
-        //consttructors
+        //constructors
         public Quiz()  {  }
         public Quiz(Title t) 
         {  
