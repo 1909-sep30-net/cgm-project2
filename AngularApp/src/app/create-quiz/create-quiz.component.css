@@ -1,5 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:400,400italic,700|Sansita+One);
-
+/*
 div {
   height: 4rem;
   display: flex;
@@ -9,7 +9,7 @@ div {
   background-color: var(--background-tertiary);
   color: var(--foreground-quaternary);
   font-size: 1rem;
-}
+}*/
 ul {
   background: var(--background-light);
   color: var(--foreground-tertiary);
