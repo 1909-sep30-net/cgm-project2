@@ -41,7 +41,7 @@ namespace Rest.Api.Controllers
         }
 
         // GET: api/TakeAQuiz/5 => this will get the last quiz taken with that titleId
-        [HttpGet("/getresult/{id}")]
+        [HttpGet("getresult/{id}")]
         public Category GetResult(int id)
         {
             //query DB for the category acheived by the final quiz of that type take.
