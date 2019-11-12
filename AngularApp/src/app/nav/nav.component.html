@@ -1,0 +1,19 @@
+
+<nav>
+    <h5 class="title secondary-font"></h5>
+    <fa-icon [icon]="faLightbulb" (click)="toggleTheme()"></fa-icon>
+  </nav>
+  <div class="container">
+
+    <label class="switch">
+      <input (click) = "toggleTheme()" type="checkbox">
+      <span class="slider round"></span>
+    </label>
+    
+    <fa-icon
+      [icon]="faHeart"
+      (click)="onToggleFavourite()"
+      class="favouriteIcon icon"
+      [ngClass]="{ isFavourite: isFavourite }"
+    ></fa-icon>
+  </div>

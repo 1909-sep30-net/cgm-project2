@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -10,6 +10,9 @@ import { CreateQuizComponent } from './create-quiz/create-quiz.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AppRoutingModule } from './app-routing.module';
+import { NavComponent } from './nav/nav.component';
+
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { AddAnswersComponent } from './add-answers/add-answers.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -29,11 +32,11 @@ import { RouterModule } from '@angular/router';
     UserComponent,
     CreateQuizComponent,
     NavbarComponent,
+    NavComponent,
     AddAnswersComponent,
     PageNotFoundComponent,
     HomePageComponent,
     TakeAQuizComponent
-
   ],
   imports: [
     BrowserModule,
@@ -41,8 +44,9 @@ import { RouterModule } from '@angular/router';
     HttpClientModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    
+    FontAwesomeModule
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [],
   bootstrap: [AppComponent]
 })
