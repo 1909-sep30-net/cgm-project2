@@ -20,6 +20,12 @@ export class ResultsServiceService {
     return this.httpClient.get<ResultModel>(url+`${resultsId}`).toPromise();
   }
 
+  getResult2(): Promise<ResultModel> { //to be used by results component
+    let url = `${environment.restApiBaseUrl}/api/User`;
+    return this.httpClient.get<ResultModel>(url).toPromise();
+
+  }
+
   postResults(){
 
   }

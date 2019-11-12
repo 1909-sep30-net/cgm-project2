@@ -4,7 +4,7 @@ import CategoryModel from '../models/category-model';
 import QuestionModel from '../models/question-model';
 import AnswerModel from '../models/answer-model';
 import { ResultsServiceService } from '../results-service.service';
-
+import ResultModel from '../models/result-model';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
@@ -28,6 +28,14 @@ export class ResultsComponent implements OnInit {
     private router: Router,
     private serv: ResultsServiceService,
   ) { }
+
+  result: ResultModel[] = null;
+
+  getResults() : void {
+    this.serv.getResult2()
+      .then(result => this.result = result);
+  }
+
 
   get results() {
     return this.serv.getResults(1); //hard coded result id, how to get i
