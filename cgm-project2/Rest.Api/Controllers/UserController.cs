@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Authorization;
 namespace Rest.Api.Controllers
 {
     [Route("api/[controller]")]
+
+   // [Authorize]
     [ApiController]
     public class UserController : ControllerBase
     {

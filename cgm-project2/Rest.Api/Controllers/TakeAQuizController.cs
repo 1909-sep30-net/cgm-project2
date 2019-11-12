@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Rest.Api.Controllers
 {
     [Route("api/[controller]")]
+    //[Authorize]
     [ApiController]
     public class TakeAQuizController : ControllerBase
     {
@@ -51,9 +52,12 @@ namespace Rest.Api.Controllers
 
         // POST: api/TakeAQuiz
         [HttpPost]
-        public void Post([FromBody] Quiz quiz)
+        public Category Post(List<int> list)
         {
-            var newQuiz = quiz;
+            var newQuiz = repo.EvaluateQuiz(list);
+            repo.Save();
+            return newQuiz;
+
         }
 
         // PUT: api/TakeAQuiz/5
