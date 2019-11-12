@@ -19,7 +19,7 @@ namespace Logic.Library.Interfaces
         
         public Models.Quiz GetQuiz(int Id = -1, string title = null);
         
-        public Models.Category EvaluateQuiz(int[] list);
+        public void EvaluateQuiz(int[] list);
 
         //public Models.Category GetResultCategory(int titleId, int score);
 

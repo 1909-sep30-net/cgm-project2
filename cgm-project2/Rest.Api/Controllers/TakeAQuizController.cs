@@ -38,7 +38,6 @@ namespace Rest.Api.Controllers
         {
             //query DB for the quiz by it's Id.
             Quiz quiz = repo.GetQuiz(id);
-
             return quiz;
         }
 
@@ -63,7 +62,7 @@ namespace Rest.Api.Controllers
         [HttpPost]//this needs to accept an array.
         public ActionResult Post([FromBody] int[] list)
         {
-            var category = repo.EvaluateQuiz(list);//EvaluateQuiz returned a category.
+            repo.EvaluateQuiz(list);//EvaluateQuiz returned a category.
             repo.Save();
             return StatusCode(StatusCodes.Status202Accepted);
         }
@@ -71,13 +70,11 @@ namespace Rest.Api.Controllers
         // PUT: api/TakeAQuiz/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
-        {
-        }
+        { }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
-        {
-        }
+        { }
     }
 }
