@@ -2,6 +2,8 @@
   <button (click)="auth.login()" *ngIf="!auth.loggedIn">Log In</button>
   <button (click)="auth.logout()" *ngIf="auth.loggedIn">Log Out</button>
   <nav>
-    <a routerLink="/create-quiz" routerLinkActive="active" >Create New Quiz</a>
+    <a routerLink="" routerLinkActive="active">Home</a>
+    <a routerLink="/create-quiz" routerLinkActive="active">Create New Quiz</a>
+    <a routerLink="/app-take-aquiz" routerLinkActive="active">Take A Quiz</a>
   </nav>
 </header>

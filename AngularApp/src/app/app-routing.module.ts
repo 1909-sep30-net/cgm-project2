@@ -16,8 +16,6 @@ const appRoutes: Routes = [
   { path: 'create-quiz/:id/add-answers', component: AddAnswersComponent },
   { path: 'home-page', component: HomePageComponent },
   { path: 'app-take-aquiz', component: TakeAQuizComponent },
-  { path:'app-take-aquiz', component:TakeAQuizComponent},
- // { path: 'app-take-your-quiz/:titleId', component:TakeYourQuizComponent},
   { path: 'app-take-your-quiz/:titleId', component:TakeYourQuizComponent},
   { path: '', redirectTo: '/home-page', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
