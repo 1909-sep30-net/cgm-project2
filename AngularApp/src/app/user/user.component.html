@@ -1,11 +1,16 @@
+
 <p>user works!</p>
-<!-- 
 <button (click)="auth.login()" *ngIf="!auth.loggedIn">Log In</button>
 <button (click)="auth.logout()" *ngIf="auth.loggedIn">Log Out</button> -->
-<button (click)="getUsers()">Get A list of Users</button>
+<button (click)="getUsers()">Get A list of Users</button
 
-<ul>
-    <li class="red" *ngFor="let user of users">
-        {{ user.firstName }}
-    </li>
-</ul>
+<nav>
+     <h5 class="title secondary-font">Users</h5>
+</nav>
+<div class = "container">
+    <ul>
+        <li class="red" *ngFor="let user of users">
+            {{ user.firstName }}
+        </li> 
+     </ul>
+</div>

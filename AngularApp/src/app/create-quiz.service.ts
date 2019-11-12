@@ -14,7 +14,6 @@ import { catchError, map, tap } from 'rxjs/operators';
 })
 export class CreateQuizService {
   
-
   postTitle(titleModel: TitleModel): Promise<HttpResponse<TitleModel>> {
 
     let headers = new HttpHeaders();
@@ -26,9 +25,6 @@ export class CreateQuizService {
     return this.httpClient.post<TitleModel>(url, titleModel, { headers: headers, observe: 'response'}).toPromise();
   };
 
-  // private generatePostTitleJson(titleModel: TitleModel): string {
-  //   return `{"titleString":"${titleModel.titleString}","creatorId":${titleModel.creatorId}}`;
-  // }
 
   getTitleId(titleModel: TitleModel) : Promise<number> {
 
@@ -37,19 +33,65 @@ export class CreateQuizService {
 
   }
 
-  postQuestion(questionModel: QuestionModel): Observable<HttpResponse<QuestionModel>> {
+  postCategory(categoryModel: CategoryModel, titleId: number): Promise<HttpResponse<CategoryModel>> {
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+
+    categoryModel.titleId = titleId;
+
+    let url = `${environment.restApiBaseUrl}/api/CreateQuiz/Category`;
+
+    return this.httpClient.post<CategoryModel>(url, categoryModel, { headers: headers, observe: 'response'}).toPromise();
+  }
+
+  postQuestion(questionModel: QuestionModel): Promise<HttpResponse<QuestionModel>> {
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+
+
+    let url = `${environment.restApiBaseUrl}/api/CreateQuiz/Question`;
+
+    return this.httpClient.post<QuestionModel>(url, questionModel, { headers: headers, observe: 'response'}).toPromise();
+  }
+
+  postAnswer(answerModel: AnswerModel): Promise<HttpResponse<AnswerModel>> {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
     let url = `${environment.restApiBaseUrl}/api/CreateQuiz/Question`;
 
-    return this.httpClient.post<QuestionModel>(url, questionModel, { headers: headers, observe: 'response'});
+    return this.httpClient.post<AnswerModel>(url, answerModel, { headers: headers, observe: 'response'}).toPromise();
   }
 
-  // private generatePostQuestionJson(questionModel: QuestionModel): string {
-  //   console.log(`{"titleId": ${questionModel.titleId},"questionstring": "${questionModel.questionString}"}`);
-  //   return `{"titleId": ${questionModel.titleId},"questionstring": "${questionModel.questionString}"}`;
-  // }
+  getQuestionId(titleId: number) : Promise<number> {
+
+    let url = `${environment.restApiBaseUrl}/api/CreateQuiz/LastQuestionByTitle/`;
+    return this.httpClient.get<number>(url+`${titleId}`).toPromise();
+
+  }
+
+  getCategoryId(titleId: number) : Promise<number> {
+
+    let url = `${environment.restApiBaseUrl}/api/CreateQuiz/LastCategoryByTitle/`;
+    return this.httpClient.get<number>(url+`${titleId}`).toPromise();
+
+  }
+
+  getAnswers(titleId: number) : Promise<AnswerModel[]>{
+    let url = `${environment.restApiBaseUrl}/api/CreateQuiz/Answer/`;
+    return this.httpClient.get<AnswerModel[]>(url+`${titleId}`).toPromise();
+  }
+
+  getQuestionStringById(questionId: number) : Promise<string> {
+    let url = `${environment.restApiBaseUrl}/api/CreateQuiz/QuestionString/`;
+    return this.httpClient.get<string>(url + `${questionId}`).toPromise();
+
+  }
+
+  getNumberOfQuestions(titleId: number) : Promise<number> {
+    let url = `${environment.restApiBaseUrl}/api/CreateQuiz/NumberOfQuestions/`;
+    return this.httpClient.get<number>(url + `${titleId}`).toPromise();
+  }
 
   constructor(private httpClient: HttpClient) { }
 }

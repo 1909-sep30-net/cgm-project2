@@ -1,6 +1,6 @@
 export default interface AnswerModel {
+    answerId?: number;
     questionId: number;
-    categoryId: number;
+    categoryRank: number;
     answerString: string;
-    weight: number;
 };

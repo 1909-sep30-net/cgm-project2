@@ -27,6 +27,7 @@ export class QuizService {
 
   getQuiz(): Observable<TitleM[]> {
     let url = `${environment.restApiBaseUrl}/api/TakeAQuiz`;
+
     return this.httpClient.get<TitleM[]>(url);
     //return this.titles;
   }
@@ -50,5 +51,4 @@ export class QuizService {
     let url = `${environment.restApiBaseUrl}/api/TakeAQuiz`;
     return this.httpClient.post<number[]>(url, quizResults, { headers: headers, observe: 'response'}).toPromise();
   };
-
 };
