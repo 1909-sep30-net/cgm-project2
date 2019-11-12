@@ -1,6 +1,6 @@
 export interface TitleM {
-    TitleId: number;
-    TitleString: string;
-    CreatorId: number;
+    titleId: number;
+    titleString: string;
+    creatorId: number;
 
 }

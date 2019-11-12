@@ -2,9 +2,9 @@ import { AnswerM } from './answer-m';
 
 export interface QuestionM {
 
-    QuestionId: number;
-    TitleId: number;
-    QuestionString: string;
+    questionId: number;
+    titleId: number;
+    questionString: string;
     answers: AnswerM[];
 
 };

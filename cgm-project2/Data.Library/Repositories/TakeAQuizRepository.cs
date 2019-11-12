@@ -139,8 +139,11 @@ namespace Data.Library.Repositories
         /// </summary>
         /// <param name=""></param>
         /// <returns></returns>
-        public LogLib.Models.Category EvaluateQuiz(List<int> formValues)
+        public /*LogLib.Models.Category*/void EvaluateQuiz(int[] list)
         {
+            //convert the int array to a List<>
+            List<int> formValues = list.OfType<int>().ToList();
+
             /*************create the Result Object***Add to the DB************/
             Entities.Result result = new Entities.Result();
             result.TakerId = formValues[0]; /***FYI***arr[0] = userId;***/
@@ -156,7 +159,20 @@ namespace Data.Library.Repositories
             result.Score = totalScore;
             _dbContext.Result.Add(result);//DB to be saved in the controller.
 
-            return GetResultCategory(result.TitleId, totalScore);
+            //return GetResultCategory(result.TitleId, totalScore);
+        }
+
+        /// <summary>
+        /// This method gets the last quiz taken of a particular quiz titleId
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public LogLib.Models.Category GetLastQuizBytitleId(int titleId)
+        {
+            //get the last result for the quiz taken.
+            var result = _dbContext.Result.Where(i => i.TitleId == titleId).Last();
+            //var result1 = Mapper.MapResult(result);
+            return GetResultCategory(result.TitleId, result.Score); //return the category that the user got.
         }
 
         /// <summary>

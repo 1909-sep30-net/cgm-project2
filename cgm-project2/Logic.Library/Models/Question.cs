@@ -10,15 +10,9 @@ namespace Logic.Library.Models
         public int      QuestionId      { get; set; }
         public int      TitleId         { get; set; }
         public string   QuestionString  { get; set; }
+        public List<Answer> answers     { get; set; }
 
-        public List<Answer> answers { get; set; }
-
-        public Question()
-        {
-
-        }
-
-        //comment commit
+        public Question()   {  }
         public Question(int qid, int t, string str)
         {
             QuestionId = qid;

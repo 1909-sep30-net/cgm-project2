@@ -1,0 +1,18 @@
+
+button {
+    color: white;
+  background-color: rgb(141, 141, 141);
+  border: none;
+  padding: 10px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  cursor: hand;
+  font-family: Arial;
+  position: center;
+}
+
+button:hover {
+  background-color: #cfd8dc;
+  /* padding: 10px; */
+}
