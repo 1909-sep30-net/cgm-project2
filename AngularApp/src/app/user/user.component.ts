@@ -24,7 +24,6 @@ export class UserComponent implements OnInit {
       .then(users => this.users = users);
   }
 
-
   constructor(private userService: UserService, private themeService: ThemeService) { }
 
   ngOnInit() {
@@ -51,3 +50,4 @@ export class UserComponent implements OnInit {
 
     }
 }
+

@@ -14,6 +14,16 @@ import { NavComponent } from './nav/nav.component';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
+import { AddAnswersComponent } from './add-answers/add-answers.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { HomePageComponent } from './home-page/home-page.component';
+
+
+
+import { TakeAQuizComponent } from './take-aquiz/take-aquiz.component';
+import { RouterModule } from '@angular/router';
+
+
 
 
 @NgModule({
@@ -23,8 +33,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     CreateQuizComponent,
     NavbarComponent,
     NavComponent,
-    
-    
+    AddAnswersComponent,
+    PageNotFoundComponent,
+    HomePageComponent,
+    TakeAQuizComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +45,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ReactiveFormsModule,
     AppRoutingModule,
     FontAwesomeModule
-        
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [],

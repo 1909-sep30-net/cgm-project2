@@ -13,26 +13,8 @@ import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 
-interface AnswerInfo {
-  answersSubmitted: boolean;
-  answersUpdating: boolean;
-  numberOfAnswers: number;
-  answerForm: FormGroup;
-  questionString: string;
-}
-
-class AnswerInfoClass implements AnswerInfo {
-  answersSubmitted: boolean;
-  answersUpdating: boolean;
-  numberOfAnswers: number;
-  answerForm: FormGroup;
-  questionString: string;
-
-  get answers() {
-    return this.answerForm.get('answers') as FormArray;
-  }
-}
-
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-quiz',
@@ -44,8 +26,7 @@ export class CreateQuizComponent implements OnInit {
   quiz = {
     titleModel: null,
     categoryModels: null,
-    questionModels: null,
-    answerModels: null
+    questionModels: null
   }
 
 
@@ -76,6 +57,7 @@ export class CreateQuizComponent implements OnInit {
   /////////////////////////////////////Category Methods//////////////////////////////////
 
   categoryForm = this.formBuilder.group({
+
     categories: this.formBuilder.array([
       this.formBuilder.group({
         categoryString: ['', Validators.required],
@@ -129,11 +111,6 @@ export class CreateQuizComponent implements OnInit {
 
     this.categoriesSubmitted = true;
     this.categoriesUpdating = false;
-    this.totalNumberOfAnswers = quizCategories.length;
-
-    //INTENTIONALLY TWICE
-    this.ALLAutoAddRemoveAnswers();
-
   }
 
   onCategoriesUpdate() {
@@ -162,11 +139,6 @@ export class CreateQuizComponent implements OnInit {
     return this.questionForm.get('questions') as FormArray;
   }
 
-
-  get answers() {
-    return this.answerInfos[0].answerForm.get('answers') as FormArray;
-  }
-
   addQuestion() {
     if (this.numberOfQuestions < this.maxNumberOfQuestions) {
       this.questions.push(
@@ -174,8 +146,7 @@ export class CreateQuizComponent implements OnInit {
           questionString: ['', Validators.required]
         }));
       this.numberOfQuestions++;
-      this.addAnswerInfo();
-      this.ALLAutoAddRemoveAnswers();
+
     }
   }
 
@@ -183,15 +154,12 @@ export class CreateQuizComponent implements OnInit {
     if (this.numberOfQuestions > 0) {
       this.questions.removeAt(this.questions.length - 1);
       this.numberOfQuestions--;
-      this.removeAnswerInfo();
-      this.ALLAutoAddRemoveAnswers();
+
     }
   }
 
 
   onQuestionSubmit() {
-    console.log(this.questionForm.value)
-
     let questionValues = this.questions.value;
     let quizQuestions: QuestionModel[] = [];
     for (let index in questionValues) {
@@ -213,182 +181,88 @@ export class CreateQuizComponent implements OnInit {
 
   getQuestionString(index: number): string {
     return this.questions[index].value;
-    console.log(this.questions[index].value);
   }
 
-  /////////////////////////////////////Answer Methods//////////////////////////////////
+  /////////////////////////////////////Batch Submit Methods//////////////////////////////////
+  titleId: number;
+  categoryIds: number[] = [];
 
-  public answerInfos: AnswerInfoClass[] = [];
+  OnBatchSubmit() {
+    if (this.titleSubmitted && !this.titleUpdating &&
+      this.categoriesSubmitted && !this.categoriesUpdating &&
+      this.questionsSubmitted && !this.questionsUpdating) {
 
-  //set by OnCategorySubmit
-  totalNumberOfAnswers: number = 0;
+      this.serv.postTitle(this.quiz.titleModel)
+        .catch(function (e) {
+          console.log(e);
+        })
+        .then(() => this.serv.getTitleId(this.quiz.titleModel))
+        .then(titleId => this.titleId = titleId - 1)
+        .catch(function (e) {
+          console.log(e);
+        })
+        .then(
+          () => {
 
-  private initializeNewAnswer() {
-    let newAnswer: AnswerInfoClass = {
-      questionString: 'Enter Question',
-      answersSubmitted: false,
-      answersUpdating: false,
-      numberOfAnswers: 0,
-      answerForm: this.formBuilder.group({
-        answers: this.formBuilder.array([
-          this.formBuilder.group({
-            answerString: ['', Validators.required],
-            categoryRank: ['', Validators.required],
-          })
-        ])
-      }) as FormGroup,
+            for (let category of this.quiz.categoryModels) {
+              this.serv.postCategory(category, this.titleId)
+                .catch(function (e) {
+                  console.log(e);
+                })
+                .then(() => this.serv.getCategoryId(this.titleId))
+                  .then(categoryId => this.categoryIds.push(categoryId))
+                
+            }
+          }
+        )
+        .then(
 
-      get answers() {
-        return this.answerForm.get('answers') as FormArray;
-      }
-    };
-    this.answerInfos.push(newAnswer);
-    this.ALLAutoAddRemoveAnswers();
-  }
+          () => {
 
-  addAnswerInfo() {
-    this.initializeNewAnswer();
-  }
+            for (let question of this.quiz.questionModels) {
+              question.titleId = this.titleId;
 
-  removeAnswerInfo() {
-    this.answerInfos.pop();
-  }
+              this.serv.postQuestion(question)
+                .catch(function (e) {
+                  console.log(e);
+                })
+                .then(() => this.serv.getQuestionId(this.titleId))
+                .then(questionId => {
 
-  getAnswers(index: number): FormArray {
-    return this.answerInfos[index].answerForm.get('answers') as FormArray;
-  }
+                  for (let categoryId of this.categoryIds) {
 
-  ALLAutoAddRemoveAnswers() {
-    for (let i = 0; i < this.answerInfos.length - 1; i++) {
-      this.autoAddRemoveAnswers(i);
+                    let answerModel: AnswerModel = {
+                      answerString: '',
+                      questionId: questionId,
+                      categoryRank: categoryId
+                    }
+                    this.serv.postAnswer(answerModel)
+                      .catch(function (e) {
+                        console.log(e);
+                      })
+                      
+                  }
+                }).then(() => {
+
+                  this.router.navigate(['/create-quiz/' + this.titleId + '/add-answers']);
+        
+                })
+            }
+          }
+        )
+        
     }
+
   }
 
-  private autoAddRemoveAnswers(index: number) {
-    let numberOfAnswers: number = this.getAnswers(index).value.length;
-    while (numberOfAnswers < this.totalNumberOfAnswers) {
-      (this.answerInfos[index].answerForm.get('answers') as FormArray).push(
-        this.formBuilder.group({
-          answerString: ['', Validators.required],
-          categoryRank: ['', Validators.required],
-        }))
-      numberOfAnswers++;
-    }
-    while (numberOfAnswers > this.totalNumberOfAnswers) {
-      (this.answerInfos[index].answerForm.get('answers') as FormArray).removeAt(numberOfAnswers - 1);
-      numberOfAnswers--;
-    }
-  }
 
-  onAnswerSubmit(index: number) {
-    this.answerInfos[index].answersSubmitted = true;
-    this.answerInfos[index].answersUpdating = false;
-  }
-
-  onAnswerUpdate(index: number) {
-    this.answerInfos[index].answersUpdating = true;
-  }
-
-  private finalAnswerSubmit() {
-    for (let answer of this.answerInfos) {
-      let questionIndex: number = 0;
-      let answerValues = answer.answerForm.value;
-      let quizAnswers: AnswerModel[] = [];
-      for (let index in answerValues) {
-        let answerModel: AnswerModel = {
-          answerString: answerValues[index].answerString,
-          questionId: questionIndex,
-          categoryRank: -1
-        };
-
-        quizAnswers.push(answerModel);
-      }
-      this.quiz.answerModels = quizAnswers;
-      answer.answersSubmitted = true;
-      answer.answersUpdating = false;
-    }
-  }
-
-  constructor(private createQuizService: CreateQuizService, private formBuilder: FormBuilder) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private serv: CreateQuizService,
+    private formBuilder: FormBuilder) {}
 
   ngOnInit() {
-    this.addAnswerInfo();
   }
 
 }
-// .then(
-//       (result) => { return result}
-//     );
-
-
-
-// import { Component, OnInit } from '@angular/core';
-// import TitleModel from '../models/title-model';
-// import CategoryModel from '../models/category-model';
-// import QuestionModel from '../models/question-model';
-// import AnswerModel from '../models/answer-model';
-// import { CreateQuizService } from '../create-quiz.service';
-
-// import { FormGroup, FormControl, FormArray } from '@angular/forms';
-// import { FormBuilder } from '@angular/forms';
-// import { Validators } from '@angular/forms';
-
-// import { Title } from '@angular/platform-browser';
-// import { Observable } from 'rxjs';
-// import { HttpResponse } from '@angular/common/http';
-
-// @Component({
-//   selector: 'app-create-quiz',
-//   templateUrl: './create-quiz.component.html',
-//   styleUrls: ['./create-quiz.component.css']
-// })
-// export class CreateQuizComponent implements OnInit {
-//   /////////////////////////////////////Title Methods//////////////////////////////////
-//   titleSubmitted: boolean = false;
-
-//   titleForm = this.formBuilder.group({
-//     titleString: ['', Validators.required],
-//     creatorId: ['', Validators.required],
-//     questions: this.formBuilder.array([
-//       this.formBuilder.control('')
-//     ])
-//   });
-
-//   get questions() {
-//     return this.titleForm.get('questions') as FormArray;
-//   }
-
-//   addQuestion() {
-//     this.questions.push(this.formBuilder.control(''));
-//   }
-
-//   onTitleSubmit() {
-//     let titleString = this.titleForm.get('titleString').value as string;
-//     let creatorId = this.titleForm.get('creatorId').value as number;
-//     let titleModel: TitleModel = { titleString: titleString, creatorId: creatorId };
-//     this.createQuizService.postTitle(titleModel).subscribe(
-//       response => { console.log(response) });
-
-//     let titleId : number;
-//     this.createQuizService.getTitleId(titleModel).then(id => titleId = id);
-//     let questions = this.questions;
-//     for(let question in questions)
-//     {
-//       let questionModel: QuestionModel = { questionString: question.valueOf(), titleId: titleId};
-//       console.log(question.valueOf());
-//       console.log(titleId);
-//       this.createQuizService.postQuestion(questionModel).subscribe(
-//         response => { console.log(response) });
-//     }
-
-//     this.titleSubmitted = true;
-//   }
-
-
-
-//   constructor(private createQuizService: CreateQuizService, private formBuilder: FormBuilder) { }
-
-//   ngOnInit() {
-//   }
-
-// }
