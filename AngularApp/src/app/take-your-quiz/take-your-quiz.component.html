@@ -1,13 +1,14 @@
 <app-navbar></app-navbar>
 <div>
-    <form [formGroup]="quizForm" (ngSubmit)="onSubmit(quizForm.value)">
+        <!-- [formGroup]="quizForm" (ngSubmit)="onSubmit(quizForm.value)" -->
+    <form id="myForm" *ngIf="quizObject" #theForm>
+
         <h3>
             <span>You are taking Quiz number {{quizObject.title.titleId}}.</span>
             <span>{{quizObject.title.titleString}}</span>
-            <input type="hidden" value='quizObject.title.titleId' name="titleId" />
+            <input type="hidden" value="{{quizObject.title.titleId}}" name="titleId" />
         </h3>
         <!-- DONT FORGET TO GET THE USERS ID! -->
-
         <div class="questions" *ngFor="let question of quizObject.questions">
             <span>QuestionID => {{question.questionId}} == {{question.questionString}}</span>
             <div class="answers" *ngFor="let answer of question.answers">
@@ -17,7 +18,7 @@
                     </span>
             </div>
         </div>
-
-        <button class="button" type="submit">Submit Your Quiz</button>
+        <input type="button" value="Submit form" (click)="onSubmit(theForm)">
+        <!-- <button class="button" type="button" onclick="onSubmit()" value="Submit form">Submit Your Quiz</!--> -->
     </form>
 </div>

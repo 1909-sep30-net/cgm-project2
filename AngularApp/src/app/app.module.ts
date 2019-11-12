@@ -7,7 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserComponent } from './user/user.component';
 import { CreateQuizComponent } from './create-quiz/create-quiz.component';
 
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AppRoutingModule } from './app-routing.module';
 import { TakeAQuizComponent } from './take-aquiz/take-aquiz.component';
@@ -29,6 +29,7 @@ import { TakeYourQuizComponent } from './take-your-quiz/take-your-quiz.component
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
     RouterModule.forRoot([
