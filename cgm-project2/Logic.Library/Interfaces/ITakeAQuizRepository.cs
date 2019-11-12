@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Logic.Library.Models;
 //using DatLib = Data.Library;
 using LogLib = Logic.Library;
 
@@ -18,11 +19,11 @@ namespace Logic.Library.Interfaces
         
         public Models.Quiz GetQuiz(int Id = -1, string title = null);
         
-        public Models.Category EvaluateQuiz(List<int> formValues);
+        public Models.Category EvaluateQuiz(int[] list);
 
         //public Models.Category GetResultCategory(int titleId, int score);
 
         public void Save();
-
+        public Models.Category GetLastQuizBytitleId(int id);
     }
 }
