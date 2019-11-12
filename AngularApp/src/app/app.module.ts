@@ -10,6 +10,8 @@ import { CreateQuizComponent } from './create-quiz/create-quiz.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AppRoutingModule } from './app-routing.module';
+import { TakeAQuizComponent } from './take-aquiz/take-aquiz.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -18,14 +20,19 @@ import { AppRoutingModule } from './app-routing.module';
     AppComponent,
     UserComponent,
     CreateQuizComponent,
-    NavbarComponent
+    NavbarComponent,
+    TakeAQuizComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    RouterModule.forRoot([
+      { path: '', component: UserComponent },
+      {path:'app-take-aquiz', component:TakeAQuizComponent},
+    ])
   ],
   providers: [],
   bootstrap: [AppComponent]
