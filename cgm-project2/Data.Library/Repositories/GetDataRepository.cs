@@ -109,7 +109,8 @@ namespace Data.Library.Repositories
 
         public int GetLastCategoryId(int titleId)
         {
-            return _dbContext.Category.Where(c => c.TitleId == titleId).ToList().LastOrDefault().CategoryId;
+            int num = _dbContext.Category.Where(c => c.TitleId == titleId).ToList().LastOrDefault().CategoryId;
+            return num;
 
         }
 

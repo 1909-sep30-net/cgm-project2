@@ -19,7 +19,7 @@ export class AddAnswersComponent implements OnInit {
   titleId: number;
   answers: AnswerModel[];
 
-  numberOfQuestions: number;
+  numberOfQuestions: number = 0;
   numberOfAnswersPerQuestion: number;
 
   answerForm = this.formBuilder.group({

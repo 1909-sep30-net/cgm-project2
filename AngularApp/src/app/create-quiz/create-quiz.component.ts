@@ -209,9 +209,9 @@ export class CreateQuizComponent implements OnInit {
                 .catch(function (e) {
                   console.log(e);
                 })
-                .then(() => this.serv.getCategoryId(this.titleId)
+                .then(() => this.serv.getCategoryId(this.titleId))
                   .then(categoryId => this.categoryIds.push(categoryId))
-                )
+                
             }
           }
         )
