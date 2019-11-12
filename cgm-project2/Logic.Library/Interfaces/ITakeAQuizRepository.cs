@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Logic.Library.Models;
 //using DatLib = Data.Library;
 using LogLib = Logic.Library;
 
@@ -23,6 +24,6 @@ namespace Logic.Library.Interfaces
         //public Models.Category GetResultCategory(int titleId, int score);
 
         public void Save();
-
+        Category GetLastQuizBytitleId(int id);
     }
 }
