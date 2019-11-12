@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Rest.Api.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     [ApiController]
     public class TakeAQuizController : ControllerBase
     {
@@ -23,7 +23,6 @@ namespace Rest.Api.Controllers
             this.repo = context ?? throw new ArgumentNullException(nameof(repo));
         }
         /*********************************************************************/
-
 
         // GET: api/TakeAQuiz => this gets all the quiz titles
         [HttpGet]

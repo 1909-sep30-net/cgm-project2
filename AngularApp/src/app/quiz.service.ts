@@ -47,7 +47,7 @@ export class QuizService {
   postQuizResultsToDb(quizResults: number[]): Promise<HttpResponse<number[]>> {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
-    let url = `${environment.restApiBaseUrl}/api/TakeAQuiz/`;
+    let url = `${environment.restApiBaseUrl}/api/TakeAQuiz`;
     return this.httpClient.post<number[]>(url, quizResults, { headers: headers, observe: 'response'}).toPromise();
   };
 
