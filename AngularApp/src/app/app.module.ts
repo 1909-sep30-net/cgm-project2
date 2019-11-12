@@ -48,9 +48,6 @@ import { TakeYourQuizComponent } from './take-your-quiz/take-your-quiz.component
     ReactiveFormsModule,
     AppRoutingModule,
     RouterModule.forRoot([
-      { path: '', component: UserComponent },
-      {path:'app-take-aquiz', component:TakeAQuizComponent},
-      {path: 'app-take-your-quiz/:titleId', component:TakeYourQuizComponent},
     ]),
     FontAwesomeModule
   ],

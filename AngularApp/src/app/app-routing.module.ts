@@ -9,12 +9,16 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { HomePageComponent } from './home-page/home-page.component';
 import { UserComponent } from './user/user.component';
 import { TakeAQuizComponent } from './take-aquiz/take-aquiz.component';
+import { TakeYourQuizComponent } from './take-your-quiz/take-your-quiz.component';
 
 const appRoutes: Routes = [
   { path: 'create-quiz', component: CreateQuizComponent },
   { path: 'create-quiz/:id/add-answers', component: AddAnswersComponent },
   { path: 'home-page', component: HomePageComponent },
   { path: 'app-take-aquiz', component: TakeAQuizComponent },
+  { path:'app-take-aquiz', component:TakeAQuizComponent},
+ // { path: 'app-take-your-quiz/:titleId', component:TakeYourQuizComponent},
+  { path: 'app-take-your-quiz/:titleId', component:TakeYourQuizComponent},
   { path: '', redirectTo: '/home-page', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 

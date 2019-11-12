@@ -170,7 +170,7 @@ namespace Data.Library.Repositories
         public LogLib.Models.Category GetLastQuizBytitleId(int titleId)
         {
             //get the last result for the quiz taken.
-            var result = _dbContext.Result.Where(i => i.TitleId == titleId).Last();
+            var result = _dbContext.Result.Where(i => i.TitleId == titleId).ToList().Last();
             //var result1 = Mapper.MapResult(result);
             return GetResultCategory(result.TitleId, result.Score); //return the category that the user got.
         }
