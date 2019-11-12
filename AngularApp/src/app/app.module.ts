@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AddAnswersComponent } from './add-answers/add-answers.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { ResultsComponent } from './results/results.component';
 
 
 
@@ -26,7 +27,8 @@ import { HomePageComponent } from './home-page/home-page.component';
     NavbarComponent,
     AddAnswersComponent,
     PageNotFoundComponent,
-    HomePageComponent
+    HomePageComponent,
+    ResultsComponent
   ],
   imports: [
     BrowserModule,

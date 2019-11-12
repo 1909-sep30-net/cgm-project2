@@ -1,0 +1,9 @@
+<p>results works!</p>
+        <h3>
+                These are your results!
+        </h3>
+        <div *ngFor="let results of quiz.resultModels; let i = index">
+            <strong>{{i + 1}}:</strong> {{results.resultString}}
+        </div>
+
+<button (click)="getResults(5)">colton</button>
